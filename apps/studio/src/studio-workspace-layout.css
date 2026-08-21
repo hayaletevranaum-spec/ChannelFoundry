@@ -1,0 +1,158 @@
+/*
+ * Workspace composition layer.
+ * Uses semantic design tokens only; theme color values stay in studio-theme-tokens.css.
+ */
+
+/* AI Atölyesi is one continuous work surface: status -> stage rail -> active stage. */
+.ai-production-workbench{
+  display:grid;
+  gap:0!important;
+  overflow:hidden;
+  border:1px solid var(--border-soft);
+  background:var(--surface-panel);
+  box-shadow:var(--shadow-panel);
+}
+.ai-production-workbench>.ai-activity{
+  margin:0;
+  border:0!important;
+  border-bottom:1px solid var(--border-soft)!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.ai-production-workbench>.ai-stage-rail{
+  margin:0;
+  border:0!important;
+  border-bottom:1px solid var(--border-soft)!important;
+  background:var(--border-soft)!important;
+}
+.ai-stage-content{
+  min-width:0;
+  min-height:560px;
+  padding:12px;
+  background:var(--surface-panel);
+}
+.ai-stage-content>*{
+  min-width:0;
+  margin:0;
+}
+.ai-production-workbench .ai-stage-content :where(.panel,.metric-card,.ai-workshop-metric){
+  box-shadow:none!important;
+}
+.ai-stage-content .ai-workshop-page{
+  gap:12px;
+}
+.ai-stage-content .ai-workshop-metrics{
+  gap:1px;
+  overflow:hidden;
+  border:1px solid var(--border-soft);
+  background:var(--border-soft);
+}
+.ai-stage-content .ai-workshop-metric{
+  border:0!important;
+  background:var(--surface-panel-soft)!important;
+}
+.ai-stage-content .ai-workshop-layout{
+  gap:0;
+  overflow:hidden;
+  border:1px solid var(--border-soft);
+  background:var(--border-soft);
+}
+.ai-stage-content .ai-workshop-layout>.panel{
+  border:0!important;
+  background:var(--surface-panel)!important;
+}
+.ai-stage-content .ai-workshop-layout>.panel+.panel{
+  border-left:1px solid var(--border-soft)!important;
+}
+
+/* Other AI stages keep their internal structure, but sit on the same parent sheet. */
+.ai-stage-content :where(
+  .analysis-curation-workspace,
+  .incremental-universe-workbench,
+  .editorial-review-workspace,
+  .narrative-workbench,
+  .visual-completion-workbench
+){
+  min-width:0;
+  margin:0;
+}
+
+/* Editorial record rows must use the same theme tokens for normal, hover and selected states. */
+.editorial-list>button{
+  border-color:var(--border-soft)!important;
+  background:var(--surface-panel)!important;
+  color:var(--text-primary)!important;
+}
+.editorial-list>button:hover{
+  background:var(--surface-hover)!important;
+}
+.editorial-list>button.selected{
+  background:var(--surface-selected)!important;
+  box-shadow:inset 3px 0 var(--accent)!important;
+}
+.editorial-list>button .archive-row-copy strong{
+  color:var(--text-primary)!important;
+}
+.editorial-list>button .archive-row-copy small{
+  color:var(--text-muted)!important;
+}
+.editorial-list>button .kind-badge{
+  border-color:var(--border-soft)!important;
+  background:var(--surface-panel-soft)!important;
+  color:var(--accent-muted)!important;
+}
+
+/* Kayıt Dosyaları tabları share one token-owned rail and master/detail grid. */
+.editorial-workspace,
+.support-records-workspace{
+  gap:var(--layout-records-stack-gap)!important;
+}
+.editorial-workspace>.record-tabs{
+  min-height:var(--layout-records-tabs-min-height);
+  gap:var(--layout-records-tabs-gap);
+  margin-bottom:var(--layout-records-tabs-offset);
+}
+.editorial-layout,
+.support-records-layout{
+  grid-template-columns:var(--layout-records-columns);
+  gap:var(--layout-records-column-gap);
+  min-height:var(--layout-records-min-height);
+}
+.editorial-browser,
+.editorial-editor,
+.support-records-index,
+.support-records-editor{
+  min-height:var(--layout-records-min-height);
+}
+.editorial-list,
+.support-records-list{
+  max-height:var(--layout-records-list-max-height);
+}
+
+@media(max-width:1250px){
+  .ai-stage-content .ai-workshop-layout{
+    gap:0;
+  }
+  .ai-stage-content .ai-workshop-layout>.panel+.panel{
+    border-top:1px solid var(--border-soft)!important;
+    border-left:0!important;
+  }
+}
+
+@media(max-width:1220px){
+  .editorial-layout,
+  .support-records-layout{
+    grid-template-columns:var(--layout-records-columns-compact);
+  }
+}
+
+@media(max-width:1120px){
+  .editorial-layout,
+  .support-records-layout{
+    grid-template-columns:1fr;
+  }
+  .editorial-browser,
+  .support-records-index{
+    min-height:0;
+  }
+}

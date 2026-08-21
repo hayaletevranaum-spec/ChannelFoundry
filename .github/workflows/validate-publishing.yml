@@ -1,0 +1,133 @@
+name: Validate Publishing
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/studio/**"
+      - "apps/web/public/api/studio/**"
+      - "apps/web/public/api/community/**"
+      - ".github/workflows/validate-publishing.yml"
+  pull_request:
+    paths:
+      - "apps/studio/**"
+      - "apps/web/public/api/studio/**"
+      - "apps/web/public/api/community/**"
+
+permissions:
+  contents: read
+
+jobs:
+  publishing-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate PHP and Electron bridge files
+        run: |
+          php -l apps/web/public/api/community/index.php
+          php -l apps/web/public/api/studio/index.php
+          php -l apps/web/public/api/studio/publication.php
+          php -l apps/web/public/api/studio/asset.php
+          node --check apps/studio/community-admin.cjs
+          node --check apps/studio/studio-runtime.cjs
+          node --check apps/studio/web-connection.cjs
+          node apps/studio/verify-publication-v2-ui.cjs
+
+      - name: Publication v2 authenticated atomic publish smoke
+        shell: bash
+        run: |
+          set -euo pipefail
+          export BIRDESENGOR_COMMUNITY_DB="$RUNNER_TEMP/publish-community.sqlite"
+          export BIRDESENGOR_PUBLICATION_CONTENT_DIR="$RUNNER_TEMP/content"
+          export BIRDESENGOR_PUBLICATION_ASSET_DIR="$RUNNER_TEMP/content/assets"
+          LOG="$RUNNER_TEMP/publish-php.log"
+          COMMUNITY="http://127.0.0.1:18081/api/community/"
+          STUDIO="http://127.0.0.1:18081/api/studio/"
+          ASSET="http://127.0.0.1:18081/api/studio/asset.php"
+          USERNAME="publisher_${GITHUB_RUN_ID}_${GITHUB_RUN_ATTEMPT}"
+          PASSWORD="publish-password-1234"
+
+          php -S 127.0.0.1:18081 -t apps/web/public >"$LOG" 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+
+          ready=0
+          for attempt in {1..30}; do
+            if curl -fsS "$COMMUNITY?action=health" >/dev/null; then ready=1; break; fi
+            sleep 0.25
+          done
+          if [ "$ready" -ne 1 ]; then cat "$LOG"; exit 1; fi
+
+          curl -fsS -H 'Content-Type: application/json' \
+            -d "{\"username\":\"$USERNAME\",\"displayName\":\"Publisher CI\",\"password\":\"$PASSWORD\"}" \
+            "$COMMUNITY?action=register" >/dev/null
+
+          HEALTH=$(curl -fsS "$STUDIO?action=health")
+          node -e 'const j=JSON.parse(process.argv[1]); if(!j.ok || j.service!=="birdesengor-studio-publish-v2") process.exit(1)' "$HEALTH"
+
+          ANON=$(curl -sS -o "$RUNNER_TEMP/publish-anon.json" -w '%{http_code}' \
+            -H 'Content-Type: application/json' -d '{"publication":{}}' "$STUDIO?action=publish")
+          test "$ANON" = "401"
+
+          printf '%s' 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=' | base64 -d > "$RUNNER_TEMP/scene.png"
+          ASSET_SHA=$(sha256sum "$RUNNER_TEMP/scene.png" | cut -d' ' -f1)
+          ASSET_NAME="asset-ci-${ASSET_SHA:0:12}.png"
+
+          ANON_ASSET=$(curl -sS -o "$RUNNER_TEMP/asset-anon.json" -w '%{http_code}' -X PUT \
+            -H "X-Birdesengor-Filename: $ASSET_NAME" -H "X-Birdesengor-Sha256: $ASSET_SHA" \
+            --data-binary @"$RUNNER_TEMP/scene.png" "$ASSET")
+          test "$ANON_ASSET" = "401"
+
+          UPLOAD=$(curl -fsS -u "$USERNAME:$PASSWORD" -X PUT \
+            -H 'Content-Type: application/octet-stream' \
+            -H "X-Birdesengor-Filename: $ASSET_NAME" \
+            -H "X-Birdesengor-Sha256: $ASSET_SHA" \
+            --data-binary @"$RUNNER_TEMP/scene.png" "$ASSET")
+          node -e 'const j=JSON.parse(process.argv[1]); if(!j.ok || j.sha256!==process.argv[2] || j.filename!==process.argv[3]) process.exit(1)' "$UPLOAD" "$ASSET_SHA" "$ASSET_NAME"
+
+          node - "$ASSET_SHA" "$ASSET_NAME" > "$RUNNER_TEMP/publication-body.json" <<'NODE'
+          const sha = process.argv[2];
+          const name = process.argv[3];
+          const publication = {
+            schemaVersion: 2,
+            publication: {
+              id: 'pub-0123456789abcdef01234567',
+              generatedAt: '2026-08-15T00:00:00.000Z',
+              contentFingerprint: 'a'.repeat(64)
+            },
+            journal: {
+              sections: [{
+                sectionId: 'narrative-section-ci', revision: 1, order: 10, title: 'CI Günlüğü',
+                blocks: [{type:'paragraph',spans:[{type:'text',text:'CI kaydı '},{type:'reference',entityId:'universe-object-ci',label:'CI Nesnesi'}]}],
+                sourceKeys: ['universe-object-ci'], sourceVideoIds: ['video-ci'], media: []
+              }]
+            },
+            archive: {
+              entities: [{entityId:'universe-object-ci',kind:'object',name:'CI Nesnesi',aliases:[],summary:'Test',sourceVideoIds:['video-ci'],details:[],relations:[],visual:{assetId:'asset-ci'}}],
+              relations: []
+            },
+            assets: [{assetId:'asset-ci',type:'image',role:'artifact',entityId:'universe-object-ci',url:`assets/${name}`,sha256:sha,alt:'CI görseli'}]
+          };
+          process.stdout.write(JSON.stringify({ publication }));
+          NODE
+
+          RESULT=$(curl -fsS -u "$USERNAME:$PASSWORD" -H 'Content-Type: application/json' \
+            --data-binary @"$RUNNER_TEMP/publication-body.json" "$STUDIO?action=publish")
+          node -e 'const j=JSON.parse(process.argv[1]); if(!j.ok || !j.published || j.schemaVersion!==2 || j.sectionCount!==1 || j.entityCount!==1 || j.assetCount!==1 || !j.sha256) process.exit(1)' "$RESULT"
+
+          test -f "$BIRDESENGOR_PUBLICATION_CONTENT_DIR/publication.json"
+          test -f "$BIRDESENGOR_PUBLICATION_ASSET_DIR/$ASSET_NAME"
+          node - "$BIRDESENGOR_PUBLICATION_CONTENT_DIR/publication.json" <<'NODE'
+          const fs = require('node:fs');
+          const j = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+          if (j.schemaVersion !== 2 || j.journal.sections.length !== 1 || j.archive.entities.length !== 1 || j.assets.length !== 1) process.exit(1);
+          if (j.publication.id !== 'pub-0123456789abcdef01234567' || j.publication.contentFingerprint !== 'a'.repeat(64)) process.exit(1);
+          NODE
+
+          INVALID=$(curl -sS -u "$USERNAME:$PASSWORD" -o "$RUNNER_TEMP/publish-invalid.json" -w '%{http_code}' \
+            -H 'Content-Type: application/json' -d '{"publication":{"schemaVersion":1}}' "$STUDIO?action=publish")
+          test "$INVALID" = "422"
+
+          echo "Publication v2 authenticated asset + atomic JSON publish smoke: OK"

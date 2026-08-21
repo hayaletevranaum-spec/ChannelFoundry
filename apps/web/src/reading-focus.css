@@ -1,0 +1,47 @@
+/* Expanded reading mode: keep desk objects unchanged and let Babylon own book zoom. */
+@media (min-width: 821px) {
+  .babylon-content-page {
+    padding: clamp(16px, 1.35vw, 27px);
+  }
+
+  .babylon-content-page.paper-left {
+    padding-right: clamp(22px, 1.8vw, 34px);
+  }
+
+  .babylon-content-page.paper-right {
+    padding-left: clamp(22px, 1.8vw, 34px);
+  }
+}
+
+@media (min-width: 901px) {
+  .community-focus-layer {
+    padding: 2vh 2vw;
+  }
+
+  .community-notebook-sheet {
+    width: min(90vw, 1360px);
+    height: min(92vh, 900px);
+    padding: 44px 52px 38px 92px;
+  }
+
+  .community-sheet-binding {
+    left: 32px;
+  }
+
+  .community-sheet-footer {
+    left: 92px;
+    right: 52px;
+  }
+
+  .community-empty-state {
+    max-width: 760px;
+  }
+
+  .community-auth-shell {
+    max-width: 900px;
+  }
+
+  .community-compose {
+    max-width: 1000px;
+  }
+}

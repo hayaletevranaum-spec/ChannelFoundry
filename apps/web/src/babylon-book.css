@@ -1,0 +1,501 @@
+/* Babylon owns the physical pages; this layer keeps the readable DOM ink on the projected paper planes. */
+.babylon-book-stage {
+  position: absolute;
+  z-index: 12;
+  left: 50%;
+  top: 50%;
+  width: 100vw;
+  height: min(94vh, 980px);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  isolation: isolate;
+}
+
+.babylon-book-canvas {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  pointer-events: none;
+  transition: opacity .2s ease;
+}
+
+.phase-closed .babylon-book-canvas { opacity: 0; }
+.phase-opening .babylon-book-canvas { animation: babylonCanvasReveal .34s ease-out both; }
+.phase-closing .babylon-book-canvas { animation: babylonCanvasRetreat .34s .74s ease-in both; }
+
+.babylon-open-book,
+.babylon-clasp-action,
+.page-turn-marker,
+.journal-return-bookmark,
+.babylon-book-content * { pointer-events: auto; }
+
+.babylon-open-book {
+  position: absolute;
+  z-index: 7;
+  left: 50%;
+  top: 69%;
+  width: min(39vw, 720px);
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #c89b55;
+  cursor: pointer;
+  transform: translate(-50%, -50%) rotate(-.35deg);
+  transform-origin: 50% 78%;
+  filter: brightness(.82) saturate(.82) drop-shadow(0 22px 15px rgba(0, 0, 0, .66));
+  transition: transform .24s ease, filter .24s ease;
+}
+
+.babylon-open-book img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  pointer-events: none;
+}
+
+.closed-journal-title {
+  position: absolute;
+  left: 52.5%;
+  top: 44%;
+  display: grid;
+  gap: .2em;
+  width: 48%;
+  transform: translate(-50%, -50%) rotate(-.15deg);
+  color: #b8843e;
+  text-align: center;
+  text-shadow: 0 2px 1px rgba(18, 8, 4, .94), 0 0 8px rgba(185, 126, 46, .18);
+  pointer-events: none;
+}
+
+.closed-journal-title strong {
+  font-size: clamp(20px, 2.05vw, 38px);
+  font-weight: 600;
+  letter-spacing: .025em;
+}
+
+.closed-journal-title small {
+  font-size: clamp(9px, .78vw, 14px);
+  font-weight: 700;
+  letter-spacing: .34em;
+}
+
+.closed-journal-hint {
+  position: absolute;
+  left: 52%;
+  bottom: 15%;
+  padding: 5px 9px;
+  border: 1px solid rgba(199, 154, 83, .25);
+  background: rgba(35, 14, 8, .64);
+  color: #d9b274;
+  font: 600 8px/1 Georgia, 'Times New Roman', serif;
+  letter-spacing: .2em;
+  opacity: 0;
+  transform: translate(-50%, 5px);
+  transition: opacity .2s ease, transform .2s ease;
+  pointer-events: none;
+}
+
+.babylon-open-book:hover:not(:disabled),
+.babylon-open-book:focus-visible {
+  transform: translate(-50%, calc(-50% - 5px)) rotate(-.15deg) scale(1.012);
+  filter: brightness(1.08) saturate(.96) drop-shadow(0 23px 16px rgba(0, 0, 0, .68)) drop-shadow(0 0 15px rgba(223, 172, 88, .48));
+}
+
+.babylon-open-book:hover:not(:disabled) .closed-journal-hint,
+.babylon-open-book:focus-visible .closed-journal-hint {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.babylon-open-book:disabled { cursor: default; pointer-events: none; }
+.phase-opening .babylon-open-book { animation: closedJournalLeave .34s ease-out both; }
+.phase-closing .babylon-open-book { animation: closedJournalReturn .34s .74s ease-out both; }
+
+.babylon-open-book:focus-visible,
+.babylon-clasp-action:focus-visible,
+.page-turn-marker:focus-visible,
+.journal-return-bookmark:focus-visible {
+  outline: 2px solid rgba(229, 193, 126, .86);
+  outline-offset: 5px;
+}
+
+.babylon-book-content {
+  position: absolute;
+  z-index: 6;
+  inset: 0;
+  pointer-events: none;
+}
+
+.babylon-book-content.is-content-entering { animation: babylonContentReveal .28s ease-out both; }
+.phase-closing .babylon-book-content,
+.is-turning .babylon-book-content { pointer-events: none; }
+
+.babylon-spread {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.babylon-spread > .paper-left,
+.babylon-spread > .paper-right,
+.mode-mobile .babylon-book-content > .paper-page {
+  position: absolute;
+  transform-origin: 0 0;
+  backface-visibility: hidden;
+}
+
+.babylon-spread > .paper-left {
+  left: var(--left-page-left, 7.1%);
+  top: var(--left-page-top, 18%);
+  width: var(--left-page-width, 42.9%);
+  height: var(--left-page-height, 64%);
+  transform: var(--left-page-transform, none);
+}
+
+.babylon-spread > .paper-right {
+  left: var(--right-page-left, 50%);
+  top: var(--right-page-top, 18%);
+  width: var(--right-page-width, 42.9%);
+  height: var(--right-page-height, 64%);
+  transform: var(--right-page-transform, none);
+}
+
+.mode-mobile .babylon-book-content > .paper-page {
+  left: var(--right-page-left, 18%);
+  top: var(--right-page-top, 13%);
+  width: var(--right-page-width, 64%);
+  height: var(--right-page-height, 74%);
+  transform: var(--right-page-transform, none);
+}
+
+.babylon-content-page {
+  padding: clamp(18px, 1.65vw, 32px);
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
+
+.babylon-content-page.is-scrollable {
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: rgba(84, 61, 39, .42) transparent;
+  scrollbar-width: thin;
+}
+
+.babylon-content-page::before,
+.babylon-content-page::after { opacity: .18; }
+.babylon-content-page.paper-left { padding-right: clamp(25px, 2.2vw, 42px); }
+.babylon-content-page.paper-right { padding-left: clamp(25px, 2.2vw, 42px); }
+.babylon-book-content .journal-date h1 { margin-bottom: 1rem; }
+.babylon-book-content .journal-paragraph { font-size: clamp(14px, 1.08vw, 18px); line-height: 1.67; }
+.babylon-book-content .journal-figure img { max-height: 72%; }
+
+.babylon-book-content .category-bookmarks {
+  z-index: 9;
+  left: var(--category-anchor-x, 92%);
+  right: auto;
+  top: var(--category-anchor-y, 28%);
+  transform: translateY(-50%);
+}
+
+.journal-empty { max-width: 78%; margin: 18% auto 0; text-align: center; color: #5f4a38; }
+.journal-empty small { letter-spacing: .22em; }
+.journal-empty h1 { margin: .7rem 0 1rem; font-weight: normal; }
+.journal-empty p { line-height: 1.6; }
+
+.page-turn-markers {
+  position: absolute;
+  z-index: 11;
+  inset: 0;
+  pointer-events: none;
+}
+
+.page-turn-marker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 54px;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: transparent;
+  background: repeating-linear-gradient(180deg, rgba(255,255,255,.045) 0 1px, transparent 1px 5px), linear-gradient(90deg, rgba(255,255,255,.1), transparent 34%), linear-gradient(180deg, #806d4c, #58452e 62%, #332519);
+  box-shadow: 0 7px 12px rgba(0,0,0,.36), inset 0 0 0 1px rgba(219,190,132,.22);
+  filter: saturate(.66) brightness(.86);
+  transform: translate(-50%, -50%);
+  transition: transform .2s ease, filter .2s ease;
+}
+
+.page-turn-marker-back {
+  left: var(--page-marker-back-x, 12.4%);
+  top: var(--page-marker-back-y, 67%);
+  clip-path: polygon(22% 0, 100% 7%, 100% 93%, 22% 100%, 0 50%);
+}
+
+.page-turn-marker-forward {
+  left: var(--page-marker-forward-x, 87.6%);
+  top: var(--page-marker-forward-y, 67%);
+  clip-path: polygon(0 7%, 78% 0, 100% 50%, 78% 100%, 0 93%);
+}
+
+.page-turn-marker:hover:not(:disabled),
+.page-turn-marker:focus-visible {
+  filter: saturate(1.05) brightness(1.32) drop-shadow(0 0 8px rgba(231, 188, 112, .66));
+}
+
+.page-turn-marker-back:hover:not(:disabled) { transform: translate(calc(-50% - 6px), -50%); }
+.page-turn-marker-forward:hover:not(:disabled) { transform: translate(calc(-50% + 6px), -50%); }
+.page-turn-marker:disabled { opacity: .3; cursor: default; }
+
+.journal-return-bookmark {
+  position: absolute;
+  z-index: 12;
+  left: clamp(34px, var(--journal-ribbon-x, 90%), calc(100% - 34px));
+  top: clamp(90px, var(--journal-ribbon-y, 76%), calc(100% - 90px));
+  width: 58px;
+  height: 160px;
+  transform: translate(-50%, -50%) rotate(1.4deg);
+  border: 1px solid rgba(190, 164, 105, .16);
+  padding: 14px 7px 23px;
+  cursor: pointer;
+  color: #d7c79a;
+  background: repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 2px, transparent 2px 5px), linear-gradient(90deg, #111027, #302d52 47%, #15132c);
+  clip-path: polygon(0 0, 100% 0, 100% 84%, 50% 100%, 0 84%);
+  box-shadow: 7px 9px 13px rgba(0,0,0,.42), inset 0 0 0 1px rgba(184,161,111,.18);
+  filter: saturate(.78) brightness(.9);
+  transition: transform .2s ease, filter .2s ease;
+}
+
+.journal-return-bookmark::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  width: 10px;
+  height: 10px;
+  transform: translateX(-50%);
+  border: 1px solid rgba(209, 180, 112, .65);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 2px rgba(25,22,18,.42);
+}
+
+.journal-return-bookmark b {
+  display: block;
+  margin: 19px auto 0;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .17em;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.journal-return-bookmark:hover:not(:disabled),
+.journal-return-bookmark:focus-visible {
+  transform: translate(-50%, calc(-50% + 7px)) rotate(.3deg) scale(1.035);
+  filter: saturate(1.05) brightness(1.25) drop-shadow(0 0 11px rgba(205, 177, 108, .62));
+}
+
+.journal-return-bookmark:disabled { opacity: .42; cursor: default; }
+
+.babylon-clasp-action {
+  position: absolute;
+  z-index: 13;
+  left: var(--clasp-left, 9%);
+  top: var(--clasp-top, 51%);
+  display: grid;
+  width: var(--clasp-width, 60px);
+  height: var(--clasp-height, 126px);
+  place-items: center;
+  border: 0;
+  padding: 0;
+  overflow: visible;
+  background: transparent;
+  cursor: pointer;
+  filter: saturate(.82) brightness(.88) drop-shadow(5px 8px 7px rgba(16, 8, 4, .5));
+  transform: perspective(240px) rotateY(-1.5deg) rotateZ(-.35deg);
+  transform-origin: right center;
+  transform-style: preserve-3d;
+  transition: filter .26s ease, transform .3s cubic-bezier(.2,.72,.24,1);
+}
+
+.babylon-clasp-action::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  inset: 3px 9px 3px 0;
+  border: 1px solid rgba(128, 75, 36, .7);
+  border-radius: 4px 8px 8px 4px;
+  background:
+    repeating-linear-gradient(8deg, rgba(255,228,174,.025) 0 1px, transparent 1px 5px),
+    radial-gradient(ellipse at 38% 28%, rgba(134,72,36,.24), transparent 46%),
+    linear-gradient(90deg, #24100a, #5a2b18 48%, #31150d 82%, #180b08);
+  box-shadow:
+    inset 0 0 0 2px rgba(35, 14, 8, .5),
+    inset 0 8px 10px rgba(225, 151, 72, .055),
+    inset 0 -10px 14px rgba(8, 3, 2, .32);
+  clip-path: polygon(0 4%, 82% 0, 100% 10%, 100% 90%, 82% 100%, 0 96%);
+  pointer-events: none;
+}
+
+.babylon-clasp-action::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  right: -7px;
+  top: 50%;
+  width: 19px;
+  height: 42%;
+  border: 1px solid rgba(90, 52, 19, .86);
+  border-radius: 2px 7px 7px 2px;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,226,150,.07) 0 1px, transparent 1px 5px),
+    linear-gradient(90deg, #4a2b12, #b17934 33%, #d19b4c 52%, #704319 82%, #2f190b);
+  box-shadow: inset 0 0 0 2px rgba(46,25,10,.34), 3px 4px 5px rgba(12,6,3,.4);
+  transform: translateY(-50%) perspective(100px) rotateY(-4deg);
+  transform-origin: left center;
+  transition: transform .3s cubic-bezier(.2,.72,.24,1), filter .26s ease;
+  pointer-events: none;
+}
+
+.book-clasp-emblem {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: clamp(40px, calc(100% - 12px), 54px);
+  aspect-ratio: .94;
+  border: 1px solid rgba(87, 48, 16, .92);
+  border-radius: 5px 7px 6px 5px;
+  background:
+    radial-gradient(circle at 8px 8px, #edc16c 0 1.5px, #8b5a24 2px 3.2px, transparent 4px),
+    radial-gradient(circle at calc(100% - 8px) 8px, #edc16c 0 1.5px, #8b5a24 2px 3.2px, transparent 4px),
+    radial-gradient(circle at 8px calc(100% - 8px), #d6a24e 0 1.5px, #714318 2px 3.2px, transparent 4px),
+    radial-gradient(circle at calc(100% - 8px) calc(100% - 8px), #d6a24e 0 1.5px, #714318 2px 3.2px, transparent 4px),
+    repeating-linear-gradient(112deg, rgba(255,232,167,.045) 0 1px, transparent 1px 5px),
+    linear-gradient(135deg, #5a3415, #c08b3e 31%, #8a5724 57%, #d09a48 73%, #4a2911);
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 218, 135, .12),
+    inset 4px 5px 8px rgba(255, 226, 156, .08),
+    inset -5px -6px 9px rgba(45, 23, 8, .42),
+    0 4px 6px rgba(13, 6, 3, .42);
+  transform: translateZ(2px) rotate(.35deg);
+  transition: transform .3s cubic-bezier(.2,.72,.24,1), filter .26s ease;
+  pointer-events: none;
+}
+
+.book-clasp-emblem::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 27px;
+  height: 27px;
+  border: 1px solid rgba(71, 39, 13, .92);
+  border-radius: 8px 3px 8px 3px;
+  background: conic-gradient(from 22.5deg, #5c3414 0 8%, #d5a14e 9% 17%, #734217 18% 33%, #c78d3b 34% 42%, #5c3414 43% 58%, #dda957 59% 67%, #754319 68% 83%, #bd8234 84% 92%, #5c3414 93%);
+  box-shadow: inset 0 0 0 2px rgba(255,221,145,.1), 0 2px 3px rgba(39,20,7,.42);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.book-clasp-emblem::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  width: 9px;
+  height: 17px;
+  background: linear-gradient(90deg, #170b05, #3d210c 48%, #130904);
+  box-shadow: 0 0 0 1px rgba(231,181,87,.3), inset 1px 0 1px rgba(255,218,132,.12);
+  clip-path: polygon(50% 0, 76% 10%, 88% 27%, 82% 39%, 65% 49%, 78% 100%, 22% 100%, 35% 49%, 18% 39%, 12% 27%, 24% 10%);
+  transform: translate(-50%, -50%);
+}
+
+.babylon-clasp-action:hover:not(:disabled),
+.babylon-clasp-action:focus-visible {
+  filter: saturate(1.02) brightness(1.13) drop-shadow(6px 9px 8px rgba(16, 8, 4, .52)) drop-shadow(0 0 7px rgba(213,154,66,.32));
+  transform: perspective(240px) rotateY(-7deg) rotateZ(.1deg);
+}
+
+.babylon-clasp-action:hover:not(:disabled)::after,
+.babylon-clasp-action:focus-visible::after {
+  filter: brightness(1.08);
+  transform: translateY(-50%) perspective(100px) rotateY(-15deg);
+}
+
+.babylon-clasp-action:hover:not(:disabled) .book-clasp-emblem,
+.babylon-clasp-action:focus-visible .book-clasp-emblem {
+  filter: brightness(1.08) saturate(1.04);
+  transform: translateZ(5px) rotate(-.65deg) scale(1.018);
+}
+
+.babylon-clasp-action:active:not(:disabled) {
+  transform: perspective(240px) rotateY(-9deg) rotateZ(0) scale(.985);
+}
+
+.babylon-clasp-action:disabled { cursor: default; opacity: .5; filter: saturate(.45) brightness(.7); }
+.archive-blank-page { height: 100%; }
+
+@keyframes babylonCanvasReveal {
+  0% { opacity: 0; }
+  36% { opacity: .24; }
+  100% { opacity: 1; }
+}
+@keyframes babylonCanvasRetreat {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@keyframes babylonContentReveal { from { opacity: .22; } to { opacity: 1; } }
+@keyframes closedJournalLeave {
+  from { opacity: 1; transform: translate(-50%, -50%) rotate(-.35deg); }
+  to { opacity: 0; transform: translate(-50%, calc(-50% - 3px)) rotate(-.2deg) scale(1.006); }
+}
+@keyframes closedJournalReturn {
+  from { opacity: 0; transform: translate(-50%, calc(-50% - 3px)) rotate(-.2deg) scale(1.006); }
+  to { opacity: 1; transform: translate(-50%, -50%) rotate(-.35deg); }
+}
+@media (max-width: 820px) {
+  .babylon-book-stage { top: 50%; width: 100vw; height: min(128vw, 82vh); }
+  .babylon-open-book { top: 69%; width: min(82vw, 570px); }
+  .closed-journal-title strong { font-size: clamp(17px, 5vw, 28px); }
+  .closed-journal-title small { font-size: clamp(8px, 2vw, 11px); }
+  .babylon-book-content .paper-page { padding: 28px 30px 26px; }
+  .babylon-book-content .journal-paragraph { text-align: left; line-height: 1.55; }
+  .babylon-book-content .category-bookmarks {
+    right: auto;
+    transform: translate(-54px, -50%) scale(.82);
+    transform-origin: left center;
+  }
+  .page-turn-marker-back { left: clamp(18px, var(--page-marker-back-x, 22px), calc(100% - 18px)); }
+  .page-turn-marker-forward { left: clamp(18px, var(--page-marker-forward-x, calc(100% - 22px)), calc(100% - 18px)); }
+  .journal-return-bookmark { width: 48px; height: 132px; }
+  .journal-return-bookmark b { margin-top: 17px; font-size: 7px; }
+  .babylon-clasp-action {
+    left: max(4px, var(--clasp-left, 7%));
+    top: var(--clasp-top, 50%);
+    width: max(48px, var(--clasp-width, 48px));
+    height: max(92px, var(--clasp-height, 92px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phase-opening .babylon-book-canvas,
+  .phase-closing .babylon-book-canvas,
+  .phase-opening .babylon-open-book,
+  .phase-closing .babylon-open-book,
+  .babylon-book-content.is-content-entering { animation-duration: .01ms !important; }
+  .babylon-open-book,
+  .babylon-book-canvas,
+  .page-turn-marker,
+  .journal-return-bookmark,
+  .babylon-clasp-action,
+  .babylon-clasp-action::after,
+  .book-clasp-emblem { transition: none; }
+}

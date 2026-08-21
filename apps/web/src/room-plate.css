@@ -1,0 +1,318 @@
+.room-scene {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-width: 320px;
+  overflow: hidden;
+  background: #090706;
+}
+
+.research-room-plate {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  user-select: none;
+  pointer-events: none;
+}
+
+@property --flame-h {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
+@property --flame-w {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
+@property --flame-vigor {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: .55;
+}
+
+.desk-atmosphere {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.desk-atmosphere.is-ritual-active {
+  animation: flameMode 60s linear 10s infinite;
+}
+
+.desk-candle-glow {
+  position: absolute;
+  left: 76.15%;
+  top: 40.55%;
+  width: calc(clamp(94px, 9.4vw, 168px) * calc(.85 + var(--flame-h) * .15));
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,181,78,.2), rgba(229,124,36,.07) 36%, transparent 72%);
+  opacity: .64;
+  transform: translate(-50%, -50%);
+  animation: glowFlicker 3.9s ease-in-out infinite;
+}
+
+.desk-candle-flame {
+  position: absolute;
+  left: 76.15%;
+  top: 40.15%;
+  width: calc(clamp(9px, .72vw, 14px) * var(--flame-w));
+  height: calc(clamp(25px, 3vw, 35px) * var(--flame-h));
+  border-radius: 52% 48% 50% 50% / 72% 70% 34% 34%;
+  background: radial-gradient(ellipse at 50% 76%, rgba(255,216,130,.92) 0 12%, rgba(250,166,60,.85) 32%, rgba(224,98,30,.55) 56%, rgba(172,50,16,.18) 72%, transparent 84%);
+  filter: blur(.3px) drop-shadow(0 0 6px rgba(255,158,56,.68)) drop-shadow(0 2px 14px rgba(230,112,31,.28));
+  transform: translate(-50%, -100%);
+  transform-origin: 50% 100%;
+  animation: flameSway 3.1s ease-in-out infinite;
+}
+
+.desk-candle-flame::before {
+  content: "";
+  position: absolute;
+  left: 16%;
+  right: 16%;
+  top: 10%;
+  bottom: 2%;
+  border-radius: 54% 46% 50% 50% / 78% 76% 28% 28%;
+  background: radial-gradient(ellipse at 50% 74%, rgba(255,247,205,.96) 0 16%, rgba(255,208,98,.8) 40%, rgba(242,142,44,.3) 66%, transparent 82%);
+  transform-origin: 50% 100%;
+  animation: flameLick 1.25s ease-in-out infinite;
+}
+
+.desk-candle-flame::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  width: 62%;
+  height: 24%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 55%, rgba(130,155,255,.48), rgba(96,112,220,.16) 58%, transparent 78%);
+  filter: blur(1px);
+  transform: translateX(-50%);
+  opacity: .7;
+  animation: flameBase 2.3s ease-in-out infinite;
+}
+
+.desk-candle-flame i {
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  width: 34%;
+  height: 46%;
+  border-radius: 50% 50% 46% 46% / 64% 64% 38% 38%;
+  background: radial-gradient(ellipse at 50% 70%, #fffbe8 0 28%, #ffeaa6 58%, rgba(255,200,92,0) 92%);
+  transform: translateX(-50%);
+  transform-origin: 50% 100%;
+  animation: flameCore 1.7s ease-in-out infinite;
+}
+
+.desk-incense-smoke {
+  position: absolute;
+  left: 85.85%;
+  top: 23.1%;
+  width: 58px;
+  height: 19.5%;
+}
+
+.desk-incense-smoke i {
+  position: absolute;
+  left: 49%;
+  bottom: 0;
+  width: 4px;
+  height: 86px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, transparent, rgba(224,216,204,.46) 34%, rgba(201,191,176,.24) 72%, transparent);
+  filter: blur(1.8px);
+  opacity: 0;
+  transform-origin: 50% 100%;
+  animation: incenseWisp 6.8s ease-out infinite;
+}
+
+.desk-incense-smoke i:nth-child(2) { left: 44%; height: 72px; animation-delay: -2.25s; animation-duration: 7.4s; }
+.desk-incense-smoke i:nth-child(3) { left: 54%; height: 92px; animation-delay: -4.55s; animation-duration: 8.1s; }
+
+.desk-apparition {
+  position: absolute;
+  left: 49%;
+  top: 11.5%;
+  width: 11.2%;
+  height: 40%;
+  display: block;
+  object-fit: contain;
+  object-position: 50% 100%;
+  opacity: 0;
+  transform: translate3d(-50%, 4px, 0) scale(.985, 1.01);
+  transform-origin: 50% 82%;
+  filter: brightness(.68) contrast(1.2) saturate(.62) blur(.7px) drop-shadow(0 4px 8px rgba(0, 0, 0, .42));
+  mix-blend-mode: normal;
+  user-select: none;
+}
+
+.desk-atmosphere.is-ritual-active .desk-apparition {
+  animation: apparitionPulse 60s linear 10s infinite;
+}
+
+/* Physical desk-object placement. Babylon remains full-size only after the journal opens. */
+.phase-closed .babylon-open-book,
+.phase-opening .babylon-open-book,
+.phase-closing .babylon-open-book {
+  left: 51.5%;
+  top: 71.5%;
+  width: min(22vw, 410px);
+}
+
+.babylon-open-book:hover:not(:disabled),
+.babylon-open-book:focus-visible {
+  filter: brightness(1.03) saturate(.94) drop-shadow(0 19px 14px rgba(0,0,0,.66)) drop-shadow(0 0 10px rgba(223,172,88,.28));
+}
+
+.closed-journal-title,
+.closed-journal-hint { display: none !important; }
+
+.youtube-camera-launcher {
+  left: 22.3%;
+  bottom: 2.1%;
+  width: clamp(255px, 20vw, 390px);
+  transform: rotate(-3deg);
+  filter: sepia(.1) saturate(.78) brightness(.76) drop-shadow(0 14px 10px rgba(0,0,0,.64));
+}
+
+.youtube-camera-launcher > span { display: none !important; }
+
+.youtube-camera-launcher:hover,
+.youtube-camera-launcher:focus-visible {
+  transform: translateY(-4px) rotate(-2.4deg) scale(1.018);
+  filter: sepia(.06) saturate(.92) brightness(1.02) drop-shadow(0 15px 10px rgba(0,0,0,.68)) drop-shadow(0 0 9px rgba(223,178,102,.34));
+}
+
+.community-notebook-launcher {
+  z-index: 14;
+  left: auto;
+  right: 4.1%;
+  top: auto;
+  bottom: 1.9%;
+  width: clamp(190px, 15.7vw, 305px);
+  height: auto;
+  aspect-ratio: 1.08 / 1;
+  clip-path: none;
+  background-color: transparent;
+  background-image: var(--community-notebook-image);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  transform: rotate(4.2deg);
+  filter: saturate(.76) brightness(.78) drop-shadow(0 15px 11px rgba(0,0,0,.64));
+  transition: filter .22s ease, transform .22s ease;
+}
+
+.community-notebook-launcher:hover,
+.community-notebook-launcher:focus-visible {
+  background-color: transparent;
+  background-image: var(--community-notebook-image);
+  filter: saturate(.9) brightness(1.02) drop-shadow(0 16px 11px rgba(0,0,0,.68)) drop-shadow(0 0 9px rgba(223,178,102,.32));
+  transform: translateY(-4px) rotate(3.5deg) scale(1.015);
+}
+
+@keyframes flameMode {
+  0%, 2.1% { --flame-h: 1; --flame-w: 1; --flame-vigor: .55; }
+  2.4%, 16.9% { --flame-h: 1.58; --flame-w: 1.82; --flame-vigor: 1.24; }
+  17.2%, 100% { --flame-h: 1; --flame-w: 1; --flame-vigor: .55; }
+}
+
+/* First ritual starts 10s after the scene is revealed, then repeats every 60s. */
+@keyframes apparitionPulse {
+  0%, 100% { opacity: 0; transform: translate3d(-50%, 4px, 0) scale(.985, 1.01); }
+  1.667% { opacity: .9; transform: translate3d(-50%, 0, 0) scale(1, 1.015); }
+  8.4% { opacity: .94; transform: translate3d(calc(-50% + 1px), -1px, 0) scale(1.006, 1.018); }
+  15% { opacity: .9; transform: translate3d(calc(-50% - 1px), 0, 0) scale(.998, 1.014); }
+  16.667% { opacity: 0; transform: translate3d(-50%, 3px, 0) scale(.99, 1.008); }
+}
+
+@keyframes flameSway {
+  0%, 100% { transform: translate(-50%, -100%) rotate(calc(var(--flame-vigor) * -2.4deg)) skewX(calc(var(--flame-vigor) * -1.5deg)) scale(1, 1); }
+  11% { transform: translate(-52%, -100%) rotate(calc(var(--flame-vigor) * -4.2deg)) skewX(calc(var(--flame-vigor) * -3deg)) scale(.98, calc(1 + var(--flame-vigor) * .1)); }
+  24% { transform: translate(-48%, -100%) rotate(calc(var(--flame-vigor) * 1.6deg)) skewX(calc(var(--flame-vigor) * 1deg)) scale(1.03, calc(1 - var(--flame-vigor) * .07)); }
+  37% { transform: translate(-50%, -100%) rotate(calc(var(--flame-vigor) * 3.8deg)) skewX(calc(var(--flame-vigor) * 2.6deg)) scale(.99, calc(1 + var(--flame-vigor) * .14)); }
+  51% { transform: translate(-52%, -100%) rotate(calc(var(--flame-vigor) * 2deg)) skewX(calc(var(--flame-vigor) * 1.4deg)) scale(1.04, calc(1 - var(--flame-vigor) * .05)); }
+  63% { transform: translate(-48%, -100%) rotate(calc(var(--flame-vigor) * -2deg)) skewX(calc(var(--flame-vigor) * -1.2deg)) scale(.97, calc(1 + var(--flame-vigor) * .06)); }
+  77% { transform: translate(-50%, -100%) rotate(calc(var(--flame-vigor) * -4.6deg)) skewX(calc(var(--flame-vigor) * -3.4deg)) scale(1.02, calc(1 + var(--flame-vigor) * .16)); }
+  90% { transform: translate(-51%, -100%) rotate(calc(var(--flame-vigor) * -1deg)) skewX(calc(var(--flame-vigor) * -.6deg)) scale(1, calc(1 - var(--flame-vigor) * .06)); }
+}
+
+@keyframes flameLick {
+  0%, 100% { transform: rotate(calc(var(--flame-vigor) * 1.4deg)) scale(1, 1); opacity: calc(1 - var(--flame-vigor) * .05); }
+  14% { transform: rotate(calc(var(--flame-vigor) * -4.8deg)) translateX(calc(var(--flame-vigor) * -4%)) scale(.94, calc(1 + var(--flame-vigor) * .16)); opacity: calc(1 - var(--flame-vigor) * .2); }
+  31% { transform: rotate(calc(var(--flame-vigor) * 3.4deg)) scale(1.05, calc(1 - var(--flame-vigor) * .12)); opacity: 1; }
+  46% { transform: rotate(calc(var(--flame-vigor) * -2.4deg)) translateX(calc(var(--flame-vigor) * -5%)) scale(.95, calc(1 + var(--flame-vigor) * .22)); opacity: calc(1 - var(--flame-vigor) * .18); }
+  62% { transform: rotate(calc(var(--flame-vigor) * 5.2deg)) translateX(calc(var(--flame-vigor) * 4%)) scale(1.03, calc(1 - var(--flame-vigor) * .1)); opacity: calc(1 - var(--flame-vigor) * .02); }
+  80% { transform: rotate(calc(var(--flame-vigor) * -3.6deg)) scale(.96, calc(1 + var(--flame-vigor) * .1)); opacity: calc(1 - var(--flame-vigor) * .15); }
+}
+
+@keyframes flameCore {
+  0%, 100% { opacity: calc(.88 + var(--flame-vigor) * .02); transform: translateX(-50%) scale(1, 1); }
+  18% { opacity: calc(.88 + var(--flame-vigor) * .12); transform: translateX(-50%) scale(calc(1 + var(--flame-vigor) * .1), calc(1 + var(--flame-vigor) * .18)); }
+  39% { opacity: calc(.88 - var(--flame-vigor) * .2); transform: translateX(-50%) scale(calc(1 - var(--flame-vigor) * .1), calc(1 - var(--flame-vigor) * .08)); }
+  57% { opacity: calc(.88 + var(--flame-vigor) * .08); transform: translateX(-50%) scale(calc(1 + var(--flame-vigor) * .06), calc(1 + var(--flame-vigor) * .1)); }
+  78% { opacity: calc(.88 - var(--flame-vigor) * .1); transform: translateX(-50%) scale(calc(1 - var(--flame-vigor) * .06), calc(1 + var(--flame-vigor) * .02)); }
+}
+
+@keyframes flameBase {
+  0%, 100% { opacity: calc(.72 - var(--flame-vigor) * .02); }
+  28% { opacity: calc(.72 + var(--flame-vigor) * .18); }
+  52% { opacity: calc(.72 - var(--flame-vigor) * .17); }
+  79% { opacity: calc(.72 + var(--flame-vigor) * .1); }
+}
+
+@keyframes glowFlicker {
+  0%, 100% { opacity: calc(.58 - var(--flame-vigor) * .1); transform: translate(-50%, -50%) scale(calc(1 - var(--flame-vigor) * .06)); }
+  9% { opacity: calc(.58 + var(--flame-vigor) * .05); transform: translate(-50%, -50%) scale(calc(1 + var(--flame-vigor) * .02)); }
+  22% { opacity: calc(.58 - var(--flame-vigor) * .14); transform: translate(-50%, -50%) scale(calc(1 - var(--flame-vigor) * .1)); }
+  36% { opacity: calc(.58 + var(--flame-vigor) * .1); transform: translate(-50%, -50%) scale(calc(1 + var(--flame-vigor) * .08)); }
+  49% { opacity: calc(.58 - var(--flame-vigor) * .05); transform: translate(-50%, -50%) scale(calc(1 - var(--flame-vigor) * .04)); }
+  64% { opacity: calc(.58 + var(--flame-vigor) * .16); transform: translate(-50%, -50%) scale(calc(1 + var(--flame-vigor) * .12)); }
+  78% { opacity: calc(.58 - var(--flame-vigor) * .12); transform: translate(-50%, -50%) scale(calc(1 - var(--flame-vigor) * .08)); }
+  91% { opacity: calc(.58 + var(--flame-vigor) * .06); transform: translate(-50%, -50%) scale(calc(1 + var(--flame-vigor) * .03)); }
+}
+
+@keyframes incenseWisp {
+  0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(0) scaleY(.3); }
+  16% { opacity: .45; }
+  48% { opacity: .31; transform: translate3d(-12px, -36px, 0) rotate(-13deg) scaleY(.9); }
+  76% { opacity: .16; transform: translate3d(10px, -71px, 0) rotate(12deg) scaleY(1.08); }
+  100% { opacity: 0; transform: translate3d(-5px, -105px, 0) rotate(-5deg) scaleY(.8); }
+}
+
+@media (max-width: 820px) {
+  .research-room-plate { object-position: 57% center; }
+  .desk-atmosphere { display: none; }
+  .phase-closed .babylon-open-book,
+  .phase-opening .babylon-open-book,
+  .phase-closing .babylon-open-book { left: 50%; top: 70%; width: min(42vw, 320px); }
+  .youtube-camera-launcher { left: 7%; width: clamp(150px, 32vw, 240px); }
+  .community-notebook-launcher { right: 3%; width: clamp(135px, 28vw, 220px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .desk-atmosphere.is-ritual-active,
+  .desk-candle-glow,
+  .desk-candle-flame,
+  .desk-candle-flame::before,
+  .desk-candle-flame::after,
+  .desk-candle-flame i,
+  .desk-incense-smoke i { animation: none; }
+  .desk-atmosphere.is-ritual-active .desk-apparition { display: none; animation: none; opacity: 0; }
+  .desk-candle-glow { opacity: .54; }
+  .desk-candle-flame { opacity: .9; transform: translate(-50%, -100%); }
+  .desk-incense-smoke i { opacity: .14; transform: translate3d(0, -28px, 0) scaleY(.72); }
+}

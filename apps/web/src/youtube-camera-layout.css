@@ -1,0 +1,272 @@
+/* Video archive presentation override.
+   Keeps launcher/camera art independent from the dense catalogue layout. */
+
+.youtube-camera-panel {
+  width: min(1480px, 97vw);
+}
+
+.youtube-camera-catalog {
+  --youtube-thumb-column: clamp(240px, 20vw, 284px);
+  --youtube-date-column: 108px;
+  --youtube-duration-column: 76px;
+  --youtube-status-column: 92px;
+  --youtube-column-gap: 16px;
+}
+
+.youtube-camera-toolbar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-rows: minmax(34px, auto) 42px;
+  gap: 8px 12px;
+  min-height: 0;
+  padding: 8px 16px 0;
+}
+
+.youtube-camera-toolbar > button {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: start;
+}
+
+.youtube-camera-page-size {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+  margin-left: 0;
+}
+
+.youtube-camera-pagination {
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
+}
+
+.youtube-camera-sort {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: grid;
+  grid-template-columns:
+    var(--youtube-thumb-column)
+    minmax(0, 1fr)
+    var(--youtube-date-column)
+    var(--youtube-duration-column)
+    var(--youtube-status-column);
+  align-items: center;
+  gap: var(--youtube-column-gap);
+  min-width: 0;
+  min-height: 42px;
+  border-top: 1px solid rgba(178, 145, 91, .12);
+}
+
+.youtube-camera-sort > span {
+  grid-column: 1;
+  grid-row: 1;
+  font-size: 0;
+}
+
+.youtube-camera-sort > span::after {
+  content: 'KAYIT';
+  color: #7e705e;
+  font: 700 9px/1 system-ui, sans-serif;
+  letter-spacing: .16em;
+}
+
+.youtube-camera-sort button {
+  min-height: 42px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #91816a;
+  font: 700 10px/1 system-ui, sans-serif;
+  letter-spacing: .12em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.youtube-camera-sort button:nth-of-type(1) {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.youtube-camera-sort button:nth-of-type(2) {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.youtube-camera-sort button:nth-of-type(3) {
+  grid-column: 4;
+  grid-row: 1;
+}
+
+.youtube-camera-sort::after {
+  content: 'DURUM';
+  grid-column: 5;
+  grid-row: 1;
+  color: #7e705e;
+  font: 700 9px/1 system-ui, sans-serif;
+  letter-spacing: .16em;
+}
+
+.youtube-camera-sort button:hover,
+.youtube-camera-sort button.active {
+  border: 0;
+  background: transparent;
+  color: #e0c99f;
+}
+
+.youtube-camera-row {
+  grid-template-columns:
+    var(--youtube-thumb-column)
+    minmax(0, 1fr)
+    var(--youtube-date-column)
+    var(--youtube-duration-column)
+    var(--youtube-status-column);
+  gap: var(--youtube-column-gap);
+  min-height: 184px;
+  padding: 12px 16px;
+}
+
+.youtube-camera-thumb {
+  width: 100%;
+  max-width: none;
+}
+
+.youtube-camera-thumb span {
+  width: 38px;
+  height: 38px;
+  font-size: 13px;
+}
+
+.youtube-camera-copy {
+  gap: 8px;
+  align-content: center;
+}
+
+.youtube-camera-copy a {
+  color: #dcc8a4;
+  font: 600 15px/1.35 Georgia, 'Times New Roman', serif;
+}
+
+.youtube-camera-copy small {
+  color: #786b5a;
+  font: 9px/1.25 ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.youtube-camera-summary {
+  -webkit-line-clamp: 3;
+  color: #a19179;
+  font: 400 11.5px/1.5 system-ui, sans-serif;
+}
+
+.youtube-camera-row time,
+.youtube-camera-duration {
+  color: #b3a083;
+  font-size: 10.5px;
+}
+
+.youtube-camera-flags {
+  justify-content: flex-start;
+  gap: 6px;
+}
+
+.youtube-camera-flags b {
+  padding: 5px 7px;
+  font-size: 8px;
+}
+
+@media (max-width: 1180px) {
+  .youtube-camera-catalog {
+    --youtube-thumb-column: 220px;
+    --youtube-date-column: 90px;
+    --youtube-duration-column: 68px;
+    --youtube-status-column: 1px;
+    --youtube-column-gap: 12px;
+  }
+
+  .youtube-camera-sort::after,
+  .youtube-camera-flags {
+    display: none;
+  }
+
+  .youtube-camera-row {
+    min-height: 144px;
+  }
+
+  .youtube-camera-copy a {
+    font-size: 14px;
+  }
+
+  .youtube-camera-summary {
+    font-size: 10.5px;
+  }
+}
+
+@media (max-width: 980px) {
+  .youtube-camera-catalog {
+    --youtube-thumb-column: 180px;
+    --youtube-date-column: 82px;
+    --youtube-duration-column: 60px;
+    --youtube-status-column: 1px;
+    --youtube-column-gap: 10px;
+  }
+
+  .youtube-camera-row {
+    min-height: 122px;
+    padding: 10px 12px;
+  }
+
+  .youtube-camera-toolbar {
+    padding-inline: 12px;
+  }
+
+  .youtube-camera-copy a {
+    font-size: 13px;
+  }
+
+  .youtube-camera-summary {
+    -webkit-line-clamp: 2;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 720px) {
+  .youtube-camera-toolbar {
+    grid-template-rows: minmax(34px, auto);
+    padding: 8px;
+  }
+
+  .youtube-camera-sort {
+    display: none;
+  }
+
+  .youtube-camera-page-size {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  .youtube-camera-pagination {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .youtube-camera-row {
+    grid-template-columns: 112px minmax(0, 1fr) 58px;
+    gap: 10px;
+    min-height: 96px;
+    padding: 8px;
+  }
+
+  .youtube-camera-thumb {
+    width: 112px;
+  }
+
+  .youtube-camera-copy a {
+    font-size: 11px;
+  }
+
+  .youtube-camera-summary {
+    -webkit-line-clamp: 2;
+    font-size: 9px;
+  }
+}

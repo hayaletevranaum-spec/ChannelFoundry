@@ -1,0 +1,773 @@
+/* Camcorder interaction and playback console.
+   This late layer connects the physical LCD on the desk to the full archive UI. */
+
+.youtube-camera-launcher {
+  transition: transform .24s ease, filter .24s ease, opacity .22s ease;
+}
+
+.youtube-camera-launcher:disabled {
+  cursor: default;
+}
+
+.youtube-camera-launcher img {
+  position: relative;
+  z-index: 1;
+}
+
+.youtube-camera-launcher::before,
+.youtube-camera-launcher::after {
+  content: '';
+  position: absolute;
+  left: 4.7%;
+  top: 23.4%;
+  width: 27%;
+  height: 29.5%;
+  border-radius: 2px;
+  clip-path: polygon(0 0, 100% 18%, 100% 100%, 0 81%);
+  pointer-events: none;
+  transform: scale(1);
+  transform-origin: 51% 48%;
+}
+
+.youtube-camera-launcher::before {
+  z-index: 2;
+  opacity: .16;
+  background:
+    radial-gradient(ellipse at 50% 46%, rgba(147, 191, 178, .19), transparent 65%),
+    linear-gradient(180deg, rgba(55, 84, 78, .17), rgba(4, 13, 13, .58));
+  box-shadow: inset 0 0 0 1px rgba(176, 208, 195, .1), inset 0 0 9px rgba(93, 154, 143, .12);
+  transition: opacity .2s ease, filter .2s ease, transform .24s ease;
+}
+
+.youtube-camera-launcher::after {
+  z-index: 3;
+  opacity: 0;
+  background:
+    linear-gradient(90deg, rgba(151, 205, 190, .72) 0 5px, transparent 5px calc(100% - 5px), rgba(151, 205, 190, .72) calc(100% - 5px)) 0 0 / 100% 1px no-repeat,
+    linear-gradient(90deg, rgba(151, 205, 190, .72) 0 5px, transparent 5px calc(100% - 5px), rgba(151, 205, 190, .72) calc(100% - 5px)) 0 100% / 100% 1px no-repeat,
+    linear-gradient(180deg, rgba(151, 205, 190, .58) 0 4px, transparent 4px calc(100% - 4px), rgba(151, 205, 190, .58) calc(100% - 4px)) 50% 0 / 1px 100% no-repeat,
+    repeating-linear-gradient(180deg, transparent 0 3px, rgba(135, 187, 175, .09) 3px 4px),
+    linear-gradient(180deg, transparent 0 44%, rgba(176, 225, 212, .2) 50%, transparent 57%);
+  box-shadow: 0 0 8px rgba(105, 178, 164, .2), inset 0 0 7px rgba(137, 199, 184, .12);
+  transition: opacity .18s ease;
+}
+
+.youtube-camera-launcher.camera-closed:hover,
+.youtube-camera-launcher.camera-closed:focus-visible {
+  transform: translateY(-2px) rotate(2.35deg) scale(1.008);
+  filter: sepia(.05) saturate(.84) brightness(.83) drop-shadow(0 15px 11px rgba(0, 0, 0, .68));
+}
+
+.youtube-camera-launcher.camera-closed:hover::before,
+.youtube-camera-launcher.camera-closed:focus-visible::before {
+  opacity: .88;
+  filter: brightness(1.16) saturate(.86);
+  animation: cameraScreenWake .58s cubic-bezier(.2, .72, .25, 1) both;
+}
+
+.youtube-camera-launcher.camera-closed:hover::after,
+.youtube-camera-launcher.camera-closed:focus-visible::after {
+  opacity: .82;
+  animation: cameraScreenRaster .82s steps(5, end) both;
+}
+
+.youtube-camera-launcher.camera-opening {
+  animation: cameraLauncherYield .78s ease-in both;
+  pointer-events: none;
+}
+
+.youtube-camera-launcher.camera-opening::before,
+.youtube-camera-launcher.camera-closing::before {
+  opacity: .95;
+  filter: brightness(1.2) saturate(.9);
+}
+
+.youtube-camera-launcher.camera-opening::after,
+.youtube-camera-launcher.camera-closing::after {
+  opacity: .86;
+}
+
+.youtube-camera-launcher.camera-open {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.youtube-camera-launcher.camera-closing {
+  animation: cameraLauncherReturn .68s ease-out both;
+  pointer-events: none;
+}
+
+.youtube-camera-overlay {
+  --camera-approach-x: 35vw;
+  --camera-approach-y: 36vh;
+  --camera-mid-x: 15vw;
+  --camera-mid-y: 15.5vh;
+  --camera-approach-scale: .055;
+  z-index: 80;
+  overflow: hidden;
+  padding: clamp(12px, 2vw, 30px);
+  perspective: 1500px;
+  isolation: isolate;
+  background: rgba(3, 7, 7, .91);
+}
+
+.youtube-camera-overlay::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  inset: -8%;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 46%, transparent 31%, rgba(0, 4, 4, .24) 71%, rgba(0, 0, 0, .72) 100%),
+    linear-gradient(115deg, rgba(105, 150, 139, .035), transparent 34% 70%, rgba(134, 100, 60, .035));
+}
+
+.youtube-camera-overlay.camera-phase-opening {
+  animation: cameraBackdropIn .78s cubic-bezier(.18, .72, .22, 1) both;
+}
+
+.youtube-camera-overlay.camera-phase-closing {
+  animation: cameraBackdropIn .68s cubic-bezier(.42, 0, .8, .42) reverse both;
+}
+
+.youtube-camera-overlay.camera-phase-opening::before {
+  animation: cameraLensShadeIn .78s ease-out both;
+}
+
+.youtube-camera-overlay.camera-phase-closing::before {
+  animation: cameraLensShadeIn .68s ease-in reverse both;
+}
+
+.youtube-camera-panel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: min(1540px, calc(100vw - 42px));
+  height: min(850px, calc(100vh - 34px));
+  grid-template-rows: 27px auto minmax(0, 1fr) 38px;
+  overflow: hidden;
+  border: 8px solid #171b1a;
+  border-radius: 13px;
+  outline: 1px solid rgba(152, 170, 161, .2);
+  outline-offset: -5px;
+  color: #aebdb3;
+  background: #07100e;
+  box-shadow:
+    0 34px 90px rgba(0, 0, 0, .76),
+    0 0 0 1px #050706,
+    0 0 0 3px rgba(70, 75, 71, .74),
+    inset 0 0 38px rgba(0, 0, 0, .54);
+  transform-origin: 50% 50%;
+  font-family: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
+  will-change: transform, opacity, clip-path, filter;
+}
+
+.youtube-camera-panel::before {
+  content: '';
+  position: absolute;
+  z-index: 5;
+  inset: 27px 0 38px;
+  pointer-events: none;
+  opacity: .17;
+  background:
+    repeating-linear-gradient(180deg, transparent 0 3px, rgba(147, 193, 178, .075) 3px 4px),
+    linear-gradient(103deg, transparent 8%, rgba(194, 220, 210, .06) 37%, transparent 58%);
+  mix-blend-mode: screen;
+}
+
+.youtube-camera-panel::after {
+  content: '';
+  position: absolute;
+  z-index: 6;
+  inset: -5px;
+  border-radius: 10px;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 12px 12px, #050706 0 2px, #56605b 2.5px 3.5px, transparent 4px),
+    radial-gradient(circle at calc(100% - 12px) 12px, #050706 0 2px, #56605b 2.5px 3.5px, transparent 4px),
+    radial-gradient(circle at 12px calc(100% - 12px), #050706 0 2px, #56605b 2.5px 3.5px, transparent 4px),
+    radial-gradient(circle at calc(100% - 12px) calc(100% - 12px), #050706 0 2px, #56605b 2.5px 3.5px, transparent 4px);
+}
+
+.youtube-camera-panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+.camera-phase-opening .youtube-camera-panel,
+.camera-phase-closing .youtube-camera-panel {
+  pointer-events: none;
+}
+
+.camera-phase-opening .youtube-camera-panel {
+  animation: cameraScreenApproach .78s cubic-bezier(.16, .82, .21, 1) both;
+}
+
+.camera-phase-closing .youtube-camera-panel {
+  animation: cameraScreenApproach .68s cubic-bezier(.42, 0, .8, .42) reverse both;
+}
+
+.youtube-camera-statusbar {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  min-width: 0;
+  padding: 0 17px;
+  border-bottom: 1px solid rgba(132, 165, 152, .22);
+  color: #82978a;
+  background: linear-gradient(180deg, #131817, #0b100f);
+  box-shadow: inset 0 -1px rgba(0, 0, 0, .72);
+  font: 700 8px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: .14em;
+  text-shadow: 0 0 5px rgba(126, 180, 158, .2);
+}
+
+.youtube-camera-rec {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #c77b6f;
+}
+
+.youtube-camera-rec i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #b95044;
+  box-shadow: 0 0 5px rgba(196, 67, 53, .5);
+  animation: cameraRecPulse 1.8s steps(2, end) infinite;
+}
+
+.youtube-camera-record-count { margin-left: auto; }
+.youtube-camera-timecode { color: #a8bbb0; font-size: 9px; letter-spacing: .1em; }
+
+.youtube-camera-battery {
+  position: relative;
+  width: 19px;
+  height: 9px;
+  border: 1px solid #83998b;
+}
+
+.youtube-camera-battery::after {
+  content: '';
+  position: absolute;
+  left: 100%;
+  top: 2px;
+  width: 2px;
+  height: 3px;
+  background: #83998b;
+}
+
+.youtube-camera-battery i {
+  position: absolute;
+  inset: 2px 4px 2px 2px;
+  background: #829b8b;
+}
+
+.youtube-camera-head {
+  align-items: center;
+  min-height: 94px;
+  padding: 14px 19px 13px;
+  border-bottom: 1px solid rgba(132, 165, 152, .24);
+  background:
+    linear-gradient(90deg, rgba(78, 112, 102, .1), transparent 38%),
+    #0b1513;
+}
+
+.youtube-camera-head small {
+  color: #789588;
+  font: 700 8px/1.1 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: .2em;
+}
+
+.youtube-camera-head h2 {
+  margin: 6px 0 5px;
+  color: #c1d0c7;
+  font: 600 clamp(22px, 2vw, 31px)/1 system-ui, sans-serif;
+  letter-spacing: .035em;
+  text-shadow: 0 0 12px rgba(132, 183, 163, .12);
+}
+
+.youtube-camera-head p {
+  color: #778a80;
+  font: 9px/1.35 ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.youtube-camera-head-actions a,
+.youtube-camera-head-actions button {
+  position: relative;
+  min-height: 33px;
+  border: 1px solid #343d39;
+  border-radius: 3px;
+  padding: 8px 11px;
+  color: #91a69a;
+  background: linear-gradient(180deg, #242a28, #121615);
+  box-shadow: inset 0 1px rgba(255, 255, 255, .04), 0 1px 2px rgba(0, 0, 0, .7);
+  font: 700 8px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.youtube-camera-head-actions a:hover,
+.youtube-camera-head-actions button:hover:not(:disabled),
+.youtube-camera-head-actions a:focus-visible,
+.youtube-camera-head-actions button:focus-visible:not(:disabled) {
+  border-color: #60786d;
+  color: #c8dbd0;
+  background: linear-gradient(180deg, #303a36, #161c1a);
+  outline: none;
+  box-shadow: inset 0 0 0 1px rgba(143, 183, 166, .09), 0 0 8px rgba(81, 132, 112, .1);
+}
+
+.youtube-camera-head-actions .youtube-camera-close {
+  width: 36px;
+  border-color: #59413d;
+  color: #c58b7f;
+  font: 300 22px/1 system-ui, sans-serif;
+}
+
+.youtube-camera-workspace {
+  grid-template-columns: 268px minmax(0, 1fr);
+  background: #08110f;
+}
+
+.youtube-camera-filters {
+  border-right: 1px solid rgba(125, 157, 144, .2);
+  padding: 15px 15px 18px;
+  color: #87998e;
+  background:
+    linear-gradient(180deg, rgba(75, 107, 96, .06), transparent 28%),
+    #080d0c;
+  scrollbar-color: rgba(105, 142, 127, .46) transparent;
+}
+
+.youtube-camera-filter-title {
+  border-bottom-color: rgba(125, 157, 144, .2);
+}
+
+.youtube-camera-filter-title small,
+.youtube-camera-filter-title strong {
+  color: #829b8e;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.youtube-camera-filter-title small::before {
+  content: 'SETUP / ';
+  color: #586c62;
+}
+
+.youtube-camera-filters label > span,
+.youtube-camera-date > span,
+.youtube-camera-weekdays > span,
+.youtube-camera-types > span {
+  color: #70877b;
+  font: 700 8px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.youtube-camera-filters input,
+.youtube-camera-filters select,
+.youtube-camera-page-size select {
+  border-color: #2d3c36;
+  border-radius: 2px;
+  color: #aebfb5;
+  background: #0e1815;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, .6);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  color-scheme: dark;
+}
+
+.youtube-camera-filters input:focus,
+.youtube-camera-filters select:focus,
+.youtube-camera-page-size select:focus {
+  border-color: #688779;
+  outline: 1px solid rgba(117, 158, 141, .16);
+}
+
+.youtube-camera-weekdays button,
+.youtube-camera-filter-close,
+.youtube-camera-toolbar > button,
+.youtube-camera-sort button,
+.youtube-camera-pagination button {
+  border-color: #303d38;
+  border-radius: 2px;
+  color: #81968b;
+  background: linear-gradient(180deg, #1b2421, #0f1513);
+  box-shadow: inset 0 1px rgba(255, 255, 255, .03), 0 1px 1px rgba(0, 0, 0, .6);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.youtube-camera-weekdays button:hover,
+.youtube-camera-weekdays button:focus-visible,
+.youtube-camera-weekdays button.active,
+.youtube-camera-toolbar > button:hover,
+.youtube-camera-toolbar > button:focus-visible,
+.youtube-camera-sort button:hover,
+.youtube-camera-sort button:focus-visible,
+.youtube-camera-pagination button:hover:not(:disabled),
+.youtube-camera-pagination button:focus-visible:not(:disabled),
+.youtube-camera-sort button.active {
+  border-color: #647f73;
+  color: #bed0c6;
+  background: #1b2c27;
+  outline: none;
+}
+
+.youtube-camera-types label { color: #85988e; }
+.youtube-camera-types input { accent-color: #6f9987; }
+.youtube-camera-clear { color: #6f9283; }
+
+.youtube-camera-catalog {
+  --youtube-thumb-column: clamp(224px, 18vw, 272px);
+  --youtube-date-column: 104px;
+  --youtube-duration-column: 74px;
+  --youtube-status-column: 90px;
+  --youtube-column-gap: 15px;
+  background: #091310;
+}
+
+.youtube-camera-toolbar {
+  border-bottom-color: rgba(125, 157, 144, .19);
+  background: linear-gradient(180deg, #101a17, #0b1311);
+}
+
+.youtube-camera-sort {
+  border-top-color: rgba(125, 157, 144, .14);
+}
+
+.youtube-camera-sort > span::after,
+.youtube-camera-sort::after,
+.youtube-camera-sort button,
+.youtube-camera-page-size > span,
+.youtube-camera-pagination span {
+  color: #72877c;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.youtube-camera-sort button:hover,
+.youtube-camera-sort button:focus-visible,
+.youtube-camera-sort button.active {
+  color: #b7ccc0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.youtube-camera-list {
+  position: relative;
+  scrollbar-color: rgba(105, 142, 127, .46) transparent;
+  background:
+    linear-gradient(90deg, rgba(78, 117, 102, .028) 1px, transparent 1px) 0 0 / 32px 100%,
+    #07100e;
+}
+
+.youtube-camera-row {
+  position: relative;
+  min-height: 156px;
+  border-bottom-color: rgba(112, 145, 131, .13);
+  transition: background .16s ease, box-shadow .16s ease;
+}
+
+.youtube-camera-row::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  opacity: 0;
+  background: #789c8c;
+  box-shadow: 0 0 6px rgba(109, 163, 140, .26);
+  transition: opacity .16s ease;
+}
+
+.youtube-camera-row:hover,
+.youtube-camera-row:focus-within {
+  background: linear-gradient(90deg, rgba(85, 129, 111, .14), rgba(55, 83, 72, .035) 66%, transparent);
+  box-shadow: inset 0 1px rgba(151, 187, 172, .03), inset 0 -1px rgba(151, 187, 172, .03);
+}
+
+.youtube-camera-row:hover::before,
+.youtube-camera-row:focus-within::before { opacity: 1; }
+
+.youtube-camera-thumb {
+  border-color: #34463e;
+  border-radius: 2px;
+  background: #030706;
+  box-shadow: 0 0 0 3px #111816, 0 0 0 4px rgba(95, 125, 112, .22), inset 0 0 20px rgba(0, 0, 0, .72);
+}
+
+.youtube-camera-thumb::before {
+  content: 'PLAY';
+  position: absolute;
+  z-index: 3;
+  left: 8px;
+  top: 7px;
+  color: rgba(196, 219, 207, .78);
+  font: 700 7px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: .12em;
+  text-shadow: 0 0 4px rgba(152, 202, 179, .35);
+}
+
+.youtube-camera-thumb::after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  inset: 7px;
+  pointer-events: none;
+  opacity: .72;
+  background:
+    linear-gradient(#9bb5a8, #9bb5a8) left top / 12px 1px no-repeat,
+    linear-gradient(#9bb5a8, #9bb5a8) left top / 1px 9px no-repeat,
+    linear-gradient(#9bb5a8, #9bb5a8) right top / 12px 1px no-repeat,
+    linear-gradient(#9bb5a8, #9bb5a8) right top / 1px 9px no-repeat,
+    linear-gradient(#9bb5a8, #9bb5a8) left bottom / 12px 1px no-repeat,
+    linear-gradient(#9bb5a8, #9bb5a8) left bottom / 1px 9px no-repeat,
+    linear-gradient(#9bb5a8, #9bb5a8) right bottom / 12px 1px no-repeat,
+    linear-gradient(#9bb5a8, #9bb5a8) right bottom / 1px 9px no-repeat;
+}
+
+.youtube-camera-thumb img {
+  filter: saturate(.5) contrast(1.04) brightness(.72) sepia(.08) hue-rotate(92deg);
+  transition: filter .18s ease, transform .25s ease;
+}
+
+.youtube-camera-row:hover .youtube-camera-thumb img,
+.youtube-camera-row:focus-within .youtube-camera-thumb img {
+  filter: saturate(.7) contrast(1.05) brightness(.84) sepia(.04) hue-rotate(70deg);
+  transform: scale(1.012);
+}
+
+.youtube-camera-thumb span {
+  z-index: 4;
+  border-color: rgba(181, 211, 197, .42);
+  color: #b7d0c4;
+  background: rgba(4, 11, 9, .72);
+  box-shadow: 0 0 9px rgba(109, 158, 138, .13);
+}
+
+.youtube-camera-copy a {
+  color: #bdcbc3;
+  font-family: system-ui, sans-serif;
+  font-weight: 600;
+}
+
+.youtube-camera-copy a:hover,
+.youtube-camera-copy a:focus-visible {
+  color: #e0ece5;
+  outline: none;
+  text-shadow: 0 0 8px rgba(126, 173, 153, .16);
+}
+
+.youtube-camera-copy small { color: #607269; }
+.youtube-camera-summary { color: #81958a; }
+.youtube-camera-row time,
+.youtube-camera-duration { color: #91a69a; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+
+.youtube-camera-flags b {
+  border-color: #3a4d44;
+  color: #93ac9f;
+  background: #101a16;
+}
+
+.youtube-camera-state { color: #7f9388; }
+.youtube-camera-state strong { color: #b7c9bf; font-family: system-ui, sans-serif; }
+.youtube-camera-state button { border-color: #3d5047; color: #abc0b5; background: #101a16; }
+.youtube-camera-state.error strong { color: #c59084; }
+
+.youtube-camera-hardware-controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 17px;
+  border-top: 1px solid #2d3431;
+  color: #69736e;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .025), transparent 38%),
+    repeating-linear-gradient(90deg, transparent 0 5px, rgba(0, 0, 0, .17) 5px 6px),
+    #171b1a;
+  box-shadow: inset 0 1px rgba(255, 255, 255, .025), inset 0 8px 12px rgba(0, 0, 0, .18);
+  font: 700 7px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: .1em;
+}
+
+.youtube-camera-hardware-controls > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.youtube-camera-hardware-controls > span > i {
+  width: 11px;
+  height: 11px;
+  border: 1px solid #4a514e;
+  border-radius: 50%;
+  background: radial-gradient(circle at 42% 37%, #505955, #181c1a 58%, #070908 100%);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .8);
+}
+
+.youtube-camera-zoom {
+  padding: 3px 8px;
+  border: 1px solid #343b38;
+  border-radius: 9px;
+  background: #0d100f;
+}
+
+.youtube-camera-zoom > i {
+  width: 38px !important;
+  height: 5px !important;
+  border-radius: 3px !important;
+  background: linear-gradient(90deg, #343b38 0 48%, #626e68 49% 53%, #272d2a 54%) !important;
+}
+
+.youtube-camera-standby {
+  margin-left: auto;
+  color: #8c6c65;
+}
+
+.youtube-camera-standby i {
+  width: 7px !important;
+  height: 7px !important;
+  border: 0 !important;
+  background: #8f473e !important;
+  box-shadow: 0 0 5px rgba(171, 67, 55, .36) !important;
+}
+
+@keyframes cameraScreenWake {
+  0% { opacity: .18; transform: scale(.985); filter: brightness(.7); }
+  28% { opacity: .62; filter: brightness(1.34); }
+  48% { opacity: .4; }
+  100% { opacity: .88; transform: scale(1); filter: brightness(1.16) saturate(.86); }
+}
+
+@keyframes cameraScreenRaster {
+  0% { opacity: 0; background-position: 0 0, 0 100%, 50% 0, 0 0, 0 -28px; }
+  38% { opacity: .52; }
+  100% { opacity: .82; background-position: 0 0, 0 100%, 50% 0, 0 0, 0 28px; }
+}
+
+@keyframes cameraLauncherYield {
+  0%, 18% { opacity: 1; transform: rotate(2.8deg) scale(1); }
+  100% { opacity: 0; transform: translateY(2px) rotate(2.8deg) scale(.985); }
+}
+
+@keyframes cameraLauncherReturn {
+  0% { opacity: 0; transform: translateY(2px) rotate(2.8deg) scale(.985); }
+  66%, 100% { opacity: 1; transform: rotate(2.8deg) scale(1); }
+}
+
+@keyframes cameraBackdropIn {
+  0% { background-color: rgba(3, 7, 7, 0); }
+  100% { background-color: rgba(3, 7, 7, .91); }
+}
+
+@keyframes cameraLensShadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes cameraScreenApproach {
+  0% {
+    opacity: .12;
+    clip-path: polygon(0 0, 100% 18%, 100% 100%, 0 81%);
+    transform: translate3d(var(--camera-approach-x), var(--camera-approach-y), 0) scale(var(--camera-approach-scale)) rotate(2.8deg);
+    filter: brightness(.54) saturate(.52) blur(1.2px);
+  }
+  18% {
+    opacity: .76;
+    filter: brightness(1.16) saturate(.62) blur(.45px);
+  }
+  46% {
+    opacity: 1;
+    clip-path: polygon(0 0, 100% 8%, 100% 100%, 0 91%);
+    transform: translate3d(var(--camera-mid-x), var(--camera-mid-y), 0) scale(.42) rotate(1.1deg);
+    filter: brightness(.92) saturate(.78) blur(0);
+  }
+  78% {
+    clip-path: polygon(0 0, 100% 1%, 100% 100%, 0 99%);
+    transform: translate3d(1.2vw, 1.4vh, 0) scale(.96) rotate(.12deg);
+    filter: brightness(1.03) saturate(.94);
+  }
+  100% {
+    opacity: 1;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    transform: translate3d(0, 0, 0) scale(1) rotate(0);
+    filter: brightness(1) saturate(1) blur(0);
+  }
+}
+
+@keyframes cameraRecPulse {
+  0%, 62% { opacity: 1; }
+  63%, 100% { opacity: .36; }
+}
+
+@media (max-width: 1180px) {
+  .youtube-camera-catalog {
+    --youtube-thumb-column: 204px;
+    --youtube-date-column: 88px;
+    --youtube-duration-column: 66px;
+    --youtube-status-column: 1px;
+    --youtube-column-gap: 11px;
+  }
+
+  .youtube-camera-row { min-height: 138px; }
+}
+
+@media (max-width: 980px) {
+  .youtube-camera-workspace { grid-template-columns: 224px minmax(0, 1fr); }
+  .youtube-camera-statusbar { gap: 11px; }
+  .youtube-camera-record-count { display: none; }
+  .youtube-camera-row { min-height: 118px; }
+}
+
+@media (max-width: 720px) {
+  .youtube-camera-overlay {
+    --camera-approach-x: 29vw;
+    --camera-approach-y: 40vh;
+    --camera-mid-x: 12.5vw;
+    --camera-mid-y: 17vh;
+    --camera-approach-scale: .052;
+    padding: 4px;
+  }
+
+  .youtube-camera-panel {
+    width: calc(100vw - 8px);
+    height: calc(100vh - 8px);
+    grid-template-rows: 23px auto minmax(0, 1fr) 31px;
+    border-width: 5px;
+    border-radius: 8px;
+  }
+
+  .youtube-camera-panel::before { inset: 23px 0 31px; }
+  .youtube-camera-statusbar { gap: 9px; padding-inline: 9px; font-size: 7px; }
+  .youtube-camera-statusbar > span:nth-child(3),
+  .youtube-camera-statusbar > span:nth-child(4),
+  .youtube-camera-record-count { display: none; }
+  .youtube-camera-timecode { margin-left: auto; font-size: 7px; }
+  .youtube-camera-head { min-height: 70px; padding: 10px; }
+  .youtube-camera-head h2 { margin-block: 4px; font-size: 18px; }
+  .youtube-camera-head small { font-size: 7px; }
+  .youtube-camera-head-actions { gap: 5px; }
+  .youtube-camera-head-actions button { min-height: 31px; padding: 6px 8px; font-size: 7px; }
+  .youtube-camera-head-actions .youtube-camera-close { width: 32px; }
+  .youtube-camera-filters { background: #08110e; }
+  .youtube-camera-toolbar { background: #0d1714; }
+  .youtube-camera-row { min-height: 94px; }
+  .youtube-camera-hardware-controls { gap: 11px; padding-inline: 9px; }
+  .youtube-camera-hardware-controls > span:nth-child(2),
+  .youtube-camera-hardware-controls > span:nth-child(3) { display: none; }
+  .youtube-camera-zoom > i { width: 26px !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .youtube-camera-rec i { animation: none; opacity: .8; }
+  .youtube-camera-launcher.camera-opening,
+  .youtube-camera-launcher.camera-closing,
+  .youtube-camera-overlay.camera-phase-opening,
+  .youtube-camera-overlay.camera-phase-closing,
+  .camera-phase-opening .youtube-camera-panel,
+  .camera-phase-closing .youtube-camera-panel {
+    animation-duration: .001ms !important;
+  }
+}

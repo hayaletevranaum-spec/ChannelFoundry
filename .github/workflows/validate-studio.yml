@@ -1,0 +1,65 @@
+name: Validate Studio
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/studio/**"
+      - "apps/web/**"
+      - "packages/domain/**"
+      - "package.json"
+      - ".github/workflows/validate-studio.yml"
+  pull_request:
+    paths:
+      - "apps/studio/**"
+      - "apps/web/**"
+      - "packages/domain/**"
+      - "package.json"
+
+permissions:
+  contents: read
+
+jobs:
+  build-studio:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.16.0
+      - name: Verify built-in SQLite
+        run: node -e "const { DatabaseSync } = require('node:sqlite'); const db = new DatabaseSync(':memory:'); db.exec('CREATE TABLE ok(id INTEGER);'); console.log('node:sqlite ready')"
+      - name: Check Electron main files
+        run: node --check apps/studio/main.cjs && node --check apps/studio/studio-data-paths.cjs && node --check apps/studio/web-connection.cjs && node --check apps/studio/ytdlp-manager.cjs && node --check apps/studio/preload.cjs && node --check apps/studio/storage.cjs && node --check apps/studio/bulk-operations.cjs && node --check apps/studio/youtube-import.cjs && node --check apps/studio/youtube-catalog.cjs && node --check apps/studio/transcript-service.cjs && node --check apps/studio/ai-service.cjs && node --check apps/studio/ai-analysis.cjs && node --check apps/studio/ai-json.cjs && node --check apps/studio/universe-merge.cjs && node --check apps/studio/universe-workspace.cjs && node --check apps/studio/visual-profiles.cjs && node --check apps/studio/verify-studio-data-paths.cjs && node --check apps/studio/verify-web-connection.cjs && node --check apps/studio/verify-ytdlp-manager.cjs && node --check apps/studio/verify-bulk-operations.cjs && node --check apps/studio/verify-youtube-import.cjs && node --check apps/studio/verify-youtube-catalog.cjs && node --check apps/studio/verify-transcript-service.cjs && node --check apps/studio/verify-ai-service.cjs && node --check apps/studio/verify-ai-analysis.cjs && node --check apps/studio/verify-ai-json.cjs && node --check apps/studio/verify-universe-workspace.cjs && node --check apps/studio/verify-visual-profiles.cjs
+      - name: Verify project-local Studio data paths
+        run: node apps/studio/verify-studio-data-paths.cjs
+      - name: Verify custom web connection
+        run: node apps/studio/verify-web-connection.cjs
+      - name: Verify yt-dlp media preferences
+        run: node apps/studio/verify-ytdlp-manager.cjs
+      - name: Verify bulk operations transaction
+        run: node apps/studio/verify-bulk-operations.cjs
+      - name: Verify YouTube import persistence
+        run: node apps/studio/verify-youtube-import.cjs
+      - name: Verify YouTube channel catalog
+        run: node apps/studio/verify-youtube-catalog.cjs
+      - name: Verify transcript archive contracts
+        run: node apps/studio/verify-transcript-service.cjs
+      - name: Verify AI assistant contracts
+        run: node apps/studio/verify-ai-service.cjs
+      - name: Verify persistent AI analysis queue
+        run: node apps/studio/verify-ai-analysis.cjs
+      - name: Verify tolerant AI JSON recovery
+        run: node apps/studio/verify-ai-json.cjs
+      - name: Verify universe editorial workspace
+        run: node apps/studio/verify-universe-workspace.cjs
+      - name: Verify visual profile assets
+        run: node apps/studio/verify-visual-profiles.cjs
+      - name: Install dependencies
+        run: npm install
+      - name: Build Studio renderer
+        run: npm run build:studio
+      - name: Build public web renderer
+        run: npm run build:web

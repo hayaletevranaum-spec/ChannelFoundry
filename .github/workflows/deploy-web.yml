@@ -1,0 +1,107 @@
+name: Deploy web
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-web-production
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Validate Web PHP
+        run: |
+          find apps/web/public/api -type f -name '*.php' -print0 | xargs -0 -n1 php -l
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build and audit Web
+        run: |
+          npm run verify:book-theme
+          npm run build:web
+          npm run verify:web-dist
+
+      - name: Install deploy tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y sshpass rsync
+
+      - name: Validate deploy configuration
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PASSWORD: ${{ secrets.DEPLOY_PASSWORD }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          set -euo pipefail
+          for name in DEPLOY_HOST DEPLOY_USER DEPLOY_PASSWORD DEPLOY_PATH; do
+            if [ -z "${!name:-}" ]; then
+              echo "Missing required repository secret: $name" >&2
+              exit 2
+            fi
+          done
+
+      - name: Trust deploy host
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
+
+      - name: Deploy Web without overwriting Studio content
+        env:
+          SSHPASS: ${{ secrets.DEPLOY_PASSWORD }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          sshpass -e rsync -az --delete \
+            --omit-dir-times \
+            --no-perms \
+            --no-owner \
+            --no-group \
+            --exclude='/content/publication.json' \
+            --exclude='/content/community-credits.json' \
+            --exclude='/content/assets/***' \
+            --exclude='/content/*.bak-*' \
+            --exclude='*.bak-*' \
+            apps/web/dist/ \
+            "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH"
+
+      - name: Optional live smoke
+        env:
+          PUBLIC_URL: ${{ secrets.PUBLIC_URL }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${PUBLIC_URL:-}" ]; then
+            echo "PUBLIC_URL is not configured; live smoke skipped."
+            exit 0
+          fi
+
+          LIVE="${PUBLIC_URL%/}"
+          curl -fsS --retry 12 --retry-all-errors --retry-delay 2 "$LIVE/" -o "$RUNNER_TEMP/live-index.html"
+          grep -q 'id="root"' "$RUNNER_TEMP/live-index.html"
+
+          COMMUNITY=$(curl -fsS --retry 8 --retry-all-errors --retry-delay 2 "$LIVE/api/community/?action=health")
+          node -e 'const j=JSON.parse(process.argv[1]); if(!j.ok) process.exit(1)' "$COMMUNITY"
+
+          STUDIO=$(curl -fsS --retry 8 --retry-all-errors --retry-delay 2 "$LIVE/api/studio/?action=health")
+          node -e 'const j=JSON.parse(process.argv[1]); if(!j.ok) process.exit(1)' "$STUDIO"
+
+          echo "Live Web + API smoke: OK"

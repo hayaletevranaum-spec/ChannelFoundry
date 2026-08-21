@@ -1,0 +1,63 @@
+/* Static shadows keep the WebGL layer inexpensive while grounding both book states on the desk. */
+.babylon-book-stage::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  left: 38%;
+  right: 38%;
+  top: 82%;
+  height: 5%;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, .2);
+  box-shadow: 0 15px 20px 9px rgba(0, 0, 0, .38);
+  pointer-events: none;
+  transform: translateY(-50%) rotate(-.5deg);
+  opacity: .88;
+  transition: left .9s ease, right .9s ease, top .9s ease, height .9s ease, opacity .34s ease, box-shadow .9s ease;
+}
+
+.babylon-book-stage.phase-open::before,
+.babylon-book-stage.phase-opening::before {
+  left: 6%;
+  right: 6%;
+  top: 77%;
+  height: 11%;
+  opacity: .72;
+}
+
+.babylon-book-stage.phase-closing::before {
+  left: 38%;
+  right: 38%;
+  top: 82%;
+  height: 5%;
+  opacity: .88;
+  box-shadow: 0 15px 20px 9px rgba(0, 0, 0, .38);
+}
+
+.babylon-book-canvas {
+  z-index: 1;
+  filter: none !important;
+}
+
+@media (max-width: 820px) {
+  .babylon-book-stage::before {
+    left: 28%;
+    right: 28%;
+    top: 83%;
+    height: 5%;
+    box-shadow: 0 12px 17px 7px rgba(0, 0, 0, .35);
+  }
+  .babylon-book-stage.phase-open::before,
+  .babylon-book-stage.phase-opening::before { left: 5%; right: 5%; top: 78%; }
+  .babylon-book-stage.phase-closing::before {
+    left: 28%;
+    right: 28%;
+    top: 83%;
+    height: 5%;
+    box-shadow: 0 12px 17px 7px rgba(0, 0, 0, .35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .babylon-book-stage::before { transition: none; }
+}

@@ -1,0 +1,22 @@
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { App } from './App.jsx';
+import './styles.css';
+import './community-notebook.css';
+import './archive-realism.css';
+import './babylon-book.css';
+import './book-performance.css';
+import './book-contents.css';
+import './youtube-camera.css';
+import './youtube-camera-layout.css';
+import './room-plate.css';
+import './scene-object-overrides.css';
+import './runtime-state.css';
+import './reading-focus.css';
+import './book-frames.css';
+import './book-ribbons.css';
+import './community-book-physical.css';
+import './youtube-camera-console.css';
+import './book-text-polish.css';
+
+createRoot(document.getElementById('root')).render(<React.StrictMode><App /></React.StrictMode>);

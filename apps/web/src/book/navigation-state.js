@@ -1,0 +1,5 @@
+const SECTION_ANCHOR_PATTERN = /^section:(.*):block:(\d+):offset:(\d+)$/;
+function isNonNegativeInteger(value){return Number.isSafeInteger(value)&&value>=0}
+export function createSectionRenderAnchor(sectionId,blockIndex=0,offset=0){if(typeof sectionId!=='string'||!sectionId)return null;if(!isNonNegativeInteger(blockIndex)||!isNonNegativeInteger(offset))return null;return `section:${encodeURIComponent(sectionId)}:block:${blockIndex}:offset:${offset}`}
+export function parseSectionRenderAnchor(renderAnchor){if(typeof renderAnchor!=='string')return null;const match=SECTION_ANCHOR_PATTERN.exec(renderAnchor);if(!match)return null;const blockIndex=Number(match[2]);const offset=Number(match[3]);if(!isNonNegativeInteger(blockIndex)||!isNonNegativeInteger(offset))return null;try{const sectionId=decodeURIComponent(match[1]);if(!sectionId)return null;return{sectionId,blockIndex,offset}}catch{return null}}
+export function createJournalBookmark(frame){if(typeof frame?.sectionId!=='string'||!frame.sectionId)return null;return{sectionId:frame.sectionId,renderAnchor:frame.renderAnchor??createSectionRenderAnchor(frame.sectionId)}}

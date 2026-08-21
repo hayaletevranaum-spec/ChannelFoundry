@@ -1,0 +1,16 @@
+node_modules/
+**/dist/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+.directory
+Thumbs.db
+apps/studio/data/
+apps/studio/local-data/
+*.sqlite
+*.sqlite3
+
+# Studio çalışma verisi public kaynak ağacının parçası değildir.
+/local-data/

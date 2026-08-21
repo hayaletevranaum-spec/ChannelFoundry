@@ -1,0 +1,46 @@
+.ai-production-workbench > .ai-stage-rail {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.ai-stage-rail > button {
+  grid-template-columns: 28px minmax(0, 1fr);
+  min-height: 82px;
+  gap: 8px;
+  padding: 11px 12px;
+}
+
+.ai-stage-rail > button > span {
+  font-size: 14px;
+}
+
+.ai-stage-rail small {
+  font-size: 6px;
+  letter-spacing: .12em;
+}
+
+.ai-stage-rail strong {
+  margin: 3px 0;
+  font-size: 15px;
+  line-height: 1.1;
+}
+
+.ai-stage-rail p {
+  overflow: hidden;
+  font-size: 7px;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 1100px) {
+  .ai-production-workbench > .ai-stage-rail {
+    grid-template-columns: repeat(6, minmax(155px, 1fr));
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+  }
+
+  .ai-stage-rail > button {
+    min-height: 76px;
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 2,
+  "publication": {
+    "id": "pub-empty",
+    "generatedAt": "1970-01-01T00:00:00.000Z",
+    "contentFingerprint": ""
+  },
+  "journal": {
+    "sections": []
+  },
+  "archive": {
+    "entities": [],
+    "relations": []
+  },
+  "assets": [],
+  "support": {
+    "sponsors": [],
+    "contributors": []
+  }
+}

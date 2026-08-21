@@ -1,0 +1,191 @@
+.scene-boot-overlay {
+  position: fixed;
+  z-index: 200;
+  inset: 0;
+  overflow: hidden;
+  background: #020202;
+  color: #c9b48d;
+  isolation: isolate;
+}
+
+.scene-boot-preview {
+  position: absolute;
+  z-index: 1;
+  inset: -2.5%;
+  opacity: 0;
+  pointer-events: none;
+  background: rgba(7,5,4,.055);
+  -webkit-backdrop-filter: grayscale(1) saturate(.42) contrast(.7) brightness(.38) blur(11px);
+  backdrop-filter: grayscale(1) saturate(.42) contrast(.7) brightness(.38) blur(11px);
+  transform: scale(1.026);
+  transform-origin: 50% 50%;
+  will-change: opacity, transform, backdrop-filter;
+}
+
+.scene-boot-preview::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(105deg, transparent 28%, rgba(229,205,165,.055) 48%, transparent 66%);
+  transform: translateX(-15%);
+}
+
+.scene-boot-overlay::after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 48%, transparent 0 29%, rgba(0,0,0,.26) 58%, rgba(0,0,0,.78) 100%);
+}
+
+.scene-boot-eyelid {
+  position: absolute;
+  z-index: 4;
+  left: -4%;
+  width: 108%;
+  height: 56%;
+  background: #030202;
+  will-change: transform;
+}
+
+.scene-boot-eyelid-top {
+  top: -3%;
+  transform: translate3d(0, -2%, 0);
+  border-radius: 0 0 48% 48% / 0 0 20% 20%;
+  background: radial-gradient(ellipse 98% 24% at 50% 100%, #0f0b09 0, #060403 46%, #020202 76%);
+  box-shadow: 0 18px 28px rgba(0,0,0,.94);
+}
+.scene-boot-eyelid-bottom {
+  bottom: -3%;
+  transform: translate3d(0, 2%, 0);
+  border-radius: 48% 48% 0 0 / 20% 20% 0 0;
+  background: radial-gradient(ellipse 98% 24% at 50% 0, #0e0a08 0, #050403 48%, #020202 78%);
+  box-shadow: 0 -18px 28px rgba(0,0,0,.94);
+}
+
+.scene-boot-eyelid::after {
+  content: '';
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  height: 7px;
+  pointer-events: none;
+  opacity: .62;
+  filter: blur(2px);
+  background: radial-gradient(ellipse, rgba(49,35,27,.48), rgba(4,3,3,.92) 67%, transparent 72%);
+}
+
+.scene-boot-eyelid-top::after { bottom: -3px; }
+.scene-boot-eyelid-bottom::after { top: -3px; }
+
+.scene-boot-revealing {
+  background: transparent;
+  animation: sceneBootOverlayReveal 1.92s linear both;
+  pointer-events: none;
+}
+.scene-boot-revealing .scene-boot-preview { animation: sceneBootVisionFocus 1.82s cubic-bezier(.18,.72,.2,1) both; }
+.scene-boot-revealing .scene-boot-preview::after { animation: sceneBootTearFilm 1.5s ease-out both; }
+.scene-boot-revealing::after { animation: sceneBootPeripheralFocus 1.86s ease-out both; }
+.scene-boot-revealing .scene-boot-eyelid-top { animation: sceneBootEyeTop 1.72s cubic-bezier(.2,.74,.22,1) both; }
+.scene-boot-revealing .scene-boot-eyelid-bottom { animation: sceneBootEyeBottom 1.82s cubic-bezier(.22,.7,.24,1) both; }
+
+.scene-boot-error .scene-boot-preview { opacity: 0; }
+.scene-boot-error .scene-boot-eyelid-top { transform: translateY(-76%); }
+.scene-boot-error .scene-boot-eyelid-bottom { transform: translateY(76%); }
+
+.scene-boot-error {
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+.scene-boot-error section,
+.scene-boot-error .scene-boot-error { position: relative; }
+.scene-boot-error > .scene-boot-error,
+.scene-boot-error > section { z-index: 8; }
+.scene-boot-error.scene-boot-overlay > .scene-boot-error {
+  width: min(520px, 88vw);
+  padding: 28px 30px;
+  border: 1px solid rgba(201,180,141,.23);
+  background: rgba(14,10,8,.8);
+  box-shadow: 0 24px 70px rgba(0,0,0,.52);
+}
+
+.scene-boot-error small { letter-spacing: .2em; color: #9b7b49; }
+.scene-boot-error h1 { margin: 10px 0 8px; font-weight: normal; }
+.scene-boot-error p { margin: 0 auto 18px; max-width: 44ch; line-height: 1.55; color: #a89b85; }
+.scene-boot-error button { border: 1px solid rgba(201,180,141,.36); padding: 9px 15px; color: #ddc9a2; background: #21150f; cursor: pointer; }
+.scene-boot-error button:focus-visible { outline: 2px solid rgba(229,193,126,.8); outline-offset: 4px; }
+
+.empty-journal{height:100%;display:grid;place-content:center;text-align:center;color:#6b5845}.empty-journal small{letter-spacing:.18em}.empty-journal h2{font-weight:normal;font-size:clamp(24px,2.6vw,38px);margin:.6rem 0}.empty-journal p{max-width:360px;line-height:1.6;margin:0 auto;color:#75634f}
+
+@keyframes sceneBootEyeTop {
+  0%, 4% { transform: translate3d(0, -2%, 0); }
+  13% { transform: translate3d(0, -9%, 0); }
+  20% { transform: translate3d(0, -6.5%, 0); }
+  34% { transform: translate3d(0, -27%, 0); }
+  62% { transform: translate3d(0, -74%, 0); }
+  100% { transform: translate3d(0, -104%, 0); }
+}
+@keyframes sceneBootEyeBottom {
+  0%, 4% { transform: translate3d(0, 2%, 0); }
+  13% { transform: translate3d(0, 7.5%, 0); }
+  20% { transform: translate3d(0, 5%, 0); }
+  34% { transform: translate3d(0, 19%, 0); }
+  62% { transform: translate3d(0, 61%, 0); }
+  100% { transform: translate3d(0, 104%, 0); }
+}
+@keyframes sceneBootVisionFocus {
+  0%, 10% {
+    opacity: 1;
+    transform: scale(1.026);
+    -webkit-backdrop-filter: grayscale(1) saturate(.42) contrast(.7) brightness(.38) blur(11px);
+    backdrop-filter: grayscale(1) saturate(.42) contrast(.7) brightness(.38) blur(11px);
+  }
+  34% {
+    opacity: 1;
+    transform: scale(1.018);
+    -webkit-backdrop-filter: grayscale(.82) saturate(.58) contrast(.76) brightness(.5) blur(7px);
+    backdrop-filter: grayscale(.82) saturate(.58) contrast(.76) brightness(.5) blur(7px);
+  }
+  62% {
+    opacity: .96;
+    transform: scale(1.008);
+    -webkit-backdrop-filter: grayscale(.42) saturate(.78) contrast(.86) brightness(.72) blur(3px);
+    backdrop-filter: grayscale(.42) saturate(.78) contrast(.86) brightness(.72) blur(3px);
+  }
+  84% {
+    opacity: .7;
+    transform: scale(1.002);
+    -webkit-backdrop-filter: grayscale(.1) saturate(.96) contrast(.97) brightness(.93) blur(.5px);
+    backdrop-filter: grayscale(.1) saturate(.96) contrast(.97) brightness(.93) blur(.5px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+    -webkit-backdrop-filter: grayscale(0) saturate(1) contrast(1) brightness(1) blur(0);
+    backdrop-filter: grayscale(0) saturate(1) contrast(1) brightness(1) blur(0);
+  }
+}
+@keyframes sceneBootTearFilm {
+  0%, 27% { opacity: 0; transform: translateX(-15%); }
+  46% { opacity: .48; }
+  72%, 100% { opacity: 0; transform: translateX(13%); }
+}
+@keyframes sceneBootPeripheralFocus {
+  0%, 22% { opacity: 1; }
+  68% { opacity: .52; }
+  100% { opacity: 0; }
+}
+@keyframes sceneBootOverlayReveal {
+  0%, 86% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene-boot-overlay,
+  .scene-boot-preview,
+  .scene-boot-eyelid { animation: none !important; transition: none !important; }
+}

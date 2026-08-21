@@ -1,0 +1,66 @@
+.book-contents { height: 100%; display: flex; flex-direction: column; color: #3d2d22; }
+.book-contents-intro { display: flex; height: 100%; flex-direction: column; justify-content: center; padding: 2% 8% 8%; }
+.book-contents-intro small, .book-contents-copy small { color: #80664b; font-size: 9px; letter-spacing: .22em; }
+.book-contents-intro h1 { margin: .65rem 0 1.15rem; font-size: clamp(34px, 3.3vw, 54px); font-weight: normal; line-height: 1; }
+.book-contents-intro p { max-width: 30ch; margin: 0; color: #66513f; font-size: clamp(13px, 1vw, 16px); line-height: 1.7; }
+.book-contents-rule { width: 54%; height: 1px; margin-top: 2.2rem; background: linear-gradient(90deg, rgba(101,72,46,.55), transparent); }
+.book-contents-list { display: grid; align-content: center; height: 100%; padding: 4% 7% 7%; gap: 2px; }
+.book-contents-entry { position: relative; display: grid; grid-template-columns: 42px minmax(0,1fr) 24px; gap: 14px; align-items: center; width: 100%; min-height: 82px; border: 0; border-bottom: 1px dotted rgba(85,59,39,.34); padding: 11px 4px; background: transparent; color: #3d2d22; text-align: left; cursor: pointer; transition: transform .16s ease, background .16s ease, filter .16s ease; }
+.book-contents-entry:first-child { border-top: 1px dotted rgba(85,59,39,.24); }
+.book-contents-entry:hover:not(:disabled) { transform: translateX(7px); background: linear-gradient(90deg, rgba(165,118,65,.13), transparent 76%); filter: brightness(1.12); }
+.book-contents-entry:focus-visible { outline: 1px solid rgba(112,75,43,.55); outline-offset: 3px; }
+.book-contents-entry:disabled { cursor: default; opacity: .42; }
+.book-contents-glyph { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid rgba(102,74,49,.62); border-radius: 50%; font-size: 12px; }
+.book-contents-entry-story .book-contents-glyph { border-style: double; border-width: 3px; }
+.book-contents-copy { display: grid; min-width: 0; gap: 3px; }
+.book-contents-copy strong { overflow: hidden; font-size: clamp(18px,1.55vw,25px); font-weight: normal; text-overflow: ellipsis; white-space: nowrap; }
+.book-contents-copy em { color: #806d58; font-size: 10px; font-style: normal; letter-spacing: .05em; }
+.book-contents-arrow { color: #7b6046; font-size: 28px; font-weight: normal; line-height: 1; opacity: .72; transition: transform .16s ease; }
+.book-contents-entry:hover:not(:disabled) .book-contents-arrow { transform: translateX(3px); }
+.journal-return-bookmark.is-contents-return { width: 64px; height: 176px; }
+.journal-return-bookmark.is-contents-return b { margin-top: 21px; font-size: 8px; letter-spacing: .12em; }
+
+.book-section-index { height: 100%; display: flex; flex-direction: column; color: #3d2d22; }
+.book-section-index-intro { display: flex; height: 100%; flex-direction: column; justify-content: center; padding: 2% 8% 8%; }
+.book-section-index-intro small, .book-section-index-copy small { color: #80664b; font-size: 9px; letter-spacing: .2em; }
+.book-section-index-seal { display: grid; width: 38px; height: 38px; margin: 14px 0 2px; place-items: center; border: 3px double rgba(101,72,46,.62); border-radius: 50%; font-size: 12px; }
+.book-section-index-intro h1 { margin: .45rem 0 .9rem; font-size: clamp(32px,3vw,50px); font-weight: normal; line-height: 1; }
+.book-section-index-intro p { max-width: 30ch; margin: 0; color: #66513f; font-size: clamp(13px,1vw,16px); line-height: 1.65; }
+.book-section-index-intro em { margin-top: 13px; color: #806d58; font-size: 10px; font-style: normal; letter-spacing: .08em; }
+.book-section-index-page { margin-top: 7px; color: #8a7258; font-size: 8px; font-weight: 600; letter-spacing: .17em; }
+.book-section-index-list { display: grid; align-content: center; height: 100%; padding: 4% 7% 7%; grid-template-columns: minmax(0,1fr); column-gap: 18px; }
+.book-section-index.is-dense .book-section-index-list { grid-template-columns: repeat(2,minmax(0,1fr)); align-content: center; }
+.book-section-index-entry { display: grid; grid-template-columns: 30px minmax(0,1fr) 18px; gap: 9px; align-items: center; width: 100%; min-height: 58px; border: 0; border-bottom: 1px dotted rgba(85,59,39,.3); padding: 7px 2px; background: transparent; color: #3d2d22; text-align: left; cursor: pointer; transition: transform .16s ease, background .16s ease, filter .16s ease; }
+.book-section-index-entry:hover { transform: translateX(5px); background: linear-gradient(90deg, rgba(165,118,65,.13), transparent 80%); filter: brightness(1.12); }
+.book-section-index-entry:focus-visible { outline: 1px solid rgba(112,75,43,.55); outline-offset: 2px; }
+.book-section-index-number { display: grid; width: 27px; height: 27px; place-items: center; border: 1px solid rgba(102,74,49,.5); border-radius: 50%; color: #765a42; font-size: 9px; }
+.book-section-index-copy { display: grid; min-width: 0; gap: 2px; }
+.book-section-index-copy strong { overflow: hidden; font-size: clamp(15px,1.18vw,19px); font-weight: normal; line-height: 1.12; text-overflow: ellipsis; white-space: nowrap; }
+.book-section-index-copy small { font-size: 7px; }
+.book-section-index-arrow { color: #7b6046; font-size: 22px; opacity: .66; }
+.book-section-index-empty { align-self: center; color: #806d58; font-size: 12px; font-style: italic; }
+.journal-return-bookmark.is-list-return { width: 58px; height: 160px; }
+.journal-return-bookmark.is-list-return b { margin-top: 19px; font-size: 8px; letter-spacing: .12em; }
+
+@media (max-width: 820px) {
+  .book-contents { overflow-y: auto; overscroll-behavior: contain; }
+  .book-contents-intro { height: auto; justify-content: flex-start; padding: 3% 2% 7%; }
+  .book-contents-intro h1 { font-size: clamp(31px,9vw,43px); }
+  .book-contents-intro p { max-width: none; font-size: 13px; }
+  .book-contents-rule { margin-top: 1.25rem; }
+  .book-contents-list { height: auto; padding: 0 2% 8%; align-content: start; }
+  .book-contents-entry { grid-template-columns: 38px minmax(0,1fr) 20px; min-height: 68px; gap: 10px; padding: 8px 2px; }
+  .book-contents-copy strong { font-size: 18px; }
+  .book-contents-copy small { font-size: 8px; }
+  .journal-return-bookmark.is-contents-return { width: 52px; height: 142px; }
+  .journal-return-bookmark.is-contents-return b { font-size: 7px; }
+  .book-section-index { height: auto; min-height: 100%; }
+  .book-section-index-intro { height: auto; justify-content: flex-start; padding: 3% 2% 6%; }
+  .book-section-index-intro h1 { font-size: clamp(29px,8vw,40px); }
+  .book-section-index-intro p { max-width: none; font-size: 13px; }
+  .book-section-index-list, .book-section-index.is-dense .book-section-index-list { height: auto; padding: 0 2% 8%; grid-template-columns: minmax(0,1fr); align-content: start; }
+  .book-section-index-entry { grid-template-columns: 29px minmax(0,1fr) 18px; min-height: 54px; }
+  .book-section-index-copy strong { font-size: 16px; }
+  .journal-return-bookmark.is-list-return { width: 48px; height: 132px; }
+  .journal-return-bookmark.is-list-return b { font-size: 7px; }
+}

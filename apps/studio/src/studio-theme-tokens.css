@@ -1,0 +1,121 @@
+/*
+ * BirDeSenGör Studio semantic design tokens.
+ * Components consume these names; theme selection only changes their values.
+ */
+:root{
+  --font-ui:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --font-display:Georgia,"Times New Roman",serif;
+  --font-mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+
+  --surface-canvas:#090b0f;
+  --surface-canvas-deep:#07090c;
+  --surface-sidebar:#0b0e13;
+  --surface-panel:#0e1116;
+  --surface-panel-soft:#0d1116;
+  --surface-panel-strong:#11161c;
+  --surface-inset:#090d12;
+  --surface-input:#0b0e13;
+  --surface-hover:#151a20;
+  --surface-selected:#171b22;
+  --surface-overlay:#0b0f14;
+
+  --text-primary:#ece9e2;
+  --text-secondary:#bdc5d0;
+  --text-muted:#7a8491;
+  --text-subtle:#596574;
+  --text-inverse:#111318;
+
+  --border-subtle:rgba(255,255,255,.055);
+  --border-soft:rgba(255,255,255,.075);
+  --border-control:rgba(255,255,255,.09);
+  --border-strong:#303842;
+
+  --accent:#b99d60;
+  --accent-strong:#d7b56d;
+  --accent-muted:#9b8659;
+  --accent-soft:rgba(185,157,96,.08);
+  --accent-hover:rgba(185,157,96,.14);
+
+  --state-success:#83a887;
+  --state-success-soft:rgba(105,150,111,.09);
+  --state-success-border:rgba(105,150,111,.25);
+  --state-warning:#c2a361;
+  --state-warning-soft:rgba(192,162,99,.09);
+  --state-warning-border:rgba(192,162,99,.26);
+  --state-danger:#d18a82;
+  --state-danger-soft:rgba(177,86,74,.10);
+  --state-danger-border:rgba(177,86,74,.30);
+  --state-info:#87a0b7;
+  --state-info-soft:rgba(109,139,166,.09);
+  --state-info-border:rgba(109,139,166,.25);
+
+  --focus-ring:#c3a45f;
+  --selection-bg:rgba(196,165,96,.36);
+  --shadow-panel:0 10px 30px rgba(0,0,0,.18);
+  --shadow-overlay:0 28px 90px rgba(0,0,0,.68);
+
+  /* Shared Kayıt Dosyaları geometry keeps every tab on the same grid. */
+  --layout-records-stack-gap:14px;
+  --layout-records-tabs-min-height:40px;
+  --layout-records-tabs-gap:20px;
+  --layout-records-tabs-offset:16px;
+  --layout-records-columns:minmax(320px,.72fr) minmax(560px,1.4fr);
+  --layout-records-columns-compact:minmax(300px,.8fr) minmax(520px,1.2fr);
+  --layout-records-column-gap:14px;
+  --layout-records-min-height:660px;
+  --layout-records-list-max-height:590px;
+
+  /* Compatibility aliases while legacy layout CSS is retired incrementally. */
+  --text:var(--text-primary);
+  --muted:var(--text-muted);
+  --line:var(--border-soft);
+}
+
+html[data-studio-theme="light"]{
+  --surface-canvas:#f2ede4;
+  --surface-canvas-deep:#e9e0d3;
+  --surface-sidebar:#eee6da;
+  --surface-panel:#fbf7ef;
+  --surface-panel-soft:#f4ecdf;
+  --surface-panel-strong:#e8dcc9;
+  --surface-inset:#f7efe3;
+  --surface-input:#fffdf8;
+  --surface-hover:#efe3d2;
+  --surface-selected:#eadbc5;
+  --surface-overlay:#fbf7ef;
+
+  --text-primary:#302820;
+  --text-secondary:#50463b;
+  --text-muted:#6e6255;
+  --text-subtle:#8b7d6d;
+  --text-inverse:#fffdf8;
+
+  --border-subtle:#e2d7c7;
+  --border-soft:#d6c6af;
+  --border-control:#cdbb9f;
+  --border-strong:#bca47e;
+
+  --accent:#9a7440;
+  --accent-strong:#806130;
+  --accent-muted:#8d754d;
+  --accent-soft:rgba(154,116,64,.12);
+  --accent-hover:rgba(154,116,64,.18);
+
+  --state-success:#5f7d62;
+  --state-success-soft:#edf5ed;
+  --state-success-border:#bed0bd;
+  --state-warning:#9a702f;
+  --state-warning-soft:#fbf3df;
+  --state-warning-border:#ddc99d;
+  --state-danger:#98545a;
+  --state-danger-soft:#f8e9e7;
+  --state-danger-border:#d9b8b5;
+  --state-info:#5f788f;
+  --state-info-soft:#edf2f6;
+  --state-info-border:#c7d2dd;
+
+  --focus-ring:#9a7440;
+  --selection-bg:rgba(154,116,64,.24);
+  --shadow-panel:0 8px 24px rgba(61,43,24,.055);
+  --shadow-overlay:0 26px 72px rgba(74,54,32,.24);
+}

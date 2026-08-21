@@ -1,0 +1,51 @@
+/* Final readability pass for journal copy and archive continuation notes. */
+
+.babylon-book-content .journal-paragraph {
+  text-align: left;
+  text-wrap: pretty;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.archive-note-ledger {
+  gap: 2px;
+}
+
+.archive-note-row {
+  position: relative;
+  display: block;
+  padding: 8px 3px 8px 21px;
+  border-top: 0;
+}
+
+.archive-note-row::before {
+  content: '–';
+  position: absolute;
+  left: 3px;
+  top: 8px;
+  color: #745c45;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.archive-note-row b {
+  display: none;
+}
+
+.archive-note-row p {
+  margin: 0;
+  color: #493a2e;
+  font-size: clamp(11px, .78vw, 13px);
+  line-height: 1.55;
+}
+
+.archive-note-relation {
+  margin-top: 5px;
+  border-top: 1px solid rgba(92,68,45,.16);
+}
+
+@media (max-width: 820px) {
+  .archive-note-row {
+    padding-left: 18px;
+  }
+}
