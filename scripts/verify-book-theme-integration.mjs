@@ -11,7 +11,7 @@ const web = path.join(root, 'apps', 'web');
 const read = (target) => readFileSync(path.join(root, target), 'utf8');
 
 const webPackage = JSON.parse(read('apps/web/package.json'));
-assert.equal(webPackage.dependencies?.['@birdesengor/domain'], undefined, 'Yeni Web eski domain/UI bağımlılığını taşımamalı');
+assert.equal(webPackage.dependencies?.['@channel-foundry/domain'], undefined, 'Yeni Web eski domain/UI bağımlılığını taşımamalı');
 assert.ok(webPackage.dependencies?.['@babylonjs/core'], 'Babylon fiziksel kitap motoru Web runtime bağımlılığı olmalı');
 
 const desk = read('apps/web/src/components/DeskScene.jsx');
@@ -150,7 +150,7 @@ assert.match(cameraConsoleCss, /@keyframes cameraScreenApproach[\s\S]*?translate
 assert.match(cameraConsoleCss, /camera-closed:hover::before[\s\S]*?cameraScreenWake/, 'Kamera hover geri bildirimi gövde halesi yerine LCD ekran uyanmasını kullanmalı');
 assert.doesNotMatch(cameraConsoleCss, /camera-closed:hover[^{}]*\{[^}]*drop-shadow\(0\s+0/s, 'Kamera hover durumunda tüm objeyi çevreleyen parlama bulunmamalı');
 assert.match(cameraConsoleCss, /prefers-reduced-motion:\s*reduce[\s\S]*?camera-phase-opening[\s\S]*?\.001ms/, 'Kamera yaklaşma animasyonu reduced-motion tercihini desteklemeli');
-assert.doesNotMatch(camera, /BIRDESENGOR_YOUTUBE_API_KEY|AIza[0-9A-Za-z_-]+/, 'YouTube API anahtarı frontend bileşenine sızmamalı');
+assert.doesNotMatch(camera, /CHANNEL_FOUNDRY_YOUTUBE_API_KEY|AIza[0-9A-Za-z_-]+/, 'YouTube API anahtarı frontend bileşenine sızmamalı');
 
 const sceneObjects = read('apps/web/src/scene-object-overrides.css');
 assert.match(sceneObjects, /\.community-notebook-launcher\s*\{\s*display:\s*none/, 'Eski görünmez topluluk hit-area sahnede ayrıca aktif kalmamalı');

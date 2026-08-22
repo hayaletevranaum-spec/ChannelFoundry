@@ -17,7 +17,7 @@ type EditorialReviewBridge = {
 function number(value: number) { return new Intl.NumberFormat("tr-TR").format(Math.max(0, value)); }
 
 export default function EditorialReviewWorkspace({ initialMode = "records", onReadyForUniverse }: { initialMode?: ReviewMode; onReadyForUniverse?: () => void }) {
-  const bridge = window.birdesengorStudio as unknown as EditorialReviewBridge | undefined;
+  const bridge = window.channelFoundryStudio as unknown as EditorialReviewBridge | undefined;
   const [mode, setMode] = useState<ReviewMode>(initialMode);
   const [counts, setCounts] = useState<WorkspaceCountsWithRevisions | null>(null);
   const [revisionNames, setRevisionNames] = useState<string[]>([]);

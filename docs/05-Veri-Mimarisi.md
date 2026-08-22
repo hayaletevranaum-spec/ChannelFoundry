@@ -1,6 +1,6 @@
 # Veri Mimarisi
 
-BirDeSenGör iki farklı yerel veri katmanını aynı SQLite çalışma alanında tutar:
+Channel Foundry iki farklı yerel veri katmanını aynı SQLite çalışma alanında tutar:
 
 1. Kaynak arşivi
 2. Editoryal evren
@@ -20,7 +20,7 @@ Temel kaynak kayıtları:
 - AI analiz işi
 - AI önerisi
 
-Kanalda bulunan yüzlerce video burada arşivlenebilir. Bir videonun kaynak arşivinde bulunması onu otomatik olarak webde yayınlanacak BirDeSenGör içeriği yapmaz.
+Kanalda bulunan yüzlerce video burada arşivlenebilir. Bir videonun kaynak arşivinde bulunması onu otomatik olarak webde yayınlanacak Channel Foundry içeriği yapmaz.
 
 Hedef tablolar:
 

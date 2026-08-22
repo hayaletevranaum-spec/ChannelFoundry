@@ -15,12 +15,12 @@ Seçenekler:
   --help         Bu yardımı gösterir.
 
 Gerekli ortam değişkenleri:
-  BIRDESENGOR_DEPLOY_HOST        SSH hedefi (ör. user@example.com)
-  BIRDESENGOR_DEPLOY_ROOT        Uzak web kökü (ör. /srv/www/site)
+  CHANNEL_FOUNDRY_DEPLOY_HOST        SSH hedefi (ör. user@example.com)
+  CHANNEL_FOUNDRY_DEPLOY_ROOT        Uzak web kökü (ör. /srv/www/site)
 
 İsteğe bağlı ortam değişkenleri:
-  BIRDESENGOR_DEPLOY_BACKUP_DIR  Uzak yedek dizini; varsayılan: web kökünün yanında deploy-backups
-  BIRDESENGOR_PUBLIC_URL         Canlı site adresi; verilirse HTTP smoke testi yapılır
+  CHANNEL_FOUNDRY_DEPLOY_BACKUP_DIR  Uzak yedek dizini; varsayılan: web kökünün yanında deploy-backups
+  CHANNEL_FOUNDRY_PUBLIC_URL         Canlı site adresi; verilirse HTTP smoke testi yapılır
 
 Script Studio tarafından yönetilen content/publication.json, content/community-credits.json,
 content/assets/ ve sunucudaki *.bak-* dosyalarına dokunmaz.
@@ -46,19 +46,19 @@ script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 project_root="$(cd -- "$script_dir/.." && pwd)"
 dist_dir="$project_root/apps/web/dist"
 
-deploy_host="${BIRDESENGOR_DEPLOY_HOST:-}"
-remote_root="${BIRDESENGOR_DEPLOY_ROOT:-}"
-public_url="${BIRDESENGOR_PUBLIC_URL:-}"
+deploy_host="${CHANNEL_FOUNDRY_DEPLOY_HOST:-}"
+remote_root="${CHANNEL_FOUNDRY_DEPLOY_ROOT:-}"
+public_url="${CHANNEL_FOUNDRY_PUBLIC_URL:-}"
 
 if [[ -z "$deploy_host" || -z "$remote_root" ]]; then
-  printf 'Deploy hedefi yapılandırılmamış. BIRDESENGOR_DEPLOY_HOST ve BIRDESENGOR_DEPLOY_ROOT gerekli.\n\n' >&2
+  printf 'Deploy hedefi yapılandırılmamış. CHANNEL_FOUNDRY_DEPLOY_HOST ve CHANNEL_FOUNDRY_DEPLOY_ROOT gerekli.\n\n' >&2
   usage >&2
   exit 2
 fi
 
 remote_root="${remote_root%/}"
 remote_parent="${remote_root%/*}"
-backup_dir="${BIRDESENGOR_DEPLOY_BACKUP_DIR:-$remote_parent/deploy-backups}"
+backup_dir="${CHANNEL_FOUNDRY_DEPLOY_BACKUP_DIR:-$remote_parent/deploy-backups}"
 backup_dir="${backup_dir%/}"
 
 if [[ ! "$deploy_host" =~ ^[A-Za-z0-9._@-]+$ ]]; then
@@ -174,14 +174,14 @@ fi
 
 if [[ -n "$public_url" ]]; then
   if ! command -v curl >/dev/null 2>&1; then
-    printf 'BIRDESENGOR_PUBLIC_URL verildi ancak curl bulunamadı; HTTP smoke testi atlandı.\n' >&2
+    printf 'CHANNEL_FOUNDRY_PUBLIC_URL verildi ancak curl bulunamadı; HTTP smoke testi atlandı.\n' >&2
   else
     printf 'Canlı site ve API sağlık kontrolü yapılıyor...\n'
     curl --fail --silent --show-error --max-time 20 "${public_url%/}/" >/dev/null
     curl --fail --silent --show-error --max-time 20 "${public_url%/}/api/studio/?action=health" >/dev/null
   fi
 else
-  printf 'BIRDESENGOR_PUBLIC_URL verilmedi; HTTP smoke testi atlandı.\n'
+  printf 'CHANNEL_FOUNDRY_PUBLIC_URL verilmedi; HTTP smoke testi atlandı.\n'
 fi
 
 printf '\nYayın tamamlandı.\n'

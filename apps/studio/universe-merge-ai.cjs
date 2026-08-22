@@ -121,7 +121,7 @@ function kindMessages(input, level, definition) {
     {
       role: "system",
       content: [
-        "BirDeSenGör kanalının anlatı evrenini birleştiren editoryal AI'sın.",
+        "Channel Foundry kanalının anlatı evrenini birleştiren editoryal AI'sın.",
         "Doğru/yanlış veya güvenilirlik değerlendirmesi yapmadan yalnız verilen kanal anlatısını yapılandır.",
         `HEDEF DİZİ: ${definition.key}. Bu çağrıda yalnız ${definition.label} üretilir; başka evren dizileri üretme.`,
         level === 0

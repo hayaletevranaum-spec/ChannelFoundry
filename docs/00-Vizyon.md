@@ -1,6 +1,6 @@
 # Vizyon
 
-BirDeSenGör Evreni klasik bir YouTube web sitesi değildir.
+Channel Foundry klasik bir YouTube web sitesi değildir.
 
 Kullanıcı siteye video izlemek için değil,
 videolar arasında saklanan hikâyeyi keşfetmek için gelir.

@@ -25,7 +25,7 @@ const LEGACY_LOCAL_TEST_TITLES = [
 function openStudioDatabase(userDataPath) {
   if (database) return database;
 
-  const databasePath = path.join(userDataPath, "birdesengor-studio.sqlite");
+  const databasePath = path.join(userDataPath, "channel-foundry-studio.sqlite");
   database = new DatabaseSync(databasePath, { timeout: 5000 });
   database.exec("PRAGMA foreign_keys = ON;");
   database.exec("PRAGMA journal_mode = WAL;");
@@ -114,7 +114,7 @@ function cleanupLegacyFixtureData(db) {
 function getDatabaseInfo(db, userDataPath) {
   const itemCount = Number(db.prepare("SELECT COUNT(*) AS count FROM content_items").get().count);
   const relationCount = Number(db.prepare("SELECT COUNT(*) AS count FROM relations").get().count);
-  return { engine: "node:sqlite", file: path.join(userDataPath, "birdesengor-studio.sqlite"), itemCount, relationCount };
+  return { engine: "node:sqlite", file: path.join(userDataPath, "channel-foundry-studio.sqlite"), itemCount, relationCount };
 }
 
 module.exports = { cleanupLegacyFixtureData, getDatabaseInfo, getMeta, openStudioDatabase, setMeta };

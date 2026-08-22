@@ -6,7 +6,7 @@ const ai = require("./ai-service.cjs");
 const aiClient = require("./ai-client.cjs");
 const aiCli = require("./ai-cli.cjs");
 
-const directory = fs.mkdtempSync(path.join(os.tmpdir(), "birdesengor-ai-"));
+const directory = fs.mkdtempSync(path.join(os.tmpdir(), "channel-foundry-ai-"));
 
 assert.throws(() => ai.normalizeEndpoint("http://example.com/v1", "ollama"), /localhost/);
 assert.equal(ai.normalizeEndpoint("http://127.0.0.1:11434/v1/", "ollama"), "http://127.0.0.1:11434/v1");

@@ -60,7 +60,7 @@ function activeModel(config: StudioAiConfig) {
 }
 
 export default function AiActivityMonitor({ pipelineError, summary }: Props) {
-  const bridge = window.birdesengorStudio;
+  const bridge = window.channelFoundryStudio;
   const status = useAiWorkbenchStatus();
   const [snapshot, setSnapshot] = useState<ActivitySnapshot>(idleSnapshot);
   const [activitySnapshot, setActivitySnapshot] = useState<StudioAiActivitySnapshot | null>(null);

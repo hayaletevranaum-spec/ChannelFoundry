@@ -14,7 +14,7 @@ function youtubeVideoUrl(videoId: string) {
 }
 
 export default function VideoAnalysisWorkbench() {
-  const bridge = window.birdesengorStudio;
+  const bridge = window.channelFoundryStudio;
   const notify = useAiWorkbenchNotice();
   const [videos, setVideos] = useState<StudioAiAnalysisVideo[]>([]);
   const [stats, setStats] = useState<StudioAiAnalysisStats>({ transcripts: 0, analyzed: 0, waiting: 0, running: 0, errors: 0 });

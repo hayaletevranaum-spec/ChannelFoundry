@@ -1,8 +1,8 @@
-# ChannelFoundry
+# Channel Foundry
 
-ChannelFoundry, uzun soluklu video arşivlerini **yerel-first bir editoryal üretim hattı** ile işleyip kontrollü bir public yayına dönüştürmek için geliştirilen Studio + Web projesidir.
+Channel Foundry, uzun soluklu video arşivlerini **yerel-first bir editoryal üretim hattı** ile işleyip kontrollü bir public yayına dönüştürmek için geliştirilen bağımsız bir Studio + Web projesidir.
 
-Bu kod tabanı BirDeSenGör Evreni üzerinde geliştirilmiştir; ancak public kaynak ağacı kanalın gerçek çalışma verilerini, hesap bilgilerini, API anahtarlarını veya üretim sunucusu hedeflerini içermez.
+Local-first bir content workspace olarak çalışır: Studio yerel veriyi yönetir, AI destekli çözümleme ve editoryal iş akışlarını yürütür, onaylanan içerik kontrollü bir public pakete yayınlanır. Web katmanı bu yayın paketini sunar ve YouTube dahil harici kaynaklardan genel içerik alımını (content ingestion) destekler. Public kaynak ağacı herhangi bir gerçek çalışma verisi, hesap bilgisi, API anahtarı veya üretim sunucusu hedefi içermez.
 
 ## Mimari
 
@@ -47,7 +47,7 @@ local-data/studio/
 Başka bir konum kullanılabilir:
 
 ```bash
-BIRDESENGOR_DATA_ROOT=/mutlak/yol npm run start:studio
+CHANNEL_FOUNDRY_DATA_ROOT=/mutlak/yol npm run start:studio
 ```
 
 ## Public kaynak / yerel veri sınırı
@@ -84,21 +84,17 @@ npm run verify:web-dist
 Web deploy scripti herhangi bir canlı hesaba gömülü değildir. SSH hedefi ve uzak web kökü açıkça verilmelidir:
 
 ```bash
-export BIRDESENGOR_DEPLOY_HOST=user@example.com
-export BIRDESENGOR_DEPLOY_ROOT=/srv/www/site
-export BIRDESENGOR_PUBLIC_URL=https://example.com
+export CHANNEL_FOUNDRY_DEPLOY_HOST=user@example.com
+export CHANNEL_FOUNDRY_DEPLOY_ROOT=/srv/www/site
+export CHANNEL_FOUNDRY_PUBLIC_URL=https://example.com
 
 npm run deploy:web -- --dry-run
 npm run deploy:web
 ```
 
-`BIRDESENGOR_PUBLIC_URL` verilmezse script uzak dosya doğrulamasını yapar, HTTP smoke testini atlar.
+`CHANNEL_FOUNDRY_PUBLIC_URL` verilmezse script uzak dosya doğrulamasını yapar, HTTP smoke testini atlar.
 
 GitHub Actions içindeki deploy workflow'u da bilerek yalnız manuel çalıştırılır ve hedef bilgilerini repository secrets üzerinden bekler. Böylece fork veya yeni public kurulumlar bir `main` push'unda istemeden bir üretim ortamına yayın yapmaz.
-
-## Projeye özgü adlandırmalar
-
-Kod tabanı BirDeSenGör için geliştirildiğinden bazı paket adları, servis kimlikleri ve `BIRDESENGOR_*` ortam değişkenleri geriye dönük uyumluluk için korunmuştur. Bunların topluca yeniden adlandırılması public temizlikten ayrı, davranış değiştirebilecek bir refactor olarak ele alınmalıdır.
 
 ## Dokümantasyon
 

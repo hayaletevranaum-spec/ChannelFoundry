@@ -17,7 +17,7 @@ type WorkspaceRelation = {
   state: "draft" | "approved";
   updatedAt: string;
 };
-type EditorialBridge = NonNullable<typeof window.birdesengorStudio> & {
+type EditorialBridge = NonNullable<typeof window.channelFoundryStudio> & {
   universeWorkspaceRelations(input?: { state?: "draft" | "approved" }): Promise<WorkspaceRelation[]>;
 };
 type Selection = { source: "workspace" | "legacy"; key: string };
@@ -31,8 +31,8 @@ type Props = {
   onCreate: () => void;
 };
 
-const focusStorageKey = "birdesengor:editor-focus";
-const modeStorageKey = "birdesengor:editor-mode";
+const focusStorageKey = "channel-foundry:editor-focus";
+const modeStorageKey = "channel-foundry:editor-mode";
 const workspaceLabels: Record<StudioUniverseWorkspaceNode["kind"], string> = {
   story: "Hikâye",
   character: "Muhatap",
@@ -59,7 +59,7 @@ function WorkspaceTabs({ mode, onMode, onCreate, status }: { mode: ViewMode; onM
 }
 
 export default function EditorialWorkspaceV2({ nodes, legacyItems, legacyRelations, onReload, onCreate }: Props) {
-  const bridge = window.birdesengorStudio as EditorialBridge | undefined;
+  const bridge = window.channelFoundryStudio as EditorialBridge | undefined;
   const [mode, setMode] = useState<ViewMode>(() => sessionStorage.getItem(modeStorageKey) === "characters" ? "characters" : "editor");
   const [workspaceRelations, setWorkspaceRelations] = useState<WorkspaceRelation[]>([]);
   const [query, setQuery] = useState("");
@@ -90,8 +90,8 @@ export default function EditorialWorkspaceV2({ nodes, legacyItems, legacyRelatio
       setQuery("");
       setStatusMessage(null);
     };
-    window.addEventListener("birdesengor:editor-mode", handleMode);
-    return () => window.removeEventListener("birdesengor:editor-mode", handleMode);
+    window.addEventListener("channel-foundry:editor-mode", handleMode);
+    return () => window.removeEventListener("channel-foundry:editor-mode", handleMode);
   }, []);
 
   useEffect(() => {

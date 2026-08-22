@@ -40,7 +40,7 @@ type EditorialPackage = {
   universeLocked?:boolean;
 };
 type EditorialStats = StudioAiAnalysisStats & { editorialPending?:number; curated?:number; excluded?:number };
-type EditorialBridge = NonNullable<typeof window.birdesengorStudio> & {
+type EditorialBridge = NonNullable<typeof window.channelFoundryStudio> & {
   aiAnalysisEditorial(videoId:string): Promise<EditorialPackage|null>;
   aiAnalysisEditorialSave(input:{ videoId:string; state:EditorialState; decisions:Record<string,UniverseDecision|SupportDecision>; nameOverrides:Record<string,string>; manualSponsors:string[]; manualContributors:string[] }): Promise<EditorialPackage>;
 };
@@ -48,7 +48,7 @@ type EditorialBridge = NonNullable<typeof window.birdesengorStudio> & {
 function errorText(error:unknown){ return error instanceof Error ? error.message : String(error); }
 function names(value:string){ return [...new Set(value.split(/[\n,;]+/u).map((item)=>item.trim()).filter(Boolean))]; }
 function stateText(value?:EditorialState|""){ return value === "curated" ? "Ayıklandı" : value === "excluded" ? "Evren dışı" : "İnceleme bekliyor"; }
-function categoryText(value:string){ return ({storyHint:"Hikâye izi",storyBeat:"Anlatı ayrıntısı",character:"Muhatap",scene:"Olay / sahne",location:"Mekân",object:"Nesne",sponsor:"BirDeSenGör Defteri",contributor:"Katkıda bulunan"} as Record<string,string>)[value] || value; }
+function categoryText(value:string){ return ({storyHint:"Hikâye izi",storyBeat:"Anlatı ayrıntısı",character:"Muhatap",scene:"Olay / sahne",location:"Mekân",object:"Nesne",sponsor:"Destekçi Kaydı",contributor:"Katkıda bulunan"} as Record<string,string>)[value] || value; }
 function canRename(item:EditorialItem){ return item.category === "character" || item.category === "location" || item.category === "object"; }
 function normalized(value:string){ return value.trim().toLocaleLowerCase("tr-TR").replace(/\s+/g," "); }
 function kindForCategory(category:string){ return category === "character" ? "character" : category === "location" ? "location" : category === "object" ? "object" : ""; }
@@ -62,7 +62,7 @@ function resolutionLabel(item:EditorialItem, decision:UniverseDecision){
 }
 
 export default function AnalysisCurationWorkbench(){
-  const bridge = window.birdesengorStudio as EditorialBridge | undefined;
+  const bridge = window.channelFoundryStudio as EditorialBridge | undefined;
   const notify = useAiWorkbenchNotice();
   const [videos,setVideos] = useState<ReviewVideo[]>([]);
   const [stats,setStats] = useState<EditorialStats>({transcripts:0,analyzed:0,waiting:0,running:0,errors:0});
@@ -306,7 +306,7 @@ export default function AnalysisCurationWorkbench(){
               </article>)}
             </div>
             <div className="analysis-curation-manual">
-              <label>BirDeSenGör Defteri · manuel<textarea value={manualSponsors} onChange={(event)=>setManualSponsors(event.target.value)} placeholder="Her satıra bir sponsor…"/></label>
+              <label>Destekçi Kaydı · manuel<textarea value={manualSponsors} onChange={(event)=>setManualSponsors(event.target.value)} placeholder="Her satıra bir sponsor…"/></label>
               <label>Katkıda bulunanlar · manuel<textarea value={manualContributors} onChange={(event)=>setManualContributors(event.target.value)} placeholder="Her satıra bir isim…"/></label>
             </div>
           </section>

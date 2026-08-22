@@ -431,7 +431,7 @@ export function BabylonBookShell({ provider }) {
     <div className={`babylon-book-stage journal-book-stage phase-${phase} mode-${mode}${turning ? ' is-turning' : ''}`} style={stageStyle}>
       <BabylonBookViewport onReady={handleReady} onLayout={handleLayout} mode={mode} />
       {phase !== 'open' ? (
-        <button className="babylon-open-book" type="button" onClick={openBook} disabled={phase !== 'closed'} aria-label="BirDeSenGör Evreni defterini aç" title="Defteri aç">
+        <button className="babylon-open-book" type="button" onClick={openBook} disabled={phase !== 'closed'} aria-label="Channel Foundry defterini aç" title="Defteri aç">
           <img src={closedJournalUrl} alt="" draggable="false" />
         </button>
       ) : null}

@@ -317,7 +317,7 @@ type StudioWebConnectionConfig = {
   defaultUrl: string;
   customized: boolean;
   environmentOverride: boolean;
-  endpoints: { community: string; studio: string; visual: string; publicContent: string };
+  endpoints: { community: string; studio: string; publicationAsset: string; publication: string };
 };
 type StudioWebConnectionTest = {
   ok: true;
@@ -337,7 +337,7 @@ type StudioCommunitySession = {
 };
 
 interface Window {
-  birdesengorStudio?: {
+  channelFoundryStudio?: {
     bootstrap(payload?: Partial<StudioDatabaseState>): Promise<{ seeded: boolean }>;
     loadState(): Promise<StudioDatabaseState>;
     saveItem(item: StudioPersistedItem): Promise<StudioPersistedItem>;

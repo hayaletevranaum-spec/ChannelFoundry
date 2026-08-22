@@ -1,8 +1,8 @@
-# BirDeSenGör — Web Tema Veri Sözleşmesi
+# Channel Foundry — Web Tema Veri Sözleşmesi
 
 Son güncelleme: **14 Ağustos 2026**
 
-Bu belge, `birdesengor` Studio/Hikâyeleştir hattı ile ayrı geliştirilen `book-theme` projesi arasındaki **uygulanmış publication v2 sözleşmesini** tanımlar.
+Bu belge, `channel-foundry` Studio/Hikâyeleştir hattı ile ayrı geliştirilen `book-theme` projesi arasındaki **uygulanmış publication v2 sözleşmesini** tanımlar.
 
 Amaç iki projenin kod olarak bağımsız kalması, fakat veri şekli bakımından kesin bir contract üzerinden birlikte çalışmasıdır.
 

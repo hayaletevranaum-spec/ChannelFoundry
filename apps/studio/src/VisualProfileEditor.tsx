@@ -27,7 +27,7 @@ export default function VisualProfileEditor({
   onStatus?: (message: string | null, tone?: "success" | "error") => void;
   productionActions?: boolean;
 }) {
-  const bridge = window.birdesengorStudio;
+  const bridge = window.channelFoundryStudio;
   const [profile, setProfile] = useState<StudioVisualProfile | null>(null);
   const [capability, setCapability] = useState<StudioAiImageCapability | null>(null);
   const [description, setDescription] = useState("");

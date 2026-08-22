@@ -15,7 +15,7 @@ const tokens = read("src/studio-theme-tokens.css");
 const bindings = read("src/studio-theme-bindings.css");
 
 assert.match(appearance, /theme:\s*"dark",\s*textSize:\s*"comfortable"/, "Studio varsayılanı uzun okumaya uygun rahat metin olmalı");
-assert.match(appearance, /birdesengor:studio-appearance-v1/, "Görünüm tercihi cihazda kalıcı saklanmalı");
+assert.match(appearance, /channel-foundry:studio-appearance-v1/, "Görünüm tercihi cihazda kalıcı saklanmalı");
 assert.match(appearance, /dataset\.studioTheme/, "Tema document köküne uygulanmalı");
 assert.match(appearance, /dataset\.studioTextSize/, "Metin ölçeği document köküne uygulanmalı");
 

@@ -137,7 +137,7 @@ async function fetchYoutubeTranscript(db, input) {
     throw new Error("YouTube altyazısını otomatik almak için yt-dlp kurulu olmalı. İstersen transkripti elle de yapıştırabilirsin.");
   }
 
-  const tempDirectory = fs.mkdtempSync(path.join(os.tmpdir(), "birdesengor-transcript-"));
+  const tempDirectory = fs.mkdtempSync(path.join(os.tmpdir(), "channel-foundry-transcript-"));
   try {
     const languages = status.subtitleLanguages || ytDlp.mediaOptions().subtitleLanguages;
     const outputTemplate = path.join(tempDirectory, "%(id)s.%(ext)s");

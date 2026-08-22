@@ -75,7 +75,7 @@ function specialAccess(user: CommunityUserView) {
 }
 
 export default function CommunityAdmin() {
-  const bridge = window.birdesengorStudio;
+  const bridge = window.channelFoundryStudio;
   const command = bridge?.communitySetResearch as unknown as CommunityCommand | undefined;
   const [session, setSession] = useState<StudioCommunitySession | null>(null);
   const [users, setUsers] = useState<CommunityUserView[]>([]);

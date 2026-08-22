@@ -7,7 +7,7 @@ const { mergePayload, privateConfig, _test } = require("./universe-merge-ai.cjs"
 const mergeStore = require("./universe-merge-store.cjs");
 const analysisSchema = require("./ai-analysis-schema.cjs");
 
-const directory = fs.mkdtempSync(path.join(os.tmpdir(), "birdesengor-universe-merge-"));
+const directory = fs.mkdtempSync(path.join(os.tmpdir(), "channel-foundry-universe-merge-"));
 fs.writeFileSync(path.join(directory, "ai-config.json"), JSON.stringify({
   provider: "ollama",
   endpoint: "http://127.0.0.1:11434/v1",

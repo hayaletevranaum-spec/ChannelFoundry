@@ -24,7 +24,7 @@ function windowPreferences() {
 }
 
 function loadRenderer(window) {
-  const devServerUrl = process.env.BIRDESENGOR_DEV_SERVER_URL;
+  const devServerUrl = process.env.CHANNEL_FOUNDRY_DEV_SERVER_URL;
   if (devServerUrl) {
     window.loadURL(devServerUrl);
     return;
@@ -40,7 +40,7 @@ function createWindow() {
     minWidth: 1080,
     minHeight: 720,
     backgroundColor: "#0b0d11",
-    title: "BirDeSenGör Studio",
+    title: "Channel Foundry Studio",
     icon: studioIcon,
     autoHideMenuBar: true,
     webPreferences: windowPreferences(),

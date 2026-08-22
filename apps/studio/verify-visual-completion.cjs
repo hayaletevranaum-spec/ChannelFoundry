@@ -33,7 +33,7 @@ function saveNarrative(db, runId, input = {}) {
   return narrative.applyRun(db, runId);
 }
 
-const root = fs.mkdtempSync(path.join(os.tmpdir(), "birdesengor-visual-completion-"));
+const root = fs.mkdtempSync(path.join(os.tmpdir(), "channel-foundry-visual-completion-"));
 const db = new DatabaseSync(":memory:");
 db.exec("PRAGMA foreign_keys = ON;");
 try {

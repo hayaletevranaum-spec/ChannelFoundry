@@ -16,7 +16,7 @@ type SupportSource = {
   url: string;
 };
 type SupportSaveResult = { ok: true; records: SupportRecord[]; sources: SupportSource[] };
-type SupportBridge = NonNullable<typeof window.birdesengorStudio> & {
+type SupportBridge = NonNullable<typeof window.channelFoundryStudio> & {
   aiAnalysisSupportRecords(): Promise<SupportRecord[]>;
   aiAnalysisSupportSources(): Promise<SupportSource[]>;
   aiAnalysisSupportSave(input: {
@@ -50,7 +50,7 @@ function originText(value: string) {
 }
 
 export default function SupportRecordsEditor({ onStatus }: Props) {
-  const bridge = window.birdesengorStudio as SupportBridge | undefined;
+  const bridge = window.channelFoundryStudio as SupportBridge | undefined;
   const [records, setRecords] = useState<SupportRecord[]>([]);
   const [sources, setSources] = useState<SupportSource[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);

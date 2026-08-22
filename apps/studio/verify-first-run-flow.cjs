@@ -12,7 +12,7 @@ const ingest = require("./universe-ingest.cjs");
 const workspace = require("./universe-workspace.cjs");
 
 const VIDEO_ID = "FIRST000001";
-const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "birdesengor-first-run-"));
+const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "channel-foundry-first-run-"));
 
 function ensureBaseSchema(db) {
   db.exec(`

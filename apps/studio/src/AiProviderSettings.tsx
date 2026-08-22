@@ -29,7 +29,7 @@ type ImageModelCatalogRequest = TextModelCatalogRequest & {
   imageEndpoint: string;
   imageApiKey?: string;
 };
-type ExtendedBridge = NonNullable<typeof window.birdesengorStudio> & {
+type ExtendedBridge = NonNullable<typeof window.channelFoundryStudio> & {
   aiModels(input?: TextModelCatalogRequest): Promise<ModelCatalog>;
   aiImageModels(input?: ImageModelCatalogRequest): Promise<ImageModelCatalog>;
   aiCliStatus(): Promise<StudioAiCliStatus>;
@@ -124,7 +124,7 @@ function ModelPicker(props: { value: string; options: string[]; onChange(value: 
 }
 
 export default function AiProviderSettings() {
-  const bridge = window.birdesengorStudio as ExtendedBridge | undefined;
+  const bridge = window.channelFoundryStudio as ExtendedBridge | undefined;
   const [config, setConfig] = useState<ExtendedConfig | null>(null);
   const [cliStatus, setCliStatus] = useState<StudioAiCliStatus | null>(null);
   const [choice, setChoice] = useState<ProviderChoice>("ollama");

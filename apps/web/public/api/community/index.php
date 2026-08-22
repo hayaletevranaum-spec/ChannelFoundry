@@ -87,7 +87,7 @@ function remove_stored_attachments(array $storedNames): void {
 try {
     switch ($action) {
         case 'health':
-            respond(['ok' => true, 'service' => 'birdesengor-community', 'storage' => 'sqlite', 'smtpConfigured' => smtp_configured(), 'features' => ['emailVerification', 'forum', 'attachments', 'specialAccess', 'forumAdmin']]);
+            respond(['ok' => true, 'service' => 'channel-foundry-community', 'storage' => 'sqlite', 'smtpConfigured' => smtp_configured(), 'features' => ['emailVerification', 'forum', 'attachments', 'specialAccess', 'forumAdmin']]);
 
         case 'me':
             require_method('GET');
@@ -465,6 +465,6 @@ SQL)->execute([$threadId, $threadId]);
             fail('Bilinmeyen community işlemi.', 404, 'not_found');
     }
 } catch (Throwable $error) {
-    error_log('[birdesengor-community] ' . $error->getMessage());
+    error_log('[channel-foundry-community] ' . $error->getMessage());
     fail('Community servisi isteği tamamlayamadı.', 500, 'server_error');
 }

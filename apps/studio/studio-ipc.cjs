@@ -97,7 +97,7 @@ function registerSourceHandlers() {
       runtime.refreshMainWindow();
       return result;
     } catch (error) {
-      if (controller.signal.aborted || error?.code === "BIRDESENGOR_SYNC_CANCELLED") {
+      if (controller.signal.aborted || error?.code === "CHANNEL_FOUNDRY_SYNC_CANCELLED") {
         sendYoutubeSyncProgress(event.sender, { phase: "canceled", processed: 0, total: 0 });
         return { ok: false, canceled: true };
       }

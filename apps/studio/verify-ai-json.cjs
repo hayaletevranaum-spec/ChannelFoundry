@@ -38,7 +38,7 @@ assert.equal(JSON.parse(dotInsteadOfPropertyQuote).visual.atmosphere, "gergin");
 const unsafeTruncation = aiJson.repairStructure('{"locations":[{"name":"Babil"}],"objects":[]} "scenes":[{"name":"Kaybolmamalı"}]}');
 assert.equal(unsafeTruncation, "");
 
-const directory = fs.mkdtempSync(path.join(os.tmpdir(), "birdesengor-ai-json-"));
+const directory = fs.mkdtempSync(path.join(os.tmpdir(), "channel-foundry-ai-json-"));
 let repairs = 0;
 
 (async () => {

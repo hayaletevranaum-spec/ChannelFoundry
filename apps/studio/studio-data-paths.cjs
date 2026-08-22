@@ -6,7 +6,7 @@ const PROJECT_ROOT = path.resolve(__dirname, "../..");
 function resolveDataRoot(options = {}) {
   const projectRoot = path.resolve(options.projectRoot ?? PROJECT_ROOT);
   const environment = options.environment ?? process.env;
-  const configured = String(environment.BIRDESENGOR_DATA_ROOT ?? "").trim();
+  const configured = String(environment.CHANNEL_FOUNDRY_DATA_ROOT ?? "").trim();
   if (!configured) return path.join(projectRoot, "local-data");
   return path.isAbsolute(configured)
     ? path.normalize(configured)

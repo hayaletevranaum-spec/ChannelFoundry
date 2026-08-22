@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 function publication_content_directory(): string {
-    $configured = getenv('BIRDESENGOR_PUBLICATION_CONTENT_DIR');
+    $configured = getenv('CHANNEL_FOUNDRY_PUBLICATION_CONTENT_DIR');
     return $configured ?: account_root() . '/www/content';
 }
 
@@ -15,7 +15,7 @@ function publication_credits_file(): string {
 }
 
 function publication_asset_directory(): string {
-    $configured = getenv('BIRDESENGOR_PUBLICATION_ASSET_DIR');
+    $configured = getenv('CHANNEL_FOUNDRY_PUBLICATION_ASSET_DIR');
     return $configured ?: publication_content_directory() . '/assets';
 }
 

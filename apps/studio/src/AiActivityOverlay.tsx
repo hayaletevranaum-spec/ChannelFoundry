@@ -161,7 +161,7 @@ function Event({ event, latestResponseId }: { event: StudioAiActivityEvent; late
 }
 
 export default function AiActivityOverlay({ open, onClose, initialSnapshot }: Props) {
-  const bridge = window.birdesengorStudio;
+  const bridge = window.channelFoundryStudio;
   const closeButton = useRef<HTMLButtonElement>(null);
   const [snapshot, setSnapshot] = useState<StudioAiActivitySnapshot | null>(initialSnapshot);
   const [selectedId, setSelectedId] = useState("");

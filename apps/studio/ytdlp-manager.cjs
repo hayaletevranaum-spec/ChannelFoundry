@@ -227,7 +227,7 @@ function clearOperationLater() {
 async function fetchLatestRelease() {
   const response = await resolveFetch()(RELEASE_API, {
     cache: "no-store",
-    headers: { Accept: "application/vnd.github+json", "User-Agent": "BirDeSenGor-Studio" },
+    headers: { Accept: "application/vnd.github+json", "User-Agent": "ChannelFoundry-Studio" },
   });
   if (!response.ok) throw new Error(`GitHub sürüm denetimi ${response.status} yanıtı verdi.`);
   const payload = await response.json();
@@ -247,7 +247,7 @@ async function fetchLatestRelease() {
 async function expectedChecksum(release) {
   const response = await resolveFetch()(release.checksumUrl, {
     cache: "no-store",
-    headers: { "User-Agent": "BirDeSenGor-Studio" },
+    headers: { "User-Agent": "ChannelFoundry-Studio" },
   });
   if (!response.ok) throw new Error(`yt-dlp doğrulama dosyası ${response.status} yanıtı verdi.`);
   const lines = String(await response.text()).split(/\r?\n/);
@@ -283,7 +283,7 @@ async function installRelease(release) {
   setOperation("downloading", `yt-dlp ${release.version} indiriliyor…`);
   try {
     const checksum = await expectedChecksum(release);
-    const response = await resolveFetch()(release.url, { cache: "no-store", headers: { "User-Agent": "BirDeSenGor-Studio" } });
+    const response = await resolveFetch()(release.url, { cache: "no-store", headers: { "User-Agent": "ChannelFoundry-Studio" } });
     if (!response.ok) throw new Error(`yt-dlp indirmesi ${response.status} yanıtı verdi.`);
     const bytes = Buffer.from(await response.arrayBuffer());
     if (bytes.length < 1024 * 1024 || bytes.length > 200 * 1024 * 1024) throw new Error("İndirilen yt-dlp dosyasının boyutu beklenen aralıkta değil.");

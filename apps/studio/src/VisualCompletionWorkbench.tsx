@@ -3,7 +3,7 @@ import { useAiWorkbenchNotice } from "./AiWorkbenchStatus";
 import VisualProfileEditor from "./VisualProfileEditor";
 import "./visual-completion-workbench.css";
 
-type VisualCompletionBridge = NonNullable<typeof window.birdesengorStudio> & StudioVisualCompletionBridge;
+type VisualCompletionBridge = NonNullable<typeof window.channelFoundryStudio> & StudioVisualCompletionBridge;
 type Selection = { type: "scene"; key: string } | { type: "entity"; key: string } | null;
 
 const number = (value: number) => new Intl.NumberFormat("tr-TR").format(Math.max(0, value));
@@ -25,7 +25,7 @@ function entityKindLabel(kind: string) {
 }
 
 export default function VisualCompletionWorkbench() {
-  const bridge = window.birdesengorStudio as VisualCompletionBridge | undefined;
+  const bridge = window.channelFoundryStudio as VisualCompletionBridge | undefined;
   const notify = useAiWorkbenchNotice();
   const [status, setStatus] = useState<StudioVisualCompletionStatus | null>(null);
   const [selection, setSelection] = useState<Selection>(null);

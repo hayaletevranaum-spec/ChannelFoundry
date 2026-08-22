@@ -3,8 +3,8 @@ const { DatabaseSync } = require("node:sqlite");
 const catalog = require("./youtube-catalog.cjs");
 
 assert.equal(
-  catalog.normalizeChannelUrl("https://www.youtube.com/@BirDeSenGor"),
-  "https://www.youtube.com/@BirDeSenGor",
+  catalog.normalizeChannelUrl("https://www.youtube.com/@example-channel"),
+  "https://www.youtube.com/@example-channel",
 );
 assert.equal(
   catalog.normalizeChannelUrl("youtube.com/channel/UC123/videos?view=0"),
@@ -22,19 +22,19 @@ const source = require("./youtube-catalog-source.cjs");
 const store = require("./youtube-catalog-store.cjs");
 const thumbnailCache = require("./youtube-thumbnail-cache.cjs");
 assert.deepEqual(
-  source.catalogTargets("https://www.youtube.com/@BirDeSenGor", "UCabcdefghijklmnopqrstuv", {}),
-  ["https://www.youtube.com/@BirDeSenGor/videos"],
+  source.catalogTargets("https://www.youtube.com/@example-channel", "UCabcdefghijklmnopqrstuv", {}),
+  ["https://www.youtube.com/@example-channel/videos"],
 );
 assert.deepEqual(
-  source.catalogTargets("https://www.youtube.com/@BirDeSenGor", "UCabcdefghijklmnopqrstuv", { excludeShorts: false }),
-  ["https://www.youtube.com/@BirDeSenGor/videos", "https://www.youtube.com/@BirDeSenGor/shorts"],
+  source.catalogTargets("https://www.youtube.com/@example-channel", "UCabcdefghijklmnopqrstuv", { excludeShorts: false }),
+  ["https://www.youtube.com/@example-channel/videos", "https://www.youtube.com/@example-channel/shorts"],
 );
 assert.deepEqual(
-  source.catalogTargets("https://www.youtube.com/@BirDeSenGor", "UCabcdefghijklmnopqrstuv", { excludeLive: false }),
-  ["https://www.youtube.com/@BirDeSenGor/videos", "https://www.youtube.com/@BirDeSenGor/streams"],
+  source.catalogTargets("https://www.youtube.com/@example-channel", "UCabcdefghijklmnopqrstuv", { excludeLive: false }),
+  ["https://www.youtube.com/@example-channel/videos", "https://www.youtube.com/@example-channel/streams"],
 );
 assert.deepEqual(
-  source.catalogTargets("https://www.youtube.com/@BirDeSenGor", "UCabcdefghijklmnopqrstuv", { excludeShorts: false, excludeLive: false }),
+  source.catalogTargets("https://www.youtube.com/@example-channel", "UCabcdefghijklmnopqrstuv", { excludeShorts: false, excludeLive: false }),
   ["https://www.youtube.com/playlist?list=UUabcdefghijklmnopqrstuv"],
 );
 assert.equal(source.shouldIncludeEntry({ live_status: "not_live" }, {}), true);
@@ -66,8 +66,8 @@ assert.ok(!source.catalogArgs("https://www.youtube.com/playlist?list=test", "rec
 assert.match(source.thumbnailUrls("HGzLMopTOcE", "small")[0], /mqdefault\.jpg$/);
 assert.match(source.thumbnailUrls("HGzLMopTOcE", "large")[0], /maxresdefault\.jpg$/);
 assert.notEqual(
-  thumbnailCache.thumbnailCacheFile("/tmp/birdesengor-test", { channelId: "channel-test", videoId: "HGzLMopTOcE", thumbnailSize: "small" }),
-  thumbnailCache.thumbnailCacheFile("/tmp/birdesengor-test", { channelId: "channel-test", videoId: "HGzLMopTOcE", thumbnailSize: "large" }),
+  thumbnailCache.thumbnailCacheFile("/tmp/channel-foundry-test", { channelId: "channel-test", videoId: "HGzLMopTOcE", thumbnailSize: "small" }),
+  thumbnailCache.thumbnailCacheFile("/tmp/channel-foundry-test", { channelId: "channel-test", videoId: "HGzLMopTOcE", thumbnailSize: "large" }),
 );
 
 const normalized = catalog.normalizeEntry({
@@ -110,7 +110,7 @@ catalog.ensureSchema(db);
 db.prepare(`
   INSERT INTO youtube_channels (id, url, title, handle, video_count)
   VALUES (?, ?, ?, ?, ?)
-`).run("channel-test", "https://www.youtube.com/@BirDeSenGor", "Bir De Sen Gör", "@BirDeSenGor", 1);
+`).run("channel-test", "https://www.youtube.com/@example-channel", "Channel Foundry", "@example-channel", 1);
 db.prepare(`
   INSERT INTO youtube_videos (
     video_id, channel_id, title, published_at, duration_seconds,
@@ -129,7 +129,7 @@ db.prepare(`
 db.prepare("UPDATE youtube_videos SET published_at='2026-08-10', subtitle_status='manual' WHERE video_id='HGzLMopTOcE'").run();
 assert.deepEqual(store.detailedVideoIds(db, "test-signature"), ["HGzLMopTOcE"]);
 assert.equal(db.prepare("SELECT detail_signature value FROM youtube_videos WHERE video_id='HGzLMopTOcE'").get().value, "test-signature");
-store.upsertCatalog(db, { channelId: "channel-test", title: "Bir De Sen Gör", handle: "@BirDeSenGor" }, "https://www.youtube.com/@BirDeSenGor", [{
+store.upsertCatalog(db, { channelId: "channel-test", title: "Channel Foundry", handle: "@example-channel" }, "https://www.youtube.com/@example-channel", [{
   ...normalized,
   subtitleStatus: "unknown",
   subtitleLanguages: [],
@@ -169,10 +169,10 @@ db.prepare(`
 );
 const membersImport = catalog.importCatalogVideo(db, { videoId: "MEMBERSONLY" });
 assert.equal(membersImport.imported, true);
-const recentResult = store.upsertCatalog(db, { channelId: "channel-test", title: "Bir De Sen Gör", handle: "@BirDeSenGor" }, "https://www.youtube.com/@BirDeSenGor", [normalized], "recent");
+const recentResult = store.upsertCatalog(db, { channelId: "channel-test", title: "Channel Foundry", handle: "@example-channel" }, "https://www.youtube.com/@example-channel", [normalized], "recent");
 assert.equal(recentResult.removedCount, 0);
 assert.ok(db.prepare("SELECT 1 FROM youtube_videos WHERE video_id='MEMBERSONLY'").get());
-const fullResult = store.upsertCatalog(db, { channelId: "channel-test", title: "Bir De Sen Gör", handle: "@BirDeSenGor" }, "https://www.youtube.com/@BirDeSenGor", [normalized], "full");
+const fullResult = store.upsertCatalog(db, { channelId: "channel-test", title: "Channel Foundry", handle: "@example-channel" }, "https://www.youtube.com/@example-channel", [normalized], "full");
 assert.equal(fullResult.removedCount, 1);
 assert.equal(db.prepare("SELECT 1 FROM youtube_videos WHERE video_id='MEMBERSONLY'").get(), undefined);
 assert.ok(db.prepare("SELECT 1 FROM content_sources WHERE provider='youtube' AND external_id='MEMBERSONLY'").get());

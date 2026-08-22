@@ -25,19 +25,19 @@ function normalizedEndpoint(value) {
 }
 
 function endpoint() {
-  return normalizedEndpoint(process.env.BIRDESENGOR_COMMUNITY_API || webConnection.endpoints().community);
+  return normalizedEndpoint(process.env.CHANNEL_FOUNDRY_COMMUNITY_API || webConnection.endpoints().community);
 }
 
 function studioEndpoint() {
-  return normalizedEndpoint(process.env.BIRDESENGOR_STUDIO_API || webConnection.endpoints().studio);
+  return normalizedEndpoint(process.env.CHANNEL_FOUNDRY_STUDIO_API || webConnection.endpoints().studio);
 }
 
 function publicationAssetEndpoint() {
-  return process.env.BIRDESENGOR_STUDIO_ASSET_API || webConnection.endpoints().publicationAsset;
+  return process.env.CHANNEL_FOUNDRY_STUDIO_ASSET_API || webConnection.endpoints().publicationAsset;
 }
 
 function publicationUrl() {
-  return process.env.BIRDESENGOR_PUBLICATION_URL || webConnection.endpoints().publication;
+  return process.env.CHANNEL_FOUNDRY_PUBLICATION_URL || webConnection.endpoints().publication;
 }
 
 function basicAuth(username, password) {
@@ -331,8 +331,8 @@ async function uploadPublicationAsset(input) {
     headers: {
       Authorization: basicAuth(credentials.username, credentials.password),
       "Content-Type": "application/octet-stream",
-      "X-Birdesengor-Filename": filename,
-      "X-Birdesengor-Sha256": sha256,
+      "X-Channel-Foundry-Filename": filename,
+      "X-Channel-Foundry-Sha256": sha256,
     },
     body: fs.readFileSync(file),
   });

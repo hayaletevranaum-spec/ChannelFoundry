@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useAiWorkbenchNotice } from "./AiWorkbenchStatus";
 import "./narrative-workbench.css";
 
-type NarrativeBridge = NonNullable<typeof window.birdesengorStudio> & StudioNarrativeBridge;
+type NarrativeBridge = NonNullable<typeof window.channelFoundryStudio> & StudioNarrativeBridge;
 type BusyAction = "" | "prepare" | "generate" | "apply" | "discard";
 
 const number = (value: number) => new Intl.NumberFormat("tr-TR").format(Math.max(0, value));
@@ -20,7 +20,7 @@ function sourceLabel(source: StudioNarrativeSourceDescriptor | undefined, fallba
 }
 
 export default function NarrativeWorkbench() {
-  const bridge = window.birdesengorStudio as NarrativeBridge | undefined;
+  const bridge = window.channelFoundryStudio as NarrativeBridge | undefined;
   const notify = useAiWorkbenchNotice();
   const [status, setStatus] = useState<StudioNarrativeStatus | null>(null);
   const [busy, setBusy] = useState<BusyAction>("");

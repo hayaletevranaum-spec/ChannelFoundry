@@ -19,7 +19,7 @@ function rememberDataRoot(db, userDataPath) {
 
 function defaultStudioDataRoot() {
   const projectRoot = path.resolve(__dirname, "../..");
-  const configured = String(process.env.BIRDESENGOR_DATA_ROOT ?? "").trim();
+  const configured = String(process.env.CHANNEL_FOUNDRY_DATA_ROOT ?? "").trim();
   const root = configured
     ? path.isAbsolute(configured) ? path.normalize(configured) : path.resolve(projectRoot, configured)
     : path.join(projectRoot, "local-data");

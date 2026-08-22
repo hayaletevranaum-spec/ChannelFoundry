@@ -135,7 +135,7 @@ function buildDiffRows(current: StudioUniverseWorkspaceNode | null, revision: Un
 }
 
 export default function RevisionReviewPane() {
-  const bridge = window.birdesengorStudio as unknown as RevisionBridge | undefined;
+  const bridge = window.channelFoundryStudio as unknown as RevisionBridge | undefined;
   const notify = useAiWorkbenchNotice();
   const videoCatalog = useVideoSourceCatalog();
   const [revisions, setRevisions] = useState<UniverseRevision[]>([]);

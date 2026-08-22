@@ -2,7 +2,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const DEFAULT_WEB_URL = "http://localhost:5173";
-const DEFAULT_YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@BirDeSenGor";
+const DEFAULT_YOUTUBE_CHANNEL_URL = "";
 let configFile = "";
 
 function resolveFetch() {
@@ -73,11 +73,13 @@ function readStoredConfig() {
 }
 
 function webUrl() {
-  return normalizeWebUrl(process.env.BIRDESENGOR_WEB_URL || readStoredConfig().url || DEFAULT_WEB_URL);
+  return normalizeWebUrl(process.env.CHANNEL_FOUNDRY_WEB_URL || readStoredConfig().url || DEFAULT_WEB_URL);
 }
 
 function youtubeChannelUrl() {
-  return normalizeYoutubeChannelUrl(readStoredConfig().youtubeChannelUrl || DEFAULT_YOUTUBE_CHANNEL_URL);
+  const configured = readStoredConfig().youtubeChannelUrl || DEFAULT_YOUTUBE_CHANNEL_URL;
+  if (!configured) return "";
+  return normalizeYoutubeChannelUrl(configured);
 }
 
 function childUrl(relativePath, base = webUrl()) {
@@ -99,7 +101,7 @@ function getConfig() {
     url,
     defaultUrl: DEFAULT_WEB_URL,
     customized: url !== DEFAULT_WEB_URL,
-    environmentOverride: Boolean(process.env.BIRDESENGOR_WEB_URL),
+    environmentOverride: Boolean(process.env.CHANNEL_FOUNDRY_WEB_URL),
     youtubeChannelUrl: youtubeChannelUrl(),
     endpoints: endpoints(url),
   };
@@ -108,10 +110,11 @@ function getConfig() {
 function saveConfig(input) {
   if (!configFile) throw new Error("Web bağlantısı depolama alanı henüz hazırlanmadı.");
   const stored = readStoredConfig();
-  const url = process.env.BIRDESENGOR_WEB_URL
+  const url = process.env.CHANNEL_FOUNDRY_WEB_URL
     ? normalizeWebUrl(stored.url || DEFAULT_WEB_URL)
     : normalizeWebUrl(input?.url);
-  const nextYoutubeChannelUrl = normalizeYoutubeChannelUrl(input?.youtubeChannelUrl || stored.youtubeChannelUrl || DEFAULT_YOUTUBE_CHANNEL_URL);
+  const candidateYoutubeChannelUrl = input?.youtubeChannelUrl || stored.youtubeChannelUrl || DEFAULT_YOUTUBE_CHANNEL_URL;
+  const nextYoutubeChannelUrl = candidateYoutubeChannelUrl ? normalizeYoutubeChannelUrl(candidateYoutubeChannelUrl) : "";
   fs.mkdirSync(path.dirname(configFile), { recursive: true, mode: 0o700 });
   fs.writeFileSync(configFile, `${JSON.stringify({ version: 2, url, youtubeChannelUrl: nextYoutubeChannelUrl }, null, 2)}\n`, { encoding: "utf8", mode: 0o600 });
   try { fs.chmodSync(configFile, 0o600); } catch {}
@@ -144,7 +147,7 @@ async function healthPayload(url, expectedService) {
   const payload = await response.json().catch(() => null);
   if (!response.ok) throw new Error(`${target.pathname} ${response.status} yanıtı verdi.`);
   if (!payload?.ok || payload?.service !== expectedService) {
-    throw new Error(`${target.pathname} uyumlu bir BirDeSenGör servisi değil.`);
+    throw new Error(`${target.pathname} uyumlu bir Channel Foundry servisi değil.`);
   }
   return { ok: true, service: String(payload.service), status: response.status };
 }
@@ -157,8 +160,8 @@ async function testConnection(input) {
   if (page.body) await page.body.cancel().catch(() => undefined);
   const derived = endpoints(url);
   const [studio, community] = await Promise.all([
-    healthPayload(derived.studio, "birdesengor-studio-publish-v2"),
-    healthPayload(derived.community, "birdesengor-community"),
+    healthPayload(derived.studio, "channel-foundry-studio-publish-v2"),
+    healthPayload(derived.community, "channel-foundry-community"),
   ]);
   return {
     ok: true,

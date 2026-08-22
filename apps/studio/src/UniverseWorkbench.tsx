@@ -48,7 +48,7 @@ function resultIsComplete(result: StudioUniverseMergeResult) {
 }
 
 export default function UniverseWorkbench() {
-  const bridge = window.birdesengorStudio;
+  const bridge = window.channelFoundryStudio;
   const notify = useAiWorkbenchNotice();
   const [status, setStatus] = useState<StudioUniverseMergeStatus>({ availableAnalyses: 0, run: null });
   const [result, setResult] = useState<StudioUniverseMergeResult | null>(null);

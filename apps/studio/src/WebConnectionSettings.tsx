@@ -5,7 +5,7 @@ function errorText(error: unknown) {
 }
 
 export default function WebConnectionSettings() {
-  const bridge = window.birdesengorStudio;
+  const bridge = window.channelFoundryStudio;
   const [config, setConfig] = useState<StudioWebConnectionConfig | null>(null);
   const [url, setUrl] = useState("");
   const [youtubeChannelUrl, setYoutubeChannelUrl] = useState("");
@@ -95,7 +95,7 @@ export default function WebConnectionSettings() {
         <div><span>Forum yönetimi servisi</span><strong title={config.endpoints.community}>{config.endpoints.community}</strong></div>
       </div>}
       {(error || notice) && <div className={`web-connection-notice ${error ? "error" : ""}`}>{error || notice}</div>}
-      {config?.environmentOverride && <div className="web-connection-notice warning">Adres BIRDESENGOR_WEB_URL ortam değişkeniyle yönetildiği için bu alanda değiştirilemez.</div>}
+      {config?.environmentOverride && <div className="web-connection-notice warning">Adres CHANNEL_FOUNDRY_WEB_URL ortam değişkeniyle yönetildiği için bu alanda değiştirilemez.</div>}
     </div>
   </section>;
 }

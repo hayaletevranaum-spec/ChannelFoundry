@@ -12,7 +12,7 @@ function request_data(): array {
 }
 
 function community_storage_dir(): string {
-    $configured = trim((string)(getenv('BIRDESENGOR_COMMUNITY_DB') ?: ''));
+    $configured = trim((string)(getenv('CHANNEL_FOUNDRY_COMMUNITY_DB') ?: ''));
     if ($configured !== '') return dirname($configured);
     return dirname(__DIR__, 3) . '/community';
 }
@@ -130,7 +130,7 @@ function require_verified_admin(PDO $db): array {
 }
 
 function public_base_url(): string {
-    $configured = trim((string)(getenv('BIRDESENGOR_PUBLIC_URL') ?: ''));
+    $configured = trim((string)(getenv('CHANNEL_FOUNDRY_PUBLIC_URL') ?: ''));
     if ($configured !== '') return rtrim($configured, '/');
     $host = trim((string)($_SERVER['HTTP_HOST'] ?? ''));
     if ($host === '') return '';
@@ -164,12 +164,12 @@ function verification_redirect(string $state): never {
 }
 
 function smtp_settings(): array {
-    $host = trim((string)(getenv('BIRDESENGOR_SMTP_HOST') ?: 'smtp-birdesengor.alwaysdata.net'));
-    $port = (int)(getenv('BIRDESENGOR_SMTP_PORT') ?: 465);
-    $username = trim((string)(getenv('BIRDESENGOR_SMTP_USER') ?: ''));
-    $password = (string)(getenv('BIRDESENGOR_SMTP_PASSWORD') ?: '');
-    $from = trim((string)(getenv('BIRDESENGOR_SMTP_FROM') ?: 'birdesengor@alwaysdata.net'));
-    $encryption = strtolower(trim((string)(getenv('BIRDESENGOR_SMTP_ENCRYPTION') ?: ($port === 587 ? 'starttls' : 'ssl'))));
+    $host = trim((string)(getenv('CHANNEL_FOUNDRY_SMTP_HOST') ?: ''));
+    $port = (int)(getenv('CHANNEL_FOUNDRY_SMTP_PORT') ?: 465);
+    $username = trim((string)(getenv('CHANNEL_FOUNDRY_SMTP_USER') ?: ''));
+    $password = (string)(getenv('CHANNEL_FOUNDRY_SMTP_PASSWORD') ?: '');
+    $from = trim((string)(getenv('CHANNEL_FOUNDRY_SMTP_FROM') ?: ''));
+    $encryption = strtolower(trim((string)(getenv('CHANNEL_FOUNDRY_SMTP_ENCRYPTION') ?: ($port === 587 ? 'starttls' : 'ssl'))));
     if (!in_array($encryption, ['ssl', 'starttls', 'none'], true)) $encryption = 'ssl';
     return compact('host', 'port', 'username', 'password', 'from', 'encryption');
 }
@@ -221,7 +221,7 @@ function smtp_send(string $recipient, string $subject, string $body): bool {
 
     try {
         smtp_expect($socket, [220]);
-        $helo = preg_replace('/[^A-Za-z0-9.-]/', '', (string)($_SERVER['HTTP_HOST'] ?? 'birdesengor.local')) ?: 'birdesengor.local';
+        $helo = preg_replace('/[^A-Za-z0-9.-]/', '', (string)($_SERVER['HTTP_HOST'] ?? 'channel-foundry.local')) ?: 'channel-foundry.local';
         smtp_expect($socket, [250], 'EHLO ' . $helo);
         if ($settings['encryption'] === 'starttls') {
             smtp_expect($socket, [220], 'STARTTLS');
@@ -239,10 +239,10 @@ function smtp_send(string $recipient, string $subject, string $body): bool {
 
         $headers = [
             'Date: ' . gmdate('D, d M Y H:i:s') . ' +0000',
-            'From: =?UTF-8?B?' . base64_encode('BirDeSenGör') . '?= <' . $settings['from'] . '>',
+            'From: =?UTF-8?B?' . base64_encode('Channel Foundry') . '?= <' . $settings['from'] . '>',
             'To: <' . $recipient . '>',
             'Subject: ' . $subject,
-            'Message-ID: <' . bin2hex(random_bytes(12)) . '@' . (preg_replace('/[^A-Za-z0-9.-]/', '', $settings['host']) ?: 'birdesengor.local') . '>',
+            'Message-ID: <' . bin2hex(random_bytes(12)) . '@' . (preg_replace('/[^A-Za-z0-9.-]/', '', $settings['host']) ?: 'channel-foundry.local') . '>',
             'MIME-Version: 1.0',
             'Content-Type: text/plain; charset=UTF-8',
             'Content-Transfer-Encoding: 8bit',
@@ -261,14 +261,14 @@ function smtp_send(string $recipient, string $subject, string $body): bool {
 
 function send_verification_email(string $email, string $displayName, string $token): bool {
     $url = verification_url($token);
-    $subject = '=?UTF-8?B?' . base64_encode('BirDeSenGör topluluk üyeliğini doğrula') . '?=';
+    $subject = '=?UTF-8?B?' . base64_encode('Channel Foundry topluluk üyeliğini doğrula') . '?=';
     $safeName = str_replace(["\r", "\n"], '', $displayName);
-    $body = "Merhaba {$safeName},\n\nBirDeSenGör topluluk üyeliğini doğrulamak için aşağıdaki bağlantıyı aç:\n{$url}\n\n"
+    $body = "Merhaba {$safeName},\n\nChannel Foundry topluluk üyeliğini doğrulamak için aşağıdaki bağlantıyı aç:\n{$url}\n\n"
         . "Bağlantı 24 saat geçerlidir. Bu kaydı sen oluşturmadıysan bu e-postayı yok sayabilirsin.\n";
     try {
         return smtp_send($email, $subject, $body);
     } catch (Throwable $error) {
-        error_log('[birdesengor-community] verification mail: ' . $error->getMessage());
+        error_log('[channel-foundry-community] verification mail: ' . $error->getMessage());
         return false;
     }
 }

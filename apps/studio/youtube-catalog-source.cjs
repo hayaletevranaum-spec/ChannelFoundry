@@ -99,7 +99,7 @@ function catalogArgs(url, mode = "full", identityOnly = false, options = ytDlp.m
 
 function cancellationError() {
   const error = new Error("Senkronizasyon kullanıcı tarafından iptal edildi.");
-  error.code = "BIRDESENGOR_SYNC_CANCELLED";
+  error.code = "CHANNEL_FOUNDRY_SYNC_CANCELLED";
   return error;
 }
 

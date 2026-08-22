@@ -14,7 +14,7 @@ type WorkspaceRelation = {
   updatedAt: string;
 };
 type LegacyItem = StudioPersistedItem & { relatedCount: number };
-type EditorialBridge = NonNullable<typeof window.birdesengorStudio> & {
+type EditorialBridge = NonNullable<typeof window.channelFoundryStudio> & {
   universeWorkspaceUpdate(input: {
     key: string;
     name: string;
@@ -99,7 +99,7 @@ function ArrayField({ label, value, onChange, placeholder }: { label: string; va
 }
 
 export function WorkspaceRecordDetail({ node, relations, allNodes, onReload, onStatus }: WorkspaceProps) {
-  const bridge = window.birdesengorStudio as EditorialBridge | undefined;
+  const bridge = window.channelFoundryStudio as EditorialBridge | undefined;
   const videoCatalog = useVideoSourceCatalog();
   const [tab, setTab] = useState<DetailTab>("general");
   const [name, setName] = useState(node.name);
@@ -214,7 +214,7 @@ function LegacyTabs({ active, onChange, relationCount }: { active: LegacyTab; on
 }
 
 export function LegacyRecordDetail({ item, relations, allItems, onReload, onStatus }: LegacyProps) {
-  const bridge = window.birdesengorStudio;
+  const bridge = window.channelFoundryStudio;
   const [tab, setTab] = useState<LegacyTab>("general");
   const [title, setTitle] = useState(item.title);
   const [meta, setMeta] = useState(item.meta);

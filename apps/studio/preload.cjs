@@ -1,6 +1,6 @@
 const { contextBridge, ipcRenderer } = require("electron");
 
-contextBridge.exposeInMainWorld("birdesengorStudio", {
+contextBridge.exposeInMainWorld("channelFoundryStudio", {
   bootstrap: (payload) => ipcRenderer.invoke("studio:bootstrap", payload),
   loadState: () => ipcRenderer.invoke("studio:load-state"),
   saveItem: (item) => ipcRenderer.invoke("studio:save-item", item),

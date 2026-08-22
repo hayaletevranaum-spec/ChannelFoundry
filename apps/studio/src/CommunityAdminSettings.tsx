@@ -5,7 +5,7 @@ function errorText(error: unknown) {
 }
 
 export default function CommunityAdminSettings() {
-  const bridge = window.birdesengorStudio;
+  const bridge = window.channelFoundryStudio;
   const [session, setSession] = useState<StudioCommunitySession | null>(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

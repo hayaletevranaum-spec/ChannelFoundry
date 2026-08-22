@@ -1,10 +1,10 @@
 {
-  "name": "@birdesengor/studio",
+  "name": "@channel-foundry/studio",
   "version": "0.1.0",
   "private": true,
   "main": "main.cjs",
   "scripts": {
-    "dev": "concurrently -k --success first \"vite --host 127.0.0.1 --port 5174\" \"wait-on http://127.0.0.1:5174 && cross-env BIRDESENGOR_DEV_SERVER_URL=http://127.0.0.1:5174 electron .\"",
+    "dev": "concurrently -k --success first \"vite --host 127.0.0.1 --port 5174\" \"wait-on http://127.0.0.1:5174 && cross-env CHANNEL_FOUNDRY_DEV_SERVER_URL=http://127.0.0.1:5174 electron .\"",
     "build": "tsc --noEmit && vite build",
     "start": "electron .",
     "verify:data-paths": "node verify-studio-data-paths.cjs",
@@ -12,7 +12,7 @@
     "verify:ytdlp": "node verify-ytdlp-manager.cjs"
   },
   "dependencies": {
-    "@birdesengor/domain": "*",
+    "@channel-foundry/domain": "*",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },

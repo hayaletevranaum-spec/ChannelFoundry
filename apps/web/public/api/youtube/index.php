@@ -98,12 +98,12 @@ function remote_post_json(string $url, array $payload, array $extraHeaders = [])
 }
 
 function channel_url(): string {
-    $configured = trim((string)getenv('BIRDESENGOR_YOUTUBE_CHANNEL_URL'));
-    return $configured !== '' ? $configured : 'https://www.youtube.com/@BirDeSenGor';
+    $configured = trim((string)getenv('CHANNEL_FOUNDRY_YOUTUBE_CHANNEL_URL'));
+    return $configured !== '' ? $configured : 'https://www.youtube.com/@example-channel';
 }
 
 function extract_channel_id(string $channelUrl): string {
-    $configured = trim((string)getenv('BIRDESENGOR_YOUTUBE_CHANNEL_ID'));
+    $configured = trim((string)getenv('CHANNEL_FOUNDRY_YOUTUBE_CHANNEL_ID'));
     if (preg_match('/^UC[\w-]+$/', $configured)) return $configured;
 
     $path = (string)(parse_url($channelUrl, PHP_URL_PATH) ?? '');
@@ -521,7 +521,7 @@ function fetch_public_page(string $channelUrl, string $channelId, int $max): arr
         [$videos, $complete, $pages] = fetch_public_catalog($channelUrl, $max);
         return [$videos, $complete, 'youtube-public-catalog', $pages];
     } catch (Throwable $browseError) {
-        error_log('[birdesengor-youtube-public] ' . $browseError->getMessage());
+        error_log('[channel-foundry-youtube-public] ' . $browseError->getMessage());
         $videos = fetch_public_feed($channelId);
         return [array_slice($videos, 0, min($max, 15)), false, 'youtube-feed-fallback', 0];
     }
@@ -588,11 +588,11 @@ try {
     $max = max(10, min(600, (int)($_GET['max'] ?? 300)));
     $channelUrl = channel_url();
     $channelId = extract_channel_id($channelUrl);
-    $apiKey = trim((string)getenv('BIRDESENGOR_YOUTUBE_API_KEY'));
+    $apiKey = trim((string)getenv('CHANNEL_FOUNDRY_YOUTUBE_API_KEY'));
 
     // v3: public browse ile genişletilmiş katalog; eski 15 kayıtlık RSS cache'i taşınmaz.
     $cacheKey = hash('sha256', 'v4-tr|' . $channelId . '|' . ($apiKey !== '' ? 'api' : 'public-browse') . '|' . $max);
-    $cacheFile = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'birdesengor-youtube-' . $cacheKey . '.json';
+    $cacheFile = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'channel-foundry-youtube-' . $cacheKey . '.json';
     if (is_file($cacheFile) && (time() - (int)filemtime($cacheFile)) < 600) {
         $cached = json_decode((string)file_get_contents($cacheFile), true);
         if (is_array($cached) && !empty($cached['videos'])) respond($cached);
@@ -605,7 +605,7 @@ try {
         try {
             [$videos, $complete] = fetch_data_api($channelId, $apiKey, $max);
         } catch (Throwable $apiError) {
-            error_log('[birdesengor-youtube-api] ' . $apiError->getMessage());
+            error_log('[channel-foundry-youtube-api] ' . $apiError->getMessage());
             [$videos, $complete, $mode, $pages] = fetch_public_page($channelUrl, $channelId, $max);
         }
     } else {
@@ -627,6 +627,6 @@ try {
     @file_put_contents($cacheFile, json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
     respond($payload);
 } catch (Throwable $error) {
-    error_log('[birdesengor-youtube] ' . $error->getMessage());
+    error_log('[channel-foundry-youtube] ' . $error->getMessage());
     fail_response('YouTube video kataloğu şu anda alınamadı.');
 }

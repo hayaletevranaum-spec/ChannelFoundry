@@ -1,4 +1,4 @@
-# BirDeSenGör Evreni
+# Channel Foundry
 ## Visual System v1
 
 Bu belge `identity.md` dosyasının görsel karşılığıdır.
@@ -13,13 +13,13 @@ Renk, tipografi, boşluk, hareket ve arayüz nesneleri ancak ürün kimliğini g
 
 Temel soru her zaman şudur:
 
-> "Bu ekran gerçekten BirDeSenGör Evreni'ne mi ait?"
+> "Bu ekran gerçekten Channel Foundry'ye mi ait?"
 
 ---
 
 # Ana Art Direction
 
-BirDeSenGör;
+Channel Foundry;
 
 **yaşayan dijital arşiv + editoryal araştırma masası + modern üretim sistemi** hissi taşır.
 
@@ -57,7 +57,7 @@ Veri yoksa uydurulmaz.
 
 # 1. Merak Nasıl Görünür?
 
-BirDeSenGör cevap veren değil,
+Channel Foundry cevap veren değil,
 soru sorduran bir sistemdir.
 
 Bu yüzden ekranlar açıklayıcı kataloglar gibi davranmaz.
@@ -105,7 +105,7 @@ Bir ekranın sonunda kullanıcı "tamam, öğrendim" yerine
 
 # 2. Bağlantı Nasıl Görünür?
 
-BirDeSenGör'ün temel birimi tekil sayfa değil,
+Channel Foundry'nin temel birimi tekil sayfa değil,
 bağlantılı kayıttır.
 
 Bu nedenle ilişki ikincil metadata değildir.
@@ -252,7 +252,7 @@ Nesnenin türü görsel davranışını etkileyebilir.
 
 # 5. Hiyerarşi Nasıl Görünür?
 
-BirDeSenGör yüksek kontrastlı UI gürültüsünden kaçınır.
+Channel Foundry yüksek kontrastlı UI gürültüsünden kaçınır.
 
 Aynı ekranda her şey bağırmaz.
 
@@ -300,7 +300,7 @@ Kurallar:
 - Uzun açıklama yerine kısa editoryal cümle tercih edilir.
 - Kullanıcıya bütün evren tek ekranda verilmez.
 
-BirDeSenGör yoğun bir admin paneli gibi görünmemelidir.
+Channel Foundry yoğun bir admin paneli gibi görünmemelidir.
 
 Web tarafında özellikle geniş negatif alan ürünün sessizliğinin parçasıdır.
 
@@ -312,7 +312,7 @@ Studio daha yoğun olabilir ama yine de her araç sürekli açık tutulmaz.
 
 Derinlik gölge miktarıyla oluşturulmaz.
 
-BirDeSenGör'de derinlik;
+Channel Foundry'de derinlik;
 
 - ana kayıt,
 - bağlı kayıt,
@@ -418,7 +418,7 @@ Tipografi kombinasyonu "lüks marka" değil,
 
 # Çizgi ve Sınır Dili
 
-BirDeSenGör kalın container sınırlarından kaçınır.
+Channel Foundry kalın container sınırlarından kaçınır.
 
 Çizgiler şu görevlerde kullanılır:
 
@@ -597,7 +597,7 @@ Ekranın logosu ve metinleri kaldırıldığında bile görsel yapı sıradan Sa
 
 # Anti-Patternler
 
-BirDeSenGör şu yönlere kaymamalıdır:
+Channel Foundry şu yönlere kaymamalıdır:
 
 - SaaS dashboard
 - CMS paneli
@@ -626,7 +626,7 @@ Yeni bir component eklenmeden önce:
 4. Geçmiş veya birikim hissini taşıyor mu?
 5. Generic bir dashboard component'i olarak başka ürüne taşınabilir mi?
 
-Beşinci sorunun cevabı kolayca "evet" ise component yeterince BirDeSenGör değildir.
+Beşinci sorunun cevabı kolayca "evet" ise component yeterince Channel Foundry değildir.
 
 ---
 
@@ -634,7 +634,7 @@ Beşinci sorunun cevabı kolayca "evet" ise component yeterince BirDeSenGör de�
 
 Her görsel commit şu sorularla değerlendirilir:
 
-- Bu değişiklik BirDeSenGör'ün kimliğini güçlendiriyor mu?
+- Bu değişiklik Channel Foundry'nin kimliğini güçlendiriyor mu?
 - Kullanıcıyı cevap yerine yeni bir soruya götürüyor mu?
 - Bilgiyi bağlantılarıyla birlikte gösteriyor mu?
 - Arşivin birikmiş olduğunu hissettiriyor mu?
@@ -670,4 +670,4 @@ Visual System'in görevi ekranları birbirine benzetmek değildir.
 Görevi bütün ekranların aynı dünyaya ait olduğunu hissettirmektir.
 
 > Güzel görünmesi yeterli değildir.
-> BirDeSenGör'e ait görünmelidir.
+> Channel Foundry'ye ait görünmelidir.

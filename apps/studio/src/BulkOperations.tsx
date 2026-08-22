@@ -48,7 +48,7 @@ export default function BulkOperations({ onStatus }: { onStatus?: (message: stri
   const [busy, setBusy] = useState(false);
 
   const load = async () => {
-    const bridge = window.birdesengorStudio;
+    const bridge = window.channelFoundryStudio;
     if (!bridge) throw new Error("Toplu işlemler yalnızca Electron Studio içinde kullanılabilir.");
     const state = await bridge.loadState();
     setItems(state.items);
@@ -94,7 +94,7 @@ export default function BulkOperations({ onStatus }: { onStatus?: (message: stri
     setBusy(true);
     onStatus?.(null);
     try {
-      const result = await window.birdesengorStudio!.bulkApply({ action, keys: [...selected] });
+      const result = await window.channelFoundryStudio!.bulkApply({ action, keys: [...selected] });
       await load();
       clearSelection();
       const relationText = action === "delete" && result.affectedRelations

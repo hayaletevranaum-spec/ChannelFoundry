@@ -10,7 +10,7 @@ function sidebarMessage(status: StudioYtDlpStatus) {
 }
 
 export default function YtDlpSidebarStatus() {
-  const bridge = window.birdesengorStudio;
+  const bridge = window.channelFoundryStudio;
   const [status, setStatus] = useState<StudioYtDlpStatus | null>(null);
 
   const refresh = async () => {

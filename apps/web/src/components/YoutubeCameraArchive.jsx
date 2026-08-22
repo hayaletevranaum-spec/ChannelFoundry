@@ -234,7 +234,7 @@ export function YoutubeCameraArchive() {
             <p>{meta ? `${meta.count} kayıt YouTube'dan alındı${meta.analyzedCount ? ` · ${meta.analyzedCount} çözümlemeli kayıt` : ''}${meta.complete ? '' : ' · halka açık hızlı katalog'}.` : 'Kanal kayıtları hazırlanıyor.'}</p>
           </div>
           <div className="youtube-camera-head-actions">
-            <a href={meta?.channelUrl || 'https://www.youtube.com/@BirDeSenGor'} target="_blank" rel="noreferrer">Kanalı aç ↗</a>
+            <a href={meta?.channelUrl || 'https://www.youtube.com/@example-channel'} target="_blank" rel="noreferrer">Kanalı aç ↗</a>
             <button type="button" onClick={() => void load({ force: true })} disabled={loading}>{loading ? 'Yenileniyor…' : 'Yenile'}</button>
             <button ref={closeButtonRef} type="button" className="youtube-camera-close" onClick={closeArchive} aria-label="Video arşivini kapat">×</button>
           </div>

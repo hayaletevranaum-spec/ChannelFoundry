@@ -17,7 +17,7 @@ function buildMessages(request) {
     {
       role: "system",
       content: [
-        "BirDeSenGör Studio için Hikâyeleştir editörüsün.",
+        "Channel Foundry Studio için Hikâyeleştir editörüsün.",
         "Yalnız verilen frozen request içindeki onaylı Evren kayıtlarını ve baseline anlatıyı kullan; dış bilgi, tahmin veya yeni olay ekleme.",
         "Anlatıyı akıcı ve okunabilir hale getirebilirsin fakat kişinin niyetini, duygusunu, sebep-sonuç ilişkisini veya dramatik ayrıntıyı kaynakta yoksa uydurma.",
         "sourceVideos.publishedAt ve mevcut anlatı sırasını gözeterek kronolojiyi koru.",

@@ -7,7 +7,7 @@ const { NARRATIVE_OUTPUT_SCHEMA } = require("./ai-output-schemas.cjs");
 
 const messages = [
   { role: "system", content: "Yalnız kısa ve geçerli bir yanıt ver." },
-  { role: "user", content: "BirDeSenGör sağlayıcı sözleşmesini doğrula." },
+  { role: "user", content: "Channel Foundry sağlayıcı sözleşmesini doğrula." },
 ];
 
 function assertStrictObjectSchemas(schema, location = "schema") {
@@ -230,7 +230,7 @@ async function verifyCodexContract() {
   assert.equal(captured.command, "fake-codex");
   assert.equal(captured.timeoutMs, 31_000);
   assert.match(captured.input, /Yalnız kısa ve geçerli bir yanıt ver/);
-  assert.match(captured.input, /BirDeSenGör sağlayıcı sözleşmesini doğrula/);
+  assert.match(captured.input, /Channel Foundry sağlayıcı sözleşmesini doğrula/);
 
   const canceled = new AbortController();
   canceled.abort();

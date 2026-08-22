@@ -8,7 +8,7 @@ const CONFIRM_FLAG = "--confirm-reset-ai";
 function databasePathFromArgs(args) {
   const index = args.indexOf("--database");
   if (index >= 0 && args[index + 1]) return path.resolve(args[index + 1]);
-  return path.resolve(process.cwd(), "local-data/studio/birdesengor-studio.sqlite");
+  return path.resolve(process.cwd(), "local-data/studio/channel-foundry-studio.sqlite");
 }
 
 function stamp() {

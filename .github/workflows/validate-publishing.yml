@@ -39,9 +39,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          export BIRDESENGOR_COMMUNITY_DB="$RUNNER_TEMP/publish-community.sqlite"
-          export BIRDESENGOR_PUBLICATION_CONTENT_DIR="$RUNNER_TEMP/content"
-          export BIRDESENGOR_PUBLICATION_ASSET_DIR="$RUNNER_TEMP/content/assets"
+          export CHANNEL_FOUNDRY_COMMUNITY_DB="$RUNNER_TEMP/publish-community.sqlite"
+          export CHANNEL_FOUNDRY_PUBLICATION_CONTENT_DIR="$RUNNER_TEMP/content"
+          export CHANNEL_FOUNDRY_PUBLICATION_ASSET_DIR="$RUNNER_TEMP/content/assets"
           LOG="$RUNNER_TEMP/publish-php.log"
           COMMUNITY="http://127.0.0.1:18081/api/community/"
           STUDIO="http://127.0.0.1:18081/api/studio/"
@@ -65,7 +65,7 @@ jobs:
             "$COMMUNITY?action=register" >/dev/null
 
           HEALTH=$(curl -fsS "$STUDIO?action=health")
-          node -e 'const j=JSON.parse(process.argv[1]); if(!j.ok || j.service!=="birdesengor-studio-publish-v2") process.exit(1)' "$HEALTH"
+          node -e 'const j=JSON.parse(process.argv[1]); if(!j.ok || j.service!=="channel-foundry-studio-publish-v2") process.exit(1)' "$HEALTH"
 
           ANON=$(curl -sS -o "$RUNNER_TEMP/publish-anon.json" -w '%{http_code}' \
             -H 'Content-Type: application/json' -d '{"publication":{}}' "$STUDIO?action=publish")
@@ -76,14 +76,14 @@ jobs:
           ASSET_NAME="asset-ci-${ASSET_SHA:0:12}.png"
 
           ANON_ASSET=$(curl -sS -o "$RUNNER_TEMP/asset-anon.json" -w '%{http_code}' -X PUT \
-            -H "X-Birdesengor-Filename: $ASSET_NAME" -H "X-Birdesengor-Sha256: $ASSET_SHA" \
+            -H "X-Channel-Foundry-Filename: $ASSET_NAME" -H "X-Channel-Foundry-Sha256: $ASSET_SHA" \
             --data-binary @"$RUNNER_TEMP/scene.png" "$ASSET")
           test "$ANON_ASSET" = "401"
 
           UPLOAD=$(curl -fsS -u "$USERNAME:$PASSWORD" -X PUT \
             -H 'Content-Type: application/octet-stream' \
-            -H "X-Birdesengor-Filename: $ASSET_NAME" \
-            -H "X-Birdesengor-Sha256: $ASSET_SHA" \
+            -H "X-Channel-Foundry-Filename: $ASSET_NAME" \
+            -H "X-Channel-Foundry-Sha256: $ASSET_SHA" \
             --data-binary @"$RUNNER_TEMP/scene.png" "$ASSET")
           node -e 'const j=JSON.parse(process.argv[1]); if(!j.ok || j.sha256!==process.argv[2] || j.filename!==process.argv[3]) process.exit(1)' "$UPLOAD" "$ASSET_SHA" "$ASSET_NAME"
 
@@ -117,9 +117,9 @@ jobs:
             --data-binary @"$RUNNER_TEMP/publication-body.json" "$STUDIO?action=publish")
           node -e 'const j=JSON.parse(process.argv[1]); if(!j.ok || !j.published || j.schemaVersion!==2 || j.sectionCount!==1 || j.entityCount!==1 || j.assetCount!==1 || !j.sha256) process.exit(1)' "$RESULT"
 
-          test -f "$BIRDESENGOR_PUBLICATION_CONTENT_DIR/publication.json"
-          test -f "$BIRDESENGOR_PUBLICATION_ASSET_DIR/$ASSET_NAME"
-          node - "$BIRDESENGOR_PUBLICATION_CONTENT_DIR/publication.json" <<'NODE'
+          test -f "$CHANNEL_FOUNDRY_PUBLICATION_CONTENT_DIR/publication.json"
+          test -f "$CHANNEL_FOUNDRY_PUBLICATION_ASSET_DIR/$ASSET_NAME"
+          node - "$CHANNEL_FOUNDRY_PUBLICATION_CONTENT_DIR/publication.json" <<'NODE'
           const fs = require('node:fs');
           const j = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
           if (j.schemaVersion !== 2 || j.journal.sections.length !== 1 || j.archive.entities.length !== 1 || j.assets.length !== 1) process.exit(1);

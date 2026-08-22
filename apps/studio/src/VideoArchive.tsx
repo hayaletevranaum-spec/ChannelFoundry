@@ -89,7 +89,7 @@ function progressLabel(progress: StudioYoutubeSyncProgress | null) {
 }
 
 export default function VideoArchive() {
-  const bridge = window.birdesengorStudio;
+  const bridge = window.channelFoundryStudio;
   const [tool, setTool] = useState<StudioTranscriptToolStatus | null>(null);
   const [channels, setChannels] = useState<StudioYoutubeChannel[]>([]);
   const [videos, setVideos] = useState<StudioYoutubeCatalogVideo[]>([]);

@@ -12,7 +12,7 @@ export default function YouTubeImport() {
   const [error, setError] = useState<string | null>(null);
 
   const inspect = async () => {
-    const bridge = window.birdesengorStudio;
+    const bridge = window.channelFoundryStudio;
     if (!bridge) return setError("YouTube içe aktarma yalnız Electron Studio içinde kullanılabilir.");
     setBusy("inspect");
     setError(null);
@@ -29,7 +29,7 @@ export default function YouTubeImport() {
   };
 
   const importVideo = async () => {
-    const bridge = window.birdesengorStudio;
+    const bridge = window.channelFoundryStudio;
     if (!bridge) return setError("YouTube içe aktarma yalnız Electron Studio içinde kullanılabilir.");
     setBusy("import");
     setError(null);

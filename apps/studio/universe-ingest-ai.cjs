@@ -1,7 +1,7 @@
 const base = require("./universe-merge-ai.cjs");
 const { collectVideoIds, normalizeUniverse } = require("./universe-normalizer.cjs");
 
-const NO_STORY_PREFIX = "[BIRDESENGOR_GEÇİCİ_KAPSAM]";
+const NO_STORY_PREFIX = "[CHANNEL_FOUNDRY_TEMPORARY_SCOPE]";
 
 function hasStoryMaterial(video) {
   return (Array.isArray(video?.storyHints) && video.storyHints.length > 0)

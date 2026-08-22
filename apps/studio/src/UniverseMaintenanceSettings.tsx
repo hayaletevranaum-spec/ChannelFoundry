@@ -17,7 +17,7 @@ type MaintenanceResetResult = {
   removed: CountMap;
   after: MaintenanceStatus;
 };
-type MaintenanceBridge = NonNullable<Window["birdesengorStudio"]> & {
+type MaintenanceBridge = NonNullable<Window["channelFoundryStudio"]> & {
   universeMaintenanceStatus(): Promise<MaintenanceStatus>;
   universeMaintenanceReset(input: { confirmation: string }): Promise<MaintenanceResetResult>;
 };
@@ -27,7 +27,7 @@ function errorText(error: unknown) {
 }
 
 export default function UniverseMaintenanceSettings() {
-  const bridge = window.birdesengorStudio as MaintenanceBridge | undefined;
+  const bridge = window.channelFoundryStudio as MaintenanceBridge | undefined;
   const [status, setStatus] = useState<MaintenanceStatus | null>(null);
   const [open, setOpen] = useState(false);
   const [confirmation, setConfirmation] = useState("");

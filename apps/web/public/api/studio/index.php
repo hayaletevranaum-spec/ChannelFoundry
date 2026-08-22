@@ -8,7 +8,7 @@ try {
     $action = (string)($_GET['action'] ?? 'health');
     if ($action === 'health') {
         require_method('GET');
-        respond(['ok' => true, 'service' => 'birdesengor-studio-publish-v2']);
+        respond(['ok' => true, 'service' => 'channel-foundry-studio-publish-v2']);
     }
     if ($action !== 'publish') fail('Bilinmeyen Studio işlemi.', 404, 'not_found');
 
@@ -43,6 +43,6 @@ try {
         'admin' => ['id' => (int)$admin['id'], 'username' => (string)$admin['username']],
     ]);
 } catch (Throwable $error) {
-    error_log('[birdesengor-studio-publish-v2] ' . $error->getMessage());
+    error_log('[channel-foundry-studio-publish-v2] ' . $error->getMessage());
     fail('Studio publication v2 isteği tamamlanamadı.', 500, 'server_error');
 }

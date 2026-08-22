@@ -1,12 +1,12 @@
-# BirDeSenGör — Anlatı Katmanı ve Yaşatma Akışı
+# Channel Foundry — Anlatı Katmanı ve Yaşatma Akışı
 
 Son karar: 14 Ağustos 2026.
 
-Bu belge, BirDeSenGör'ün Web deneyimi ve AI Atölyesi üretim hattı için yeni ana yönü tanımlar. Geçici bir tasarım fikri değildir.
+Bu belge, Channel Foundry'nin Web deneyimi ve AI Atölyesi üretim hattı için yeni ana yönü tanımlar. Geçici bir tasarım fikri değildir.
 
 ## 1. Temel ürün kararı
 
-BirDeSenGör'ün arka plandaki Evren modeli bağlantılı kayıtlar, kaynaklar, karakterler, olaylar, mekânlar, nesneler ve ilişkilerden oluşmaya devam eder.
+Channel Foundry'nin arka plandaki Evren modeli bağlantılı kayıtlar, kaynaklar, karakterler, olaylar, mekânlar, nesneler ve ilişkilerden oluşmaya devam eder.
 
 Fakat ziyaretçinin ana deneyimi artık yüzlerce ayrı kayıt arasında gezinmek değildir.
 
@@ -22,7 +22,7 @@ Evren veri modeli, anlatının doğruluk ve ilişki omurgasıdır. Web'de kullan
 
 Mevcut sistem çok sayıda doğru ve değerli ayrıntı üretebilir. Fakat ilk kez gelen kullanıcının yüzlerce kısa/uzun kayıt arasında dolaşarak evreni öğrenmesini beklemek yüksek bilişsel yük oluşturur.
 
-BirDeSenGör hikâyesi bir ağ diyagramı gibi değil, yıllar içinde devam eden bir anlatı gibi hissedilmelidir.
+Channel Foundry hikâyesi bir ağ diyagramı gibi değil, yıllar içinde devam eden bir anlatı gibi hissedilmelidir.
 
 Bu nedenle Web deneyimi "bilgi ağı" merkezinden "kitap / anı defteri / devam eden kronolojik anlatı" merkezine taşınır.
 
@@ -38,7 +38,7 @@ Bu nedenle Web deneyimi "bilgi ağı" merkezinden "kitap / anı defteri / devam 
 - tam ayrıntı isteyen kullanıcı ilgili kayda geçebilir,
 - anlatı ayrıntı kayıtlarını kaldırmaz; onları ikinci katmana taşır.
 
-Karakter/mekân/nesne önizlemelerinde kategoriye göre çerçeve, üstte görsel, kısa tanım ve tam kayıt bağlantısı bulunan BirDeSenGör'e özgü kart şablonları kullanılabilir.
+Karakter/mekân/nesne önizlemelerinde kategoriye göre çerçeve, üstte görsel, kısa tanım ve tam kayıt bağlantısı bulunan Channel Foundry'ye özgü kart şablonları kullanılabilir.
 
 Mevcut Web görünümü bu hedefe küçük CSS/detail-page düzeltmeleriyle taşınmaya çalışılmayacaktır. Görsel redesign şimdilik dondurulmuştur.
 
@@ -213,4 +213,4 @@ Asıl soru:
 
 > "Bugün üç yeni video geldiğinde, yıllarca birikmiş Evren ve anlatıyı bozmadan yalnız yeni bilgiyi kontrollü biçimde işleyip hikâyeyi güvenilir şekilde yaşatabiliyor muyuz?"
 
-BirDeSenGör mimarisi bu soruya evet diyebilmelidir.
+Channel Foundry mimarisi bu soruya evet diyebilmelidir.

@@ -1,4 +1,4 @@
-# BirDeSenGör Evreni
+# Channel Foundry
 ## Product Identity Manifest
 
 > "Bu proje bir web sitesi değildir.
@@ -8,7 +8,7 @@
 
 # Kimliğimiz
 
-BirDeSenGör Evreni'nin amacı videoları listelemek değildir.
+Channel Foundry'nin amacı videoları listelemek değildir.
 
 Amacı;
 
@@ -38,7 +38,7 @@ Kullanıcı, daha önce hazırlanmış büyük bir arşive sonradan dahil olmuş
 
 # Merak İlkesi
 
-BirDeSenGör cevap veren değil,
+Channel Foundry cevap veren değil,
 soru sorduran bir sistemdir.
 
 Bir ekran hiçbir zaman kullanıcıya bütün resmi anlatmaz.
@@ -71,7 +71,7 @@ Aynı kural hikâye, olay, mekân, nesne, kayıt ve diğer bütün arşiv düğ�
 
 Hiçbir şey "tek sayfa" değildir.
 
-BirDeSenGör'ün temel birimi sayfa veya kart değil,
+Channel Foundry'nin temel birimi sayfa veya kart değil,
 bağlantılı kayıttır.
 
 ---
@@ -297,7 +297,7 @@ Kaçınılacak ifadeler:
 
 # Özgünlük Kuralı
 
-Her ekran BirDeSenGör'e ait olmalıdır.
+Her ekran Channel Foundry'ye ait olmalıdır.
 
 Hiçbir ekran şu ürün kalıplarına yaklaşmamalıdır:
 
@@ -309,7 +309,7 @@ Hiçbir ekran şu ürün kalıplarına yaklaşmamalıdır:
 - Klasik admin paneli
 
 Bir ekran başka bir modern ürüne kolayca taşınabiliyorsa,
-BirDeSenGör kimliği yeterince güçlü değildir.
+Channel Foundry kimliği yeterince güçlü değildir.
 
 Amaç güzel UI yapmak değil,
 kendine ait bir ürün dili oluşturmaktır.
@@ -320,7 +320,7 @@ kendine ait bir ürün dili oluşturmaktır.
 
 Her yeni özellik eklenmeden önce tek bir soru sorulur.
 
-"Bu özellik gerçekten BirDeSenGör Evreni'nin doğal bir parçası mı?"
+"Bu özellik gerçekten Channel Foundry'nin doğal bir parçası mı?"
 
 Eğer cevap "hayır" ise;
 
@@ -328,7 +328,7 @@ Eğer cevap "hayır" ise;
 
 Her commit öncesinde ayrıca şu soru sorulur:
 
-"Bu değişiklik BirDeSenGör'ün kimliğini güçlendiriyor mu?"
+"Bu değişiklik Channel Foundry'nin kimliğini güçlendiriyor mu?"
 
 Eğer cevap "hayır" ise;
 
@@ -340,7 +340,7 @@ kod ne kadar kaliteli olursa olsun değişiklik kabul edilmez.
 
 Bu belge tamamlanmış bir marka kılavuzu değildir.
 
-BirDeSenGör Evreni geliştikçe ürün kimliği de daha net hale gelecektir.
+Channel Foundry geliştikçe ürün kimliği de daha net hale gelecektir.
 
 Yeni bir ilke ürünün karakterini daha iyi tarif ediyorsa bu belgeye eklenir.
 

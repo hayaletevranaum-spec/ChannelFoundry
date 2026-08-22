@@ -2,7 +2,7 @@ import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-const developmentContentOrigin = (process.env.BIRDESENGOR_PUBLIC_URL || "https://birdesengor.alwaysdata.net").replace(/\/+$/, "");
+const developmentContentOrigin = (process.env.CHANNEL_FOUNDRY_PUBLIC_URL || "http://localhost:5173").replace(/\/+$/, "");
 
 function webChunk(id: string) {
   if (id.includes("/node_modules/@babylonjs/core/")) return "babylon-vendor";

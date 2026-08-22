@@ -571,7 +571,7 @@ export function CommunityNotebook({ provider }) {
     <div className="community-notebook-intro">
       <span className="community-notebook-crest" aria-hidden="true">BDSG</span>
       <small>ORTAK KAYIT DEFTERİ</small>
-      <h1>BirDeSenGör<br />Topluluğu</h1>
+      <h1>Channel Foundry<br />Topluluğu</h1>
       <p>Üyelerin bıraktığı notlar, açtığı başlıklar ve evrene katkı sunanların kayıtları.</p>
       {sectionTabs}
       {session?.authenticated ? <div className="community-member-chip">

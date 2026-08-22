@@ -22,7 +22,7 @@ function sourceLabel(status: StudioYtDlpStatus) {
 }
 
 export default function YtDlpSettings() {
-  const bridge = window.birdesengorStudio;
+  const bridge = window.channelFoundryStudio;
   const [status, setStatus] = useState<StudioYtDlpStatus | null>(null);
   const [action, setAction] = useState<"options" | "check" | "install" | "">("");
   const [error, setError] = useState("");

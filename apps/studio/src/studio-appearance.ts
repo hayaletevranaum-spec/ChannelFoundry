@@ -6,7 +6,7 @@ export type StudioAppearance = {
   textSize: StudioTextSize;
 };
 
-const STORAGE_KEY = "birdesengor:studio-appearance-v1";
+const STORAGE_KEY = "channel-foundry:studio-appearance-v1";
 const DEFAULT_APPEARANCE: StudioAppearance = { theme: "dark", textSize: "comfortable" };
 
 function theme(value: unknown): StudioTheme {
@@ -46,6 +46,6 @@ export function saveStudioAppearance(value: StudioAppearance) {
   };
   localStorage.setItem(STORAGE_KEY, JSON.stringify(normalized));
   applyStudioAppearance(normalized);
-  window.dispatchEvent(new CustomEvent("birdesengor:studio-appearance", { detail: normalized }));
+  window.dispatchEvent(new CustomEvent("channel-foundry:studio-appearance", { detail: normalized }));
   return normalized;
 }

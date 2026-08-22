@@ -5,7 +5,7 @@ const path = require("node:path");
 const { DatabaseSync } = require("node:sqlite");
 const visual = require("./visual-profiles.cjs");
 
-const directory = fs.mkdtempSync(path.join(os.tmpdir(), "birdesengor-visual-"));
+const directory = fs.mkdtempSync(path.join(os.tmpdir(), "channel-foundry-visual-"));
 const db = new DatabaseSync(":memory:");
 visual.ensureSchema(db, directory);
 

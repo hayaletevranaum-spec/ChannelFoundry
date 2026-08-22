@@ -8,8 +8,8 @@ const narrativeService = require("./narrative-service.cjs");
 const generation = require("./narrative-ai-generation.cjs");
 
 async function main() {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), "birdesengor-narrative-ai-"));
-  const databasePath = path.join(root, "birdesengor-studio.sqlite");
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "channel-foundry-narrative-ai-"));
+  const databasePath = path.join(root, "channel-foundry-studio.sqlite");
   const db = new DatabaseSync(databasePath);
   db.exec("PRAGMA foreign_keys = ON;");
   try {

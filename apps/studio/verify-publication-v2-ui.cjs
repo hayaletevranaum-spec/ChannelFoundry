@@ -42,9 +42,9 @@ assert.match(connection, /content\/publication\.json/, "Web bağlantısı canlı
 assert.match(connection, /api\/studio\/asset\.php/, "Web bağlantısı publication asset endpoint'ini kullanmalı");
 assert.doesNotMatch(connection, /content\/universe\.json|visual\.php/, "Web bağlantısında legacy endpoint kalmamalı");
 
-assert.match(studioApi, /birdesengor-studio-publish-v2/, "Studio sunucu health sözleşmesi v2 olmalı");
+assert.match(studioApi, /channel-foundry-studio-publish-v2/, "Studio sunucu health sözleşmesi v2 olmalı");
 assert.match(studioApi, /publication_validate/, "Sunucu publication v2 paketini doğrulamalı");
-assert.match(assetApi, /X-Birdesengor-Sha256/, "Asset endpoint içerik hash doğrulaması istemeli");
+assert.match(assetApi, /X-Channel-Foundry-Sha256/, "Asset endpoint içerik hash doğrulaması istemeli");
 assert.match(publicationApi, /schemaVersion.*2/s, "Publication endpoint yalnız schema v2 kabul etmeli");
 assert.match(publicationApi, /physical_layout_forbidden/, "Sunucu fiziksel page/spread bilgisini reddetmeli");
 assert.match(publicationBuilder, /publicationSupport\(db\)/, "Publication v2 onaylı sponsor ve katkı kayıtlarını DB'den üretmeli");

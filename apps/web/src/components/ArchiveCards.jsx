@@ -42,7 +42,7 @@ function RecordCard({ entity, provider, frameClass, details = entity.details, sh
       <h2>{entity.name}</h2>
       <p className="archive-summary">{entity.summary}</p>
       {showDetails && details?.length ? <Details entity={entity} details={details} /> : null}
-      <footer className="archive-record-footer">BirDeSenGör Evreni · Araştırma Arşivi</footer>
+      <footer className="archive-record-footer">Channel Foundry · Araştırma Arşivi</footer>
     </article>
   );
 }
@@ -89,7 +89,7 @@ export function ArchiveNotesPage({ page, provider, onRelated }) {
         })}
         {!items.length ? <p className="archive-notes-empty">Bu dosyaya eklenmiş başka not veya bağlantı bulunmuyor.</p> : null}
       </div>
-      <footer className="archive-record-footer">BirDeSenGör Evreni · Araştırma Arşivi</footer>
+      <footer className="archive-record-footer">Channel Foundry · Araştırma Arşivi</footer>
     </article>
   );
 }

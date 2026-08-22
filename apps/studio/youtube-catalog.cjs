@@ -38,7 +38,7 @@ async function syncChannel(db, userDataPath, input) {
   });
   if (input?.signal?.aborted) {
     const error = new Error("Senkronizasyon kullanıcı tarafından iptal edildi.");
-    error.code = "BIRDESENGOR_SYNC_CANCELLED";
+    error.code = "CHANNEL_FOUNDRY_SYNC_CANCELLED";
     throw error;
   }
   if (uncached.length) input?.onProgress?.({ phase: "thumbnails", processed: 0, total: uncached.length, currentTitle: "" });
@@ -57,7 +57,7 @@ async function syncChannel(db, userDataPath, input) {
   }).length;
   if (input?.signal?.aborted) {
     const error = new Error("Senkronizasyon kullanıcı tarafından iptal edildi.");
-    error.code = "BIRDESENGOR_SYNC_CANCELLED";
+    error.code = "CHANNEL_FOUNDRY_SYNC_CANCELLED";
     throw error;
   }
   input?.onProgress?.({ phase: "saving", processed: videos.length, total: videos.length, currentTitle: "" });

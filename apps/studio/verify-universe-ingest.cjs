@@ -59,7 +59,7 @@ assert.deepEqual(curatedA.context.storyHints, ["Ana hikâye"]);
 assert.equal(curatedA.characters.length, 1);
 assert.equal(ingestAi._test.hasStoryMaterial(curatedA), false);
 const preparedA = ingestAi._test.prepareInput({ videos:[curatedA] });
-assert.match(preparedA.videos[0].storyHints[0], /GEÇİCİ_KAPSAM/);
+assert.match(preparedA.videos[0].storyHints[0], /CHANNEL_FOUNDRY_TEMPORARY_SCOPE/);
 const pruned = ingestAi._test.pruneStories({ stories:[{ name:"Geçici",sourceVideoIds:["video-a"],sequence:[] }],characters:[],events:[],locations:[],objects:[],relations:[] }, { videos:[curatedA] });
 assert.equal(pruned.stories.length, 0, "Bağlamda kalan hikâye izi bağımsız Web/Evren hikâyesine dönüşmemeli");
 

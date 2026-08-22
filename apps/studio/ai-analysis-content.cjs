@@ -90,12 +90,12 @@ async function analyzeTranscript(userDataPath, input) {
     {
       role: "system",
       content: [
-        "BirDeSenGör Studio için kanalın kaynak videosunu yapılandıran editoryal çözümleme yardımcısısın.",
+        "Channel Foundry Studio için kanalın kaynak videosunu yapılandıran editoryal çözümleme yardımcısısın.",
         "Doğruluk veya güvenilirlik değerlendirmesi yapma; yalnız verilen transkript ve metadata'yı kullan.",
         "Çıktıyı iki zihinsel sınıfa ayır: EVREN MALZEMESİ ve KANAL DESTEK KAYITLARI.",
         "EVREN MALZEMESİ: title, summary, topics, storyBeats, storyHints, characters, locations, objects, scenes ve coverVisual.",
         "KANAL DESTEK KAYITLARI: sponsors ve contributors. Bu isimler evren karakteri/muhatabı değildir.",
-        "sponsors yalnız videoda sponsor, destekçi veya özellikle 'BirDeSenGör Defteri'ne yazılan isim olarak açıkça anılan kişileri içersin.",
+        "sponsors yalnız videoda sponsor, destekçi veya özellikle 'Destekçi Kaydı'ne yazılan isim olarak açıkça anılan kişileri içersin.",
         "contributors yalnız video sonunda teşekkür edilen veya katkıda bulunan olarak okunan isimleri içersin.",
         "Sponsor veya katkıda bulunan bir isim, anlatıda ayrıca bağımsız bir rol oynamıyorsa characters alanına kesinlikle eklenmesin.",
         "Bir isim sponsor/katkı bağlamında geçiyor ama kimliği belirsizse uydurma yapma; listeye ekleme.",

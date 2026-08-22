@@ -22,7 +22,7 @@ type LiveExportResult = LocalExportResult & {
 };
 
 type PublicationBridge = Omit<
-  NonNullable<typeof window.birdesengorStudio>,
+  NonNullable<typeof window.channelFoundryStudio>,
   "exportPublicSnapshot" | "publishPublicSnapshot" | "getPublicationInfo"
 > & {
   publicationPreview(): Promise<PublicationPreview>;
@@ -77,7 +77,7 @@ export default function PublishCenter({ items, relations, workspaceNodes, worksp
 
   useEffect(() => {
     let cancelled = false;
-    const bridge = window.birdesengorStudio as PublicationBridge | undefined;
+    const bridge = window.channelFoundryStudio as PublicationBridge | undefined;
     const reload = async () => {
       if (!bridge) return;
       try {
@@ -101,7 +101,7 @@ export default function PublishCenter({ items, relations, workspaceNodes, worksp
   ];
 
   const buildLocal = async () => {
-    const bridge = window.birdesengorStudio as PublicationBridge | undefined;
+    const bridge = window.channelFoundryStudio as PublicationBridge | undefined;
     if (!bridge) {
       setError("Yerel publication paketi yalnızca Electron Studio içinde oluşturulabilir.");
       return;
@@ -120,7 +120,7 @@ export default function PublishCenter({ items, relations, workspaceNodes, worksp
   };
 
   const publishLive = async () => {
-    const bridge = window.birdesengorStudio as PublicationBridge | undefined;
+    const bridge = window.channelFoundryStudio as PublicationBridge | undefined;
     if (!bridge) {
       setError("Canlı yayın yalnızca Electron Studio içinde yapılabilir.");
       return;
@@ -158,7 +158,7 @@ export default function PublishCenter({ items, relations, workspaceNodes, worksp
 
   const revealPackage = async () => {
     try {
-      await window.birdesengorStudio?.showPublicExport();
+      await window.channelFoundryStudio?.showPublicExport();
     } catch (revealError) {
       setError(publishErrorText(revealError));
     }

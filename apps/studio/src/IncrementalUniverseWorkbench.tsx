@@ -27,7 +27,7 @@ function resultEntries(universe:StudioUniverse,category:ResultCategory):ResultEn
 }
 
 export default function IncrementalUniverseWorkbench(){
-  const bridge=window.birdesengorStudio;
+  const bridge=window.channelFoundryStudio;
   const notify=useAiWorkbenchNotice();
   const [status,setStatus]=useState<MergeStatus>({availableAnalyses:0,run:null});
   const [workspace,setWorkspace]=useState<WorkspaceStatus|null>(null);

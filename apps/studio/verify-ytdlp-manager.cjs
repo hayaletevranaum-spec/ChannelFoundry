@@ -4,7 +4,7 @@ const os = require("node:os");
 const path = require("node:path");
 const manager = require("./ytdlp-manager.cjs");
 
-const root = fs.mkdtempSync(path.join(os.tmpdir(), "birdesengor-ytdlp-settings-"));
+const root = fs.mkdtempSync(path.join(os.tmpdir(), "channel-foundry-ytdlp-settings-"));
 
 (async () => {
   try {

@@ -1,6 +1,6 @@
 # Yerel Mimari ve Yayın
 
-Bu belge ChannelFoundry'nin yerel çalışma verisi, public yayın paketi ve sunucu sınırlarını tanımlar. BirDeSenGör'e özgü ürün dili korunurken, public kaynak ağacı herhangi bir gerçek hesap veya üretim sunucusuna bağlı değildir.
+Bu belge Channel Foundry'nin yerel çalışma verisi, public yayın paketi ve sunucu sınırlarını tanımlar. Channel Foundry'ye özgü ürün dili korunurken, public kaynak ağacı herhangi bir gerçek hesap veya üretim sunucusuna bağlı değildir.
 
 ## Kaynakların Önceliği
 
@@ -54,7 +54,7 @@ Varsayılan yerel veri yapısı:
 ```text
 local-data/
 ├── studio/
-│   ├── birdesengor-studio.sqlite
+│   ├── channel-foundry-studio.sqlite
 │   ├── youtube-thumbnails/
 │   ├── visual-assets/
 │   ├── ai-config.json
@@ -63,7 +63,7 @@ local-data/
 └── runtime/
 ```
 
-Varsayılan kök `BIRDESENGOR_DATA_ROOT` ile değiştirilebilir. Public kaynak dağıtımı hiçbir gerçek `local-data/` içeriği taşımaz.
+Varsayılan kök `CHANNEL_FOUNDRY_DATA_ROOT` ile değiştirilebilir. Public kaynak dağıtımı hiçbir gerçek `local-data/` içeriği taşımaz.
 
 ## Kaynak Arşivi Sınırı
 
@@ -122,15 +122,15 @@ Kaynak repo gerçek production SSH hostu, kullanıcı adı, parola, web kökü v
 Yerel deploy scripti açık yapılandırma ister:
 
 ```bash
-export BIRDESENGOR_DEPLOY_HOST=user@example.com
-export BIRDESENGOR_DEPLOY_ROOT=/srv/www/site
-export BIRDESENGOR_PUBLIC_URL=https://example.com
+export CHANNEL_FOUNDRY_DEPLOY_HOST=user@example.com
+export CHANNEL_FOUNDRY_DEPLOY_ROOT=/srv/www/site
+export CHANNEL_FOUNDRY_PUBLIC_URL=https://example.com
 
 npm run deploy:web -- --dry-run
 npm run deploy:web
 ```
 
-`BIRDESENGOR_DEPLOY_HOST` ve `BIRDESENGOR_DEPLOY_ROOT` zorunludur. `BIRDESENGOR_PUBLIC_URL` yalnız HTTP smoke testi için isteğe bağlıdır.
+`CHANNEL_FOUNDRY_DEPLOY_HOST` ve `CHANNEL_FOUNDRY_DEPLOY_ROOT` zorunludur. `CHANNEL_FOUNDRY_PUBLIC_URL` yalnız HTTP smoke testi için isteğe bağlıdır.
 
 Deploy sırasında Studio tarafından yönetilen şu alanlar korunur:
 

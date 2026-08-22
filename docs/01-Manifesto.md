@@ -1,4 +1,4 @@
-# BirDeSenGör Evreni Manifestosu
+# Channel Foundry Manifestosu
 
 Bu proje bir YouTube sitesi değildir.
 

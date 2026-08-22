@@ -22,12 +22,12 @@ type UniverseMergeWithIngest = StudioUniverseMergeStatus & {
     backlog?: { total?: number };
   };
 };
-type WorkbenchBridge = NonNullable<typeof window.birdesengorStudio> & StudioNarrativeBridge & StudioVisualCompletionBridge;
+type WorkbenchBridge = NonNullable<typeof window.channelFoundryStudio> & StudioNarrativeBridge & StudioVisualCompletionBridge;
 
 function number(value: number) { return new Intl.NumberFormat("tr-TR").format(Math.max(0, value)); }
 
 export default function AiWorkbench({ pipelineError = null }: { pipelineError?: string | null }) {
-  const bridge = window.birdesengorStudio as WorkbenchBridge | undefined;
+  const bridge = window.channelFoundryStudio as WorkbenchBridge | undefined;
   const [mode, setMode] = useState<WorkbenchMode>("videos");
   const [reviewMode, setReviewMode] = useState<ReviewMode>("records");
   const [stats, setStats] = useState<EditorialStats>({ transcripts: 0, analyzed: 0, waiting: 0, running: 0, errors: 0 });

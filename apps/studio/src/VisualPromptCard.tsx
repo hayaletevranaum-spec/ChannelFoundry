@@ -22,7 +22,7 @@ function generationLabel(provider: string, model: string) {
 }
 
 export default function VisualPromptCard({ entityKey, entityType, title, visual, capability, compact = false, source = "ai", productionActions = false }: Props) {
-  const bridge = window.birdesengorStudio;
+  const bridge = window.channelFoundryStudio;
   const notify = useAiWorkbenchNotice();
   const [profile, setProfile] = useState<StudioVisualProfile | null>(null);
   const [busy, setBusy] = useState(false);

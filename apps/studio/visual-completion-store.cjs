@@ -95,7 +95,7 @@ function sceneSeed(section) {
     attributes: references.map((label) => `Açık referans: ${label}`),
     atmosphere: "Araştırma günlüğü, belgesel ve arşiv hissi; sahne anlatıyı desteklemeli, yeni bilgi eklememeli.",
     prompt: [
-      "BirDeSenGör araştırma günlüğü için kaynaklara dayalı editoryal sahne illüstrasyonu oluştur.",
+      "Channel Foundry araştırma günlüğü için kaynaklara dayalı editoryal sahne illüstrasyonu oluştur.",
       `Bölüm: ${title}.`,
       `Onaylı anlatı: ${body}`,
       `Açıkça referans verilen varlıklar: ${referenceText}.`,
@@ -137,7 +137,7 @@ function entitySeed(db, reference) {
   const attributes = stringArray(node?.visual?.attributes, 24, 400);
   const atmosphere = clean(node?.visual?.atmosphere ?? "Araştırma arşivi, nötr belgesel sunum.", 1200);
   const prompt = clean(node?.visual?.prompt, 12000) || [
-    `BirDeSenGör arşiv kartı için ${name} adlı ${kind} kaydının kaynaklara dayalı görselini oluştur.`,
+    `Channel Foundry arşiv kartı için ${name} adlı ${kind} kaydının kaynaklara dayalı görselini oluştur.`,
     description ? `Onaylı açıklama: ${description}.` : "Kaynaklarda fiziksel ayrıntı belirtilmemiş.",
     "Yalnız verilen açıklamadaki özellikleri kullan; bilinmeyen görünüş, kıyafet, yaş, renk, dönem veya çevre ayrıntısı uydurma.",
     "Metin, logo, filigran veya arayüz üretme.",

@@ -29,7 +29,7 @@ function assertNoPhysicalLayout(value, currentPath = "publication") {
   }
 }
 
-const root = fs.mkdtempSync(path.join(os.tmpdir(), "birdesengor-publication-v2-"));
+const root = fs.mkdtempSync(path.join(os.tmpdir(), "channel-foundry-publication-v2-"));
 const db = new DatabaseSync(":memory:");
 db.exec("PRAGMA foreign_keys = ON;");
 workspace.ensureSchema(db);

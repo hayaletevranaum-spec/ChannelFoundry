@@ -9,7 +9,7 @@ const universeMerge = require("./universe-merge.cjs");
 const workspace = require("./universe-workspace.cjs");
 const maintenance = require("./universe-maintenance.cjs");
 
-const root = fs.mkdtempSync(path.join(os.tmpdir(), "birdesengor-universe-maintenance-"));
+const root = fs.mkdtempSync(path.join(os.tmpdir(), "channel-foundry-universe-maintenance-"));
 const databasePath = path.join(root, "studio.sqlite");
 const db = new DatabaseSync(databasePath);
 

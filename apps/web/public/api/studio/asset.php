@@ -4,7 +4,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/bootstrap.php';
 
 function publication_asset_directory(): string {
-    $configured = getenv('BIRDESENGOR_PUBLICATION_ASSET_DIR');
+    $configured = getenv('CHANNEL_FOUNDRY_PUBLICATION_ASSET_DIR');
     return $configured ?: account_root() . '/www/content/assets';
 }
 
@@ -18,8 +18,8 @@ try {
     $db = community_db();
     $admin = require_admin($db);
 
-    $filename = request_header('X-Birdesengor-Filename');
-    $expectedSha = strtolower(request_header('X-Birdesengor-Sha256'));
+    $filename = request_header('X-Channel-Foundry-Filename');
+    $expectedSha = strtolower(request_header('X-Channel-Foundry-Sha256'));
     if (!preg_match('/^[A-Za-z0-9._-]+\.(png|jpg|webp)$/i', $filename)) {
         fail('Publication asset dosya adı geçersiz.', 422, 'invalid_asset');
     }
@@ -66,6 +66,6 @@ try {
         'admin' => ['id' => (int)$admin['id'], 'username' => (string)$admin['username']],
     ]);
 } catch (Throwable $error) {
-    error_log('[birdesengor-publication-asset] ' . $error->getMessage());
+    error_log('[channel-foundry-publication-asset] ' . $error->getMessage());
     fail('Publication asset isteği tamamlanamadı.', 500, 'server_error');
 }

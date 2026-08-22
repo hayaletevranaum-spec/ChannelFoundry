@@ -35,11 +35,11 @@ type NavigableSection = Section | "Muhataplar";
 type ItemKind = StudioPersistedItem["kind"];
 type StudioItem = StudioPersistedItem & { relatedCount: number };
 
-const editorialModeStorageKey = "birdesengor:editor-mode";
+const editorialModeStorageKey = "channel-foundry:editor-mode";
 
 function requestEditorialMode(mode: "editor" | "characters") {
   sessionStorage.setItem(editorialModeStorageKey, mode);
-  window.dispatchEvent(new CustomEvent("birdesengor:editor-mode", { detail: mode }));
+  window.dispatchEvent(new CustomEvent("channel-foundry:editor-mode", { detail: mode }));
 }
 
 function errorText(error: unknown) { return error instanceof Error ? error.message : String(error); }
@@ -57,7 +57,7 @@ function makeIdentity(kind: ItemKind) {
 }
 
 export default function StudioPipeline() {
-  const bridge = window.birdesengorStudio;
+  const bridge = window.channelFoundryStudio;
   const [active, setActive] = useState<Section>("Gösterge Paneli");
   const [items, setItems] = useState<StudioPersistedItem[]>([]);
   const [relations, setRelations] = useState<StudioPersistedRelation[]>([]);
@@ -128,7 +128,7 @@ export default function StudioPipeline() {
     } catch (reason) { setError(errorText(reason)); }
   };
 
-  if (!ready) return <div className="pipeline-loading"><span>BirDeSenGör Studio</span><strong>Yerel üretim alanı hazırlanıyor…</strong></div>;
+  if (!ready) return <div className="pipeline-loading"><span>Channel Foundry Studio</span><strong>Yerel üretim alanı hazırlanıyor…</strong></div>;
   return <div className="studio-shell pipeline-shell">
     <aside className="studio-sidebar pipeline-sidebar">
       <Brand/>
@@ -160,7 +160,7 @@ export default function StudioPipeline() {
 function Brand() {
   return <div className="studio-brand">
     <div className="studio-brand-logo-frame">
-      <img className="studio-brand-logo" src={studioLogoUrl} alt="BirDeSenGör Stüdyo"/>
+      <img className="studio-brand-logo" src={studioLogoUrl} alt="Channel Foundry Studio"/>
     </div>
   </div>;
 }

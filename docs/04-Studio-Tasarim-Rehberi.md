@@ -48,7 +48,7 @@ Video Arşivi YouTube kanalının yerel kataloğudur.
 - Kanalın mevcut videoları topluca senkronize edilir.
 - Yeni videolar daha sonra tekrar taranabilir.
 - Metadata ve thumbnail bilgileri yerel arşivde tutulur.
-- Kanal kataloğundaki her video otomatik olarak public BirDeSenGör içeriği değildir.
+- Kanal kataloğundaki her video otomatik olarak public Channel Foundry içeriği değildir.
 - Kullanıcı seçtiği videoyu editoryal çalışma alanına alır.
 
 Arşiv yüzlerce / binlerce videoda çalışabilecek liste ve filtre yapısında tasarlanır.

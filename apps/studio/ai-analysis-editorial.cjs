@@ -174,7 +174,7 @@ function buildItems(row) {
     items.push(item("object", name, name, textArray(entry?.details, 20, 800).join(" · "), "universe", entry));
   }
   for (const name of textArray(safeJson(row.sponsorsJson, []), 200, 260)) {
-    items.push(item("sponsor", name, name, "BirDeSenGör Defteri / sponsor", "support", name));
+    items.push(item("sponsor", name, name, "Destekçi Kaydı / sponsor", "support", name));
   }
   for (const name of textArray(safeJson(row.contributorsJson, []), 200, 260)) {
     items.push(item("contributor", name, name, "Video sonu katkı kaydı", "support", name));

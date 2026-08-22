@@ -1,6 +1,6 @@
 # Release Checklist
 
-Bu belge ChannelFoundry Studio + Web paketinin yerel doğrulanması ve yapılandırılmış bir hedefe yayınlanması için son kontrol listesidir.
+Bu belge Channel Foundry Studio + Web paketinin yerel doğrulanması ve yapılandırılmış bir hedefe yayınlanması için son kontrol listesidir.
 
 ## 1. Yerel doğrulama
 
@@ -42,14 +42,14 @@ npm run deploy:web -- --dry-run
 Deploy scripti için en az şu değişkenler açıkça tanımlanmış olmalıdır:
 
 ```bash
-BIRDESENGOR_DEPLOY_HOST=user@example.com
-BIRDESENGOR_DEPLOY_ROOT=/srv/www/site
+CHANNEL_FOUNDRY_DEPLOY_HOST=user@example.com
+CHANNEL_FOUNDRY_DEPLOY_ROOT=/srv/www/site
 ```
 
 HTTP smoke testi istenirse ayrıca:
 
 ```bash
-BIRDESENGOR_PUBLIC_URL=https://example.com
+CHANNEL_FOUNDRY_PUBLIC_URL=https://example.com
 ```
 
 Script hiçbir gerçek production hedefini varsayılan olarak kullanmaz.
@@ -71,7 +71,7 @@ Bu sınır sayesinde arayüz/API kodu güncellenirken editoryal publication pake
 npm run deploy:web
 ```
 
-Script build, PHP syntax, SSH hedefi, staging alanı, uzak yedek ve rsync karşılaştırmasını yürütür. `BIRDESENGOR_PUBLIC_URL` verilmişse sonunda HTTP smoke testi de yapılır.
+Script build, PHP syntax, SSH hedefi, staging alanı, uzak yedek ve rsync karşılaştırmasını yürütür. `CHANNEL_FOUNDRY_PUBLIC_URL` verilmişse sonunda HTTP smoke testi de yapılır.
 
 GitHub Actions üzerinden deploy kullanılacaksa `.github/workflows/deploy-web.yml` yalnız manuel tetiklenir ve repository secrets içinde şu değerleri bekler:
 

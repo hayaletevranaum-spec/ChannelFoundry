@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
-type VideoCatalogBridge = Pick<NonNullable<typeof window.birdesengorStudio>, "youtubeCatalogVideos" | "onDataChanged">;
+type VideoCatalogBridge = Pick<NonNullable<typeof window.channelFoundryStudio>, "youtubeCatalogVideos" | "onDataChanged">;
 
 export type StudioVideoSourceInfo = {
   videoId: string;
@@ -23,7 +23,7 @@ export function videoSourceTitles(videoIds: string[], catalog: Map<string, Studi
 }
 
 export function useVideoSourceCatalog() {
-  const bridge = window.birdesengorStudio as VideoCatalogBridge | undefined;
+  const bridge = window.channelFoundryStudio as VideoCatalogBridge | undefined;
   const [videos, setVideos] = useState<StudioYoutubeCatalogVideo[]>([]);
 
   useEffect(() => {

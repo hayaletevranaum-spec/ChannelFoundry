@@ -8,7 +8,7 @@ header('Referrer-Policy: same-origin');
 
 $secure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
     || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
-session_name('birdesengor_community');
+session_name('channel_foundry_community');
 session_set_cookie_params([
     'lifetime' => 60 * 60 * 24 * 30,
     'path' => '/',
@@ -66,7 +66,7 @@ function ensure_initial_admin(PDO $db): void {
 function community_db(): PDO {
     static $pdo = null;
     if ($pdo instanceof PDO) return $pdo;
-    $configured = getenv('BIRDESENGOR_COMMUNITY_DB');
+    $configured = getenv('CHANNEL_FOUNDRY_COMMUNITY_DB');
     $databaseFile = $configured ?: dirname(__DIR__, 3) . '/community/community.sqlite';
     $databaseDir = dirname($databaseFile);
     if (!is_dir($databaseDir) && !mkdir($databaseDir, 0770, true) && !is_dir($databaseDir)) {
@@ -177,7 +177,7 @@ function basic_credentials(): array {
 function require_admin(PDO $db): array {
     [$username, $password] = basic_credentials();
     if ($username === '' || $password === '') {
-        header('WWW-Authenticate: Basic realm="BirDeSenGor Studio"');
+        header('WWW-Authenticate: Basic realm="Channel Foundry Studio"');
         fail('Studio yönetici oturumu gerekli.', 401, 'admin_authentication_required');
     }
     $stmt = $db->prepare('SELECT id, username, display_name, password_hash, role, status, research_access, created_at, last_login_at FROM users WHERE username = ? COLLATE NOCASE');

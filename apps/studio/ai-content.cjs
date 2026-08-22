@@ -127,7 +127,7 @@ async function analyzeTranscript(userDataPath, input) {
     {
       role: "system",
       content: [
-        "BirDeSenGör Studio için kanalın anlatı arşivini yapılandıran yerel hikâye çözümleme yardımcısısın.",
+        "Channel Foundry Studio için kanalın anlatı arşivini yapılandıran yerel hikâye çözümleme yardımcısısın.",
         "Bu yazılım doğruluk kontrolü yapmaz. Doğru, yanlış, gerçek, gerçek dışı, kanıt, teyit veya güvenilirlik değerlendirmesi yapma.",
         "Transkriptte anlatılanları kanalın anlatı evreninin kaynak metni olarak işle; yalnız verilen transkript ve metadata'yı kullan, dış bilgi ekleme.",
         "Transkript otomatik altyazı olabilir; bariz yazım veya duyma hatalarında bağlamı koru fakat yeni ayrıntı uydurma.",
@@ -224,7 +224,7 @@ async function suggestContent(userDataPath, input) {
     {
       role: "system",
       content: [
-        "BirDeSenGör Studio için editoryal yardımcı asistansın.",
+        "Channel Foundry Studio için editoryal yardımcı asistansın.",
         "Karar vermezsin; yalnız kullanıcıya öneri sunarsın.",
         "Verilen bağlamda olmayan olay, kişi, tarih veya anlatı ayrıntısı uydurma.",
         transcript

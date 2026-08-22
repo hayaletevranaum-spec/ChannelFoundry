@@ -54,7 +54,7 @@ function account_root(): string {
 }
 
 function community_db(): PDO {
-    $configured = getenv('BIRDESENGOR_COMMUNITY_DB');
+    $configured = getenv('CHANNEL_FOUNDRY_COMMUNITY_DB');
     $databaseFile = $configured ?: account_root() . '/community/community.sqlite';
     if (!is_file($databaseFile)) fail('Community yönetici deposu bulunamadı.', 503, 'community_unavailable');
     return new PDO('sqlite:' . $databaseFile, null, null, [
@@ -67,7 +67,7 @@ function community_db(): PDO {
 function require_admin(PDO $db): array {
     [$username, $password] = basic_credentials();
     if ($username === '' || $password === '') {
-        header('WWW-Authenticate: Basic realm="BirDeSenGor Studio"');
+        header('WWW-Authenticate: Basic realm="Channel Foundry Studio"');
         fail('Studio yönetici oturumu gerekli.', 401, 'admin_authentication_required');
     }
     $stmt = $db->prepare('SELECT id, username, display_name, password_hash, role, status FROM users WHERE username = ? COLLATE NOCASE');

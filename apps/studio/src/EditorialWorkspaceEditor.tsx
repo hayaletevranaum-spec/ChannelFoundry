@@ -15,7 +15,7 @@ type WorkspaceRelation = {
   state: "draft" | "approved";
   updatedAt: string;
 };
-type EditorialBridge = NonNullable<typeof window.birdesengorStudio> & {
+type EditorialBridge = NonNullable<typeof window.channelFoundryStudio> & {
   universeWorkspaceRelations(input?: { state?: "draft" | "approved" }): Promise<WorkspaceRelation[]>;
   universeWorkspaceUpdate(input: {
     key: string;
@@ -73,7 +73,7 @@ function nodeDetails(node: StudioUniverseWorkspaceNode) {
 }
 
 export default function EditorialWorkspaceEditor({ nodes, legacyItems, legacyRelations, onReload, characterMode = false }: Props) {
-  const bridge = window.birdesengorStudio as EditorialBridge | undefined;
+  const bridge = window.channelFoundryStudio as EditorialBridge | undefined;
   const [mode, setMode] = useState<ViewMode>("editor");
   const [workspaceRelations, setWorkspaceRelations] = useState<WorkspaceRelation[]>([]);
   const [query, setQuery] = useState("");
@@ -141,7 +141,7 @@ function WorkspaceTabs({ mode, onMode }: { mode: ViewMode; onMode: (mode: ViewMo
 }
 
 function WorkspaceNodeEditor({ node, relations, allNodes, onReload }: { node: StudioUniverseWorkspaceNode; relations: WorkspaceRelation[]; allNodes: StudioUniverseWorkspaceNode[]; onReload: () => Promise<void> }) {
-  const bridge = window.birdesengorStudio as EditorialBridge | undefined;
+  const bridge = window.channelFoundryStudio as EditorialBridge | undefined;
   const [name, setName] = useState(node.name);
   const [summary, setSummary] = useState(node.summary);
   const [aliases, setAliases] = useState(node.aliases.join("\n"));
@@ -203,7 +203,7 @@ function WorkspaceNodeEditor({ node, relations, allNodes, onReload }: { node: St
 }
 
 function LegacyEditor({ item, relations, allItems, onReload }: { item: LegacyItem; relations: StudioPersistedRelation[]; allItems: LegacyItem[]; onReload: () => Promise<void> }) {
-  const bridge = window.birdesengorStudio;
+  const bridge = window.channelFoundryStudio;
   const [title, setTitle] = useState(item.title);
   const [meta, setMeta] = useState(item.meta);
   const [summary, setSummary] = useState(item.summary);

@@ -6,7 +6,7 @@ import { useVideoSourceCatalog, videoSourceTitle } from "./video-source-labels";
 type KindFilter = "all" | StudioUniverseWorkspaceNode["kind"];
 type StateFilter = "all" | StudioUniverseWorkspaceState;
 
-type ReviewBridge = NonNullable<typeof window.birdesengorStudio> & {
+type ReviewBridge = NonNullable<typeof window.channelFoundryStudio> & {
   universeWorkspaceList(input?: { kind?: StudioUniverseWorkspaceNode["kind"]; state?: StudioUniverseWorkspaceState }): Promise<StudioUniverseWorkspaceNode[]>;
   universeWorkspaceSetState(input: { keys: string[]; state: StudioUniverseWorkspaceState }): Promise<StudioUniverseWorkspaceStatus>;
 };
@@ -52,7 +52,7 @@ function mergedVisual(node: StudioUniverseWorkspaceNode): StudioVisualDefinition
 }
 
 export default function AiEditorialReview() {
-  const bridge = window.birdesengorStudio as ReviewBridge | undefined;
+  const bridge = window.channelFoundryStudio as ReviewBridge | undefined;
   const notify = useAiWorkbenchNotice();
   const videoCatalog = useVideoSourceCatalog();
   const [nodes, setNodes] = useState<StudioUniverseWorkspaceNode[]>([]);
